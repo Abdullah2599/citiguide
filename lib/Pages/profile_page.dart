@@ -7,11 +7,8 @@ class ProfileSettingsPage extends StatefulWidget {
 }
 
 class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
-  
-
   final String name = "John Doe";
   final String email = "john.doe@example.com";
-
 
   void _showChangePasswordDialog() {
     showDialog(
@@ -88,13 +85,21 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                 Positioned(
                   bottom: 0,
                   right: 0,
-                  child: IconButton(
-                      icon: const Icon(Icons.add_a_photo, color: Color.fromARGB(255, 255, 255, 255)),
+                  child: Container(
+                    // color: Colors.blue,
+                    decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadiusDirectional.circular(20.0)),
+                    alignment: Alignment.center,
+                    child: IconButton(
+                      iconSize: 20.0,
+                      icon: const Icon(Icons.add_a_photo_outlined,
+                          color: Colors.white),
                       onPressed: () {
                         // Handle add image action
                       },
                     ),
-                  
+                  ),
                 ),
               ],
             ),
@@ -115,7 +120,6 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
               subtitle: Text(email),
             ),
             const Divider(),
-            
             const SizedBox(height: 30),
             ElevatedButton(
               onPressed: _showChangePasswordDialog,

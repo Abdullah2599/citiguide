@@ -133,6 +133,9 @@ class _SignupPageState extends State<SignupPage> {
                                 borderRadius: BorderRadius.circular(5),
                               ),
                             ),
+                            keyboardType: TextInputType.emailAddress,
+                            autocorrect: false,
+                            textCapitalization: TextCapitalization.none,
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return "Please enter your email";
