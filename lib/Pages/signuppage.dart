@@ -2,6 +2,7 @@ import 'package:citiguide/Pages/homepage.dart';
 import 'package:citiguide/Pages/loginpage.dart';
 import 'package:citiguide/controllers/RegisterController.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'backgroundui.dart';
 // import 'profile_screen.dart';
 // import 'signup.dart';
@@ -19,15 +20,15 @@ class _SignupPageState extends State<SignupPage> {
   // final TextEditingController _passwordController = TextEditingController();
   // final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  RegisterController registerController = new RegisterController();
+  final RegisterController registerController = Get.put(RegisterController());
 
   bool _obscurePassword = true; // Flag to toggle password visibility
 
   void _signupForm() {
-    if (registerController.RegisterformKey[1].currentState!.validate()) {
+    if (registerController.registerFormKey.currentState!.validate()) {
       // Implement signup logic here
-      print("Email: ${registerController.emailAddress.text}");
-      print("Password: ${registerController.password.text}");
+      // print("Email: ${registerController.emailAddress.text}");
+      // print("Password: ${registerController.password.text}");
       registerController.createUserWithEmailAndPassword();
     }
   }
@@ -84,7 +85,7 @@ class _SignupPageState extends State<SignupPage> {
                     // ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.35),
                     Form(
-                      key: registerController.RegisterformKey[1],
+                      key: registerController.registerFormKey,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [

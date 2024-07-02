@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 
 app_Bar(String text) {
   return AppBar(
-    automaticallyImplyLeading: false,
+    // automaticallyImplyLeading: false,
     title: Text(
       text,
       style: TextStyle(color: Colors.white),

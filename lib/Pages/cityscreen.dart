@@ -1,3 +1,4 @@
+import 'package:citiguide/Pages/homepage.dart';
 import 'package:citiguide/Pages/profile_page.dart';
 import 'package:citiguide/Pages/tourist_details.dart';
 import 'package:citiguide/Theme/color.dart';
@@ -89,9 +90,7 @@ class CityScreen extends StatelessWidget {
             ),
             Expanded(
               child: GestureDetector(
-                onTap: () => Get.to(TouristDetailsPage(
-                    image:
-                        "https://images.pexels.com/photos/2845013/pexels-photo-2845013.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")),
+                onTap: () => Get.to(HomePage()),
                 child: GridView.builder(
                   itemCount: cityList.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

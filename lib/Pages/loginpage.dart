@@ -1,8 +1,11 @@
 import 'package:citiguide/Pages/cityscreen.dart';
 import 'package:citiguide/Pages/forgetpasspage.dart';
+import 'package:citiguide/Pages/homepage.dart';
 
 import 'package:citiguide/Pages/profile_page.dart';
+import 'package:citiguide/controllers/LoginController.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'backgroundui.dart';
 
 import 'signuppage.dart';
@@ -15,26 +18,16 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final LoginController _loginController = Get.put(LoginController());
+
+  // final TextEditingController _emailController = TextEditingController();
+  // final TextEditingController _passwordController = TextEditingController();
+  // final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _obscurePassword = true;
 
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
-
   void loginform() {
-    if (_formKey.currentState!.validate()) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => CityScreen(),
-        ),
-      );
+    if (_loginController.loginFormKey.currentState!.validate()) {
+      _loginController.signInWithEmailAndPassword();
     }
   }
 
@@ -82,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.15),
                     Form(
-                      key: _formKey,
+                      key: _loginController.loginFormKey,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -96,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           const SizedBox(height: 10),
                           TextFormField(
-                            controller: _emailController,
+                            controller: _loginController.emailAddress,
                             decoration: InputDecoration(
                               filled: true,
                               fillColor: Colors.white,
@@ -120,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           const SizedBox(height: 10),
                           TextFormField(
-                            controller: _passwordController,
+                            controller: _loginController.password,
                             obscureText: _obscurePassword,
                             decoration: InputDecoration(
                               filled: true,
