@@ -2,6 +2,7 @@ import 'package:citiguide/Pages/cityscreen.dart';
 import 'package:citiguide/Pages/forgetpasspage.dart';
 
 import 'package:citiguide/Pages/profile_page.dart';
+import 'package:citiguide/controllers/LoginController.dart';
 import 'package:flutter/material.dart';
 import 'backgroundui.dart';
 
@@ -15,26 +16,30 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  // final TextEditingController _emailController = TextEditingController();
+  // final TextEditingController _passwordController = TextEditingController();
+  // final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  LoginController loginController = new LoginController();
+
   bool _obscurePassword = true;
 
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _emailController.dispose();
+  //   _passwordController.dispose();
+  //   super.dispose();
+  // }
 
   void loginform() {
-    if (_formKey.currentState!.validate()) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => CityScreen(),
-        ),
-      );
+    if (loginController.LoginformKey[1].currentState!.validate()) {
+      loginController.signInWithEmailAndPassword();
+      // Navigator.pushReplacement(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (context) => CityScreen(),
+      //   ),
+      // );
     }
   }
 
@@ -82,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.15),
                     Form(
-                      key: _formKey,
+                      key: loginController.LoginformKey[1],
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -96,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           const SizedBox(height: 10),
                           TextFormField(
-                            controller: _emailController,
+                            controller: loginController.emailAddress,
                             decoration: InputDecoration(
                               filled: true,
                               fillColor: Colors.white,
@@ -120,7 +125,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           const SizedBox(height: 10),
                           TextFormField(
-                            controller: _passwordController,
+                            controller: loginController.password,
                             obscureText: _obscurePassword,
                             decoration: InputDecoration(
                               filled: true,
