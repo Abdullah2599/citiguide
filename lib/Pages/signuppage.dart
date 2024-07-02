@@ -1,5 +1,6 @@
 import 'package:citiguide/Pages/homepage.dart';
 import 'package:citiguide/Pages/loginpage.dart';
+import 'package:citiguide/controllers/RegisterController.dart';
 import 'package:flutter/material.dart';
 import 'backgroundui.dart';
 // import 'profile_screen.dart';
@@ -13,24 +14,21 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  // final TextEditingController _nameController = TextEditingController();
+  // final TextEditingController _emailController = TextEditingController();
+  // final TextEditingController _passwordController = TextEditingController();
+  // final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  RegisterController registerController = new RegisterController();
+
   bool _obscurePassword = true; // Flag to toggle password visibility
 
   void _signupForm() {
-    if (_formKey.currentState!.validate()) {
+    if (registerController.RegisterformKey[1].currentState!.validate()) {
       // Implement signup logic here
-      print("Name: ${_nameController.text}");
-      print("Email: ${_emailController.text}");
-      print("Password: ${_passwordController.text}");
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HomePage(),
-        ),
-      );
+      print("Email: ${registerController.emailAddress.text}");
+      print("Password: ${registerController.password.text}");
+      registerController.createUserWithEmailAndPassword();
     }
   }
 
@@ -43,13 +41,13 @@ class _SignupPageState extends State<SignupPage> {
     );
   }
 
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _nameController.dispose();
+  //   _emailController.dispose();
+  //   _passwordController.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +84,7 @@ class _SignupPageState extends State<SignupPage> {
                     // ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.35),
                     Form(
-                      key: _formKey,
+                      key: registerController.RegisterformKey[1],
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -102,27 +100,7 @@ class _SignupPageState extends State<SignupPage> {
                             height: 10,
                           ),
                           TextFormField(
-                            controller: _nameController,
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: Colors.white,
-                              hintText: "Name",
-                              prefixIcon:
-                                  const Icon(Icons.person, color: Colors.blue),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                            ),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return "Please enter your name";
-                              }
-                              return null;
-                            },
-                          ),
-                          const SizedBox(height: 10),
-                          TextFormField(
-                            controller: _emailController,
+                            controller: registerController.emailAddress,
                             decoration: InputDecoration(
                               filled: true,
                               fillColor: Colors.white,
@@ -149,7 +127,7 @@ class _SignupPageState extends State<SignupPage> {
                           ),
                           const SizedBox(height: 10),
                           TextFormField(
-                            controller: _passwordController,
+                            controller: registerController.password,
                             obscureText: _obscurePassword,
                             decoration: InputDecoration(
                               filled: true,
