@@ -4,13 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class RegisterController extends GetxController {
-  //TODO: Implement RegisterController
-
   late TextEditingController emailAddress = new TextEditingController();
   late TextEditingController password = new TextEditingController();
 
-  final List<GlobalObjectKey<FormState>> RegisterformKey =
-      List.generate(10, (index) => GlobalObjectKey<FormState>(index));
+  final GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
 
   void createUserWithEmailAndPassword() async {
     try {
