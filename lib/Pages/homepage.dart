@@ -2,6 +2,7 @@ import 'package:citiguide/Pages/tourist_details.dart';
 import 'package:citiguide/Theme/color.dart';
 import 'package:citiguide/components/reusable/appbar.dart';
 import 'package:citiguide/components/reusable/places_tile.dart';
+import 'package:citiguide/components/reusable/textbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -34,6 +35,20 @@ class HomePage extends StatelessWidget {
                   icon: const Icon(Icons.clear),
                 ),
               ),
+            ),
+          ),
+          SizedBox(
+            height: 40,
+            width: MediaQuery.of(context).size.width,
+            child: ListView(
+              physics: const BouncingScrollPhysics(),
+              scrollDirection: Axis.horizontal,
+              children: [
+                myButon(Function: () {}, buttontext: "Hotels"),
+                myButon(Function: () {}, buttontext: "Restaurants"),
+                myButon(Function: () {}, buttontext: "Popoular attractions"),
+                myButon(Function: () {}, buttontext: "Others")
+              ],
             ),
           ),
           Expanded(

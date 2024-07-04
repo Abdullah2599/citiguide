@@ -8,3 +8,20 @@ textButton({required String text, required void Function() function}) {
     },
   );
 }
+myButon({required Function, required buttontext}) {
+  return Padding(
+    padding: const EdgeInsets.all(3),
+    child: ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.blue[300],
+      ),
+      onPressed: () {
+        Function();
+      },
+      child: Text(
+        buttontext,
+        style: TextStyle(color: Colors.white),
+      ),
+    ),
+  );
+}

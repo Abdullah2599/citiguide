@@ -1,3 +1,4 @@
+import 'package:citiguide/Pages/cityscreen.dart';
 import 'package:citiguide/Pages/homepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ class LoginController extends GetxController {
       Get.snackbar('Success', 'Login Success');
       emailAddress.clear();
       password.clear();
-      Get.to(HomePage());
+      Get.to(CityScreen());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'invalid-credential') {
         Get.snackbar('Error', 'No user found for that email.');

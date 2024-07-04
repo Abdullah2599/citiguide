@@ -4,49 +4,54 @@ import 'package:citiguide/Pages/tourist_details.dart';
 import 'package:citiguide/Theme/color.dart';
 import 'package:citiguide/components/reusable/appbar.dart';
 import 'package:citiguide/components/reusable/citycard.dart';
+import 'package:citiguide/controllers/CityController.dart';
 import 'package:citiguide/models/citymodel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CityScreen extends StatelessWidget {
   List cityList = [
-    citymodel(
-        cimg:
-            "https://images.pexels.com/photos/532826/pexels-photo-532826.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        cname: "Paris"),
-    citymodel(
-        cimg:
-            "https://images.pexels.com/photos/2845013/pexels-photo-2845013.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        cname: "Sydney"),
-    citymodel(
-        cimg:
-            "https://images.pexels.com/photos/290386/pexels-photo-290386.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        cname: "New York"),
-    citymodel(
-        cimg:
-            "https://images.pexels.com/photos/1583339/pexels-photo-1583339.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        cname: "Agra"),
-    citymodel(
-        cimg:
-            "https://images.pexels.com/photos/2845013/pexels-photo-2845013.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        cname: "Paris"),
-    citymodel(
-        cimg:
-            "https://images.pexels.com/photos/2845013/pexels-photo-2845013.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        cname: "Paris"),
-    citymodel(
-        cimg:
-            "https://images.pexels.com/photos/2845013/pexels-photo-2845013.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        cname: "Paris"),
-    citymodel(
-        cimg:
-            "https://images.pexels.com/photos/2845013/pexels-photo-2845013.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        cname: "Paris"),
+    // citymodel(
+    //     cimg:
+    //         "https://images.pexels.com/photos/532826/pexels-photo-532826.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    //     cname: "Paris"),
+    // citymodel(
+    //     cimg:
+    //         "https://images.pexels.com/photos/2845013/pexels-photo-2845013.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    //     cname: "Sydney"),
+    // citymodel(
+    //     cimg:
+    //         "https://images.pexels.com/photos/290386/pexels-photo-290386.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    //     cname: "New York"),
+    // citymodel(
+    //     cimg:
+    //         "https://images.pexels.com/photos/1583339/pexels-photo-1583339.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    //     cname: "Agra"),
+    // citymodel(
+    //     cimg:
+    //         "https://images.pexels.com/photos/2845013/pexels-photo-2845013.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    //     cname: "Paris"),
+    // citymodel(
+    //     cimg:
+    //         "https://images.pexels.com/photos/2845013/pexels-photo-2845013.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    //     cname: "Paris"),
+    // citymodel(
+    //     cimg:
+    //         "https://images.pexels.com/photos/2845013/pexels-photo-2845013.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    //     cname: "Paris"),
+    // citymodel(
+    //     cimg:
+    //         "https://images.pexels.com/photos/2845013/pexels-photo-2845013.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    //     cname: "Paris"),
   ];
+
   CityScreen({super.key});
+
+  CityController cityController = new CityController();
 
   @override
   Widget build(BuildContext context) {
+    cityController.fetchCities();
     return Scaffold(
       appBar: app_Bar('Cities'),
       body: Container(
@@ -91,20 +96,25 @@ class CityScreen extends StatelessWidget {
             Expanded(
               child: GestureDetector(
                 onTap: () => Get.to(HomePage()),
-                child: GridView.builder(
-                  itemCount: cityList.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 2,
-                      mainAxisSpacing: 2),
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: CityCard(
-                          cityimg: cityList[index].cimg,
-                          cityname: cityList[index].cname),
-                    );
-                  },
+                child: Obx(
+                  () => GridView.builder(
+                    itemCount: cityController.citiesRecords.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 2,
+                        mainAxisSpacing: 2),
+                    itemBuilder: (context, index) {
+                      return Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: CityCard(
+                            cityimg: cityController.citiesRecords[index]["cimg"]
+                                .toString(),
+                            cityname: cityController.citiesRecords[index]
+                                    ["cname"]
+                                .toString(),
+                          ));
+                    },
+                  ),
                 ),
               ),
             ),
