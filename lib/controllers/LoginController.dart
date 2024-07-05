@@ -1,5 +1,4 @@
 import 'package:citiguide/Pages/cityscreen.dart';
-import 'package:citiguide/Pages/homepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,8 +6,8 @@ import 'package:get/get.dart';
 class LoginController extends GetxController {
   //TODO: Implement LoginController
 
-  late TextEditingController emailAddress = new TextEditingController();
-  late TextEditingController password = new TextEditingController();
+  late TextEditingController emailAddress = TextEditingController();
+  late TextEditingController password = TextEditingController();
 
   final List<GlobalObjectKey<FormState>> LoginformKey =
       List.generate(10, (index) => GlobalObjectKey<FormState>(index));

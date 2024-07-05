@@ -1,4 +1,3 @@
-import 'package:citiguide/Pages/homepage.dart';
 import 'package:citiguide/Pages/loginpage.dart';
 import 'package:citiguide/controllers/RegisterController.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +36,7 @@ class _SignupPageState extends State<SignupPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => LoginPage(),
+        builder: (context) => const LoginPage(),
       ),
     );
   }
@@ -97,7 +96,7 @@ class _SignupPageState extends State<SignupPage> {
                               color: Colors.white,
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           TextFormField(
@@ -163,7 +162,7 @@ class _SignupPageState extends State<SignupPage> {
                             },
                           ),
                           const SizedBox(height: 10),
-                          Container(
+                          SizedBox(
                             width: double.infinity,
                             height: 45,
                             child: MaterialButton(

@@ -1,5 +1,4 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
-import 'package:citiguide/Pages/loginpage.dart';
 import 'package:citiguide/Pages/welcomescreen.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +10,7 @@ class SplashScreen extends StatelessWidget {
     return Scaffold(
       body: AnimatedSplashScreen(
           duration: 2000,
-          splash: Container(
+          splash: SizedBox(
             height: 6000,
             width: 130,
             child: Image.asset(

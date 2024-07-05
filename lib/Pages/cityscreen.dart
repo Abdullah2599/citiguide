@@ -1,11 +1,9 @@
 import 'package:citiguide/Pages/homepage.dart';
 import 'package:citiguide/Pages/profile_page.dart';
-import 'package:citiguide/Pages/tourist_details.dart';
 import 'package:citiguide/Theme/color.dart';
 import 'package:citiguide/components/reusable/appbar.dart';
 import 'package:citiguide/components/reusable/citycard.dart';
 import 'package:citiguide/controllers/CityController.dart';
-import 'package:citiguide/models/citymodel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -55,7 +53,7 @@ class CityScreen extends StatelessWidget {
     return Scaffold(
       appBar: app_Bar('Cities'),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -70,7 +68,7 @@ class CityScreen extends StatelessWidget {
               padding: const EdgeInsets.all(20.0),
               child: TextField(
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: 15.0),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 15.0),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),
                     // borderSide: BorderSide(width: 0.8),
@@ -95,11 +93,11 @@ class CityScreen extends StatelessWidget {
             ),
             Expanded(
               child: GestureDetector(
-                onTap: () => Get.to(HomePage()),
+                onTap: () => Get.to(const HomePage()),
                 child: Obx(
                   () => GridView.builder(
                     itemCount: cityController.citiesRecords.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         crossAxisSpacing: 2,
                         mainAxisSpacing: 2),

@@ -1,11 +1,7 @@
-import 'package:citiguide/Pages/cityscreen.dart';
 import 'package:citiguide/Pages/forgetpasspage.dart';
-import 'package:citiguide/Pages/homepage.dart';
 
-import 'package:citiguide/Pages/profile_page.dart';
 import 'package:citiguide/controllers/LoginController.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'backgroundui.dart';
 
 import 'signuppage.dart';
@@ -22,7 +18,7 @@ class _LoginPageState extends State<LoginPage> {
   // final TextEditingController _passwordController = TextEditingController();
   // final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  LoginController loginController = new LoginController();
+  LoginController loginController = LoginController();
 
   bool _obscurePassword = true;
 
@@ -49,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => SignupPage(),
+        builder: (context) => const SignupPage(),
       ),
     );
   }
@@ -169,7 +165,7 @@ class _LoginPageState extends State<LoginPage> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => ForgetPassPage(),
+                                        builder: (context) => const ForgetPassPage(),
                                       ));
                                 },
                                 child: Text(
@@ -183,7 +179,7 @@ class _LoginPageState extends State<LoginPage> {
                             ],
                           ),
                           const SizedBox(height: 10),
-                          Container(
+                          SizedBox(
                             width: double.infinity,
                             height: 45,
                             child: MaterialButton(

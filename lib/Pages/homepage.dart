@@ -12,7 +12,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 230, 244, 248),
+      backgroundColor: const Color.fromARGB(255, 230, 244, 248),
       appBar: app_Bar("city Name"),
       body: Column(
         children: [
@@ -20,7 +20,7 @@ class HomePage extends StatelessWidget {
             padding: const EdgeInsets.all(20.0),
             child: TextField(
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(vertical: 15.0),
+                contentPadding: const EdgeInsets.symmetric(vertical: 15.0),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30.0),
                   // borderSide: BorderSide(width: 0.8),
@@ -53,7 +53,7 @@ class HomePage extends StatelessWidget {
           ),
           Expanded(
             child: GestureDetector(
-              onTap: () => Get.to(TouristDetailsPage(
+              onTap: () => Get.to(const TouristDetailsPage(
                   image:
                       "https://images.pexels.com/photos/2845013/pexels-photo-2845013.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")),
               child: ListView(

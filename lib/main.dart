@@ -1,6 +1,6 @@
-import 'package:citiguide/Pages/cityscreen.dart';
-import 'package:citiguide/Pages/loginpage.dart';
+import 'package:citiguide/Pages/rest_details.dart';
 import 'package:citiguide/Pages/splash.dart';
+import 'package:citiguide/Pages/tourist_details.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +14,7 @@ Future<void> main() async {
   );
   FirebaseAuth auth = FirebaseAuth.instance;
   User? user = auth.currentUser;
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -22,9 +22,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return const GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+        home: RestaurantDetails(), 
+      //TouristDetailsPage(image: "https://static.euronews.com/articles/stories/06/39/18/66/1080x608_cmsv2_04edc2dd-1e71-52cc-aa65-eafad192c288-6391866.jpg",),
+    
     );
   }
 }

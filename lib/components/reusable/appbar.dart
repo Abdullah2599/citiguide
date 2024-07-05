@@ -1,7 +1,4 @@
-import 'package:citiguide/Pages/cityscreen.dart';
 import 'package:citiguide/Pages/loginpage.dart';
-import 'package:citiguide/Theme/color.dart';
-import 'package:citiguide/components/reusable/materialbutton.dart';
 import 'package:citiguide/components/reusable/sizedbox.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,10 +8,10 @@ app_Bar(String text) {
     // automaticallyImplyLeading: false,
     title: Text(
       text,
-      style: TextStyle(color: Colors.white),
+      style: const TextStyle(color: Colors.white),
     ),
     surfaceTintColor: Colors.transparent,
-    backgroundColor: Color.fromARGB(255, 17, 10, 41),
+    backgroundColor: const Color.fromARGB(255, 17, 10, 41),
     actions: [
       IconButton(
           onPressed: () {
@@ -41,7 +38,7 @@ app_Bar(String text) {
             Get.defaultDialog(
                 onConfirm: () => {
                       Get.snackbar("Logout", "Logout successfully"),
-                      Get.to(LoginPage())
+                      Get.to(const LoginPage())
                     },
                 onCancel: () => {Get.back()},
                 title: "Logout",
@@ -53,7 +50,7 @@ app_Bar(String text) {
                       size: 40,
                     ),
                     sizedBox(),
-                    Text("Are you sure to logout!"),
+                    const Text("Are you sure to logout!"),
                   ],
                 ));
           },

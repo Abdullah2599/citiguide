@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class RegisterController extends GetxController {
-  late TextEditingController emailAddress = new TextEditingController();
-  late TextEditingController password = new TextEditingController();
+  late TextEditingController emailAddress = TextEditingController();
+  late TextEditingController password = TextEditingController();
 
   final GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
 
@@ -20,7 +20,7 @@ class RegisterController extends GetxController {
       Get.snackbar("Success", "Account Created");
       emailAddress.clear();
       password.clear();
-      Get.to(LoginPage());
+      Get.to(const LoginPage());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         Get.snackbar("Weak Password", 'The password provided is too weak.');

@@ -19,7 +19,7 @@ class WelcomScreen extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  Text(
+                  const Text(
                     "Welcome",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
                   ),
@@ -47,7 +47,7 @@ class WelcomScreen extends StatelessWidget {
                     height: 60,
                     onPressed: () {
                       Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) => LoginPage()));
+                          MaterialPageRoute(builder: (context) => const LoginPage()));
                     },
                     shape: RoundedRectangleBorder(
                         side: const BorderSide(color: Colors.black),
@@ -73,7 +73,7 @@ class WelcomScreen extends StatelessWidget {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => SignupPage()));
+                                builder: (context) => const SignupPage()));
                       },
                       color: Colors.blue,
                       elevation: 0,

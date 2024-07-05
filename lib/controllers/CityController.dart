@@ -1,7 +1,3 @@
-import 'package:citiguide/Pages/cityscreen.dart';
-import 'package:citiguide/Pages/homepage.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_database/firebase_database.dart';
 

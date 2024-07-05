@@ -10,7 +10,7 @@ CityCard({required cityimg, required cityname}) {
           // opacity: 0.9,
           // child:
            ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(7)),
+            borderRadius: const BorderRadius.all(Radius.circular(7)),
             child: CachedNetworkImage(
               imageUrl: cityimg,
               height: 500,
@@ -23,7 +23,7 @@ CityCard({required cityimg, required cityname}) {
             left: 30,
             child: Text(
               cityname,
-              style: TextStyle(fontSize: 24, color: Colors.white),
+              style: const TextStyle(fontSize: 24, color: Colors.white),
             ))
       ],
     ),

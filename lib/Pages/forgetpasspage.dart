@@ -1,10 +1,8 @@
 import 'package:citiguide/Pages/homepage.dart';
-import 'package:citiguide/Pages/loginpage.dart';
 
 import 'package:flutter/material.dart';
 import 'backgroundui.dart';
 
-import 'signuppage.dart';
 
 class ForgetPassPage extends StatefulWidget {
   const ForgetPassPage({super.key});
@@ -23,7 +21,7 @@ class _ForgetPassPageState extends State<ForgetPassPage> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => HomePage(),
+          builder: (context) => const HomePage(),
         ),
       );
     }
@@ -73,7 +71,7 @@ class _ForgetPassPageState extends State<ForgetPassPage> {
                               color: Colors.white,
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           TextFormField(
@@ -99,10 +97,10 @@ class _ForgetPassPageState extends State<ForgetPassPage> {
                               return null;
                             },
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
-                          Container(
+                          SizedBox(
                             width: double.infinity,
                             height: 45,
                             child: MaterialButton(

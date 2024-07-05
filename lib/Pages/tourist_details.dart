@@ -10,10 +10,10 @@ class Review {
 }
 
 class TouristDetailsPage extends StatefulWidget {
-  TouristDetailsPage({
-    Key? key,
+  const TouristDetailsPage({
+    super.key,
     required this.image,
-  }) : super(key: key);
+  });
 
   final String image;
 
@@ -23,7 +23,7 @@ class TouristDetailsPage extends StatefulWidget {
 
 class _TouristDetailsPageState extends State<TouristDetailsPage> {
   double _userRating = 0;
-  TextEditingController _reviewController = TextEditingController();
+  final TextEditingController _reviewController = TextEditingController();
 
   List<Review> reviews = [
     Review(reviewer: "Eren Yeager", rating: 4.5, text: "Amazing place!"),
@@ -45,7 +45,7 @@ class _TouristDetailsPageState extends State<TouristDetailsPage> {
     });
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
+      const SnackBar(
         content: Text('Review submitted!'),
         duration: Duration(seconds: 2),
       ),
@@ -64,7 +64,7 @@ class _TouristDetailsPageState extends State<TouristDetailsPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Details',
+          'Tourist Details',
           style: TextStyle(color: Colors.black),
         ),
         elevation: 0.0,
@@ -199,9 +199,9 @@ class _TouristDetailsPageState extends State<TouristDetailsPage> {
                       color: Colors.black87,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: 4),
                   Text(
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tristique, risus at volutpat pulvinar, justo sem accumsan ligula, nec dignissim neque risus eu eros. Sed aliquam augue diam, ut ullamcorper metus ullamcorper id. ",
+                    "Many countries already have a tourist fee in place, for a variety of reasons.Most Caribbean islands have tourist taxes added to the hotel cost or a departure fee.",
                     style: TextStyle(
                       fontSize: 15,
                       color: Color.fromARGB(185, 0, 0, 0),
@@ -250,7 +250,7 @@ class _TouristDetailsPageState extends State<TouristDetailsPage> {
                               TextField(
                                 controller: _reviewController,
                                 maxLines: 3,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   labelText: 'Write your review...',
                                   alignLabelWithHint: true,
                                 ),

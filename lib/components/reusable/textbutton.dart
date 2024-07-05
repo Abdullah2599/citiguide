@@ -20,7 +20,7 @@ myButon({required Function, required buttontext}) {
       },
       child: Text(
         buttontext,
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
       ),
     ),
   );
