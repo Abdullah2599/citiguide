@@ -25,9 +25,12 @@ class Datacontroller extends GetxController {
     // Iterate through children and add values to the list
     event.snapshot.children.forEach((element) {
       Map<dynamic, dynamic> data = element.value as Map<dynamic, dynamic>;
-        if (data['city'].toString() == city) {
-          Records.add(data);
-        }
+     
+      if (data['city'].toString() == city) {
+        
+        Records.add(data);
+      }
+       print("my data" +Records.toString());
     });
   }
 }

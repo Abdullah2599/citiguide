@@ -97,7 +97,7 @@ class CityScreen extends StatelessWidget {
               child: Obx(
                 () => GridView.builder(
                   itemCount: cityController.citiesRecords.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       crossAxisSpacing: 2,
                       mainAxisSpacing: 2),

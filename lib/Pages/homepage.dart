@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 class HomePage extends StatelessWidget {
   HomePage({super.key, this.ciity});
 
-  final dynamic ciity;
+  final  ciity;
   Datacontroller datacontroller = new Datacontroller();
 
   @override
@@ -58,19 +58,23 @@ class HomePage extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: datacontroller.Records.length,
-              physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (BuildContext context, int index) {
-                PlacesTile(
-                    name: datacontroller.Records[index]["title"].toString(),
-                    city: "Paris",
-                    rating: 4.9,
-                    price: 300,
-                    imagelink:
-                        "https://images.pexels.com/photos/532826/pexels-photo-532826.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
-              },
-            ),
+            child: Obx( 
+              () => ListView.builder(
+                itemCount: datacontroller.Records.length,
+                physics: NeverScrollableScrollPhysics(),
+                   itemBuilder: (context, index) {
+                return  GestureDetector(
+                  child: PlacesTile(
+                        name: datacontroller.Records[index]["title"].toString(),
+                        city: "Paris",
+                        rating: 4.9,
+                        price: 300,
+                        imagelink:
+                            "https://images.pexels.com/photos/532826/pexels-photo-532826.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"),
+                );
+                },
+              ),
+          ),
           ),
         ],
       ),
