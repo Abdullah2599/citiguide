@@ -5,14 +5,14 @@ class PlacesTile extends StatelessWidget {
   final String imagelink;
   final String city;
   final double rating;
-  final int price;
+  // final int price;
 
   const PlacesTile({
     super.key,
     required this.name,
     required this.imagelink,
     required this.city,
-    required this.price,
+    // required this.price,
     required this.rating,
   });
 
@@ -92,14 +92,14 @@ class PlacesTile extends StatelessWidget {
                   fontWeight: FontWeight.w300,
                 ),
               ),
-              Text(
-                "\$$price",
-                style: const TextStyle(
-                  color: Colors.black45,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w300,
-                ),
-              ),
+              // Text(
+              //   "\$$price",
+              //   style: const TextStyle(
+              //     color: Colors.black45,
+              //     fontSize: 12,
+              //     fontWeight: FontWeight.w300,
+              //   ),
+              // ),
             ],
           ),
           Row(

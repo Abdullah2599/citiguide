@@ -1,3 +1,4 @@
+import 'package:citiguide/Pages/maindetails.dart';
 import 'package:citiguide/Pages/tourist_details.dart';
 import 'package:citiguide/Theme/color.dart';
 import 'package:citiguide/components/reusable/appbar.dart';
@@ -10,7 +11,7 @@ import 'package:get/get.dart';
 class HomePage extends StatelessWidget {
   HomePage({super.key, this.ciity});
 
-  final  ciity;
+  final ciity;
   Datacontroller datacontroller = new Datacontroller();
 
   @override
@@ -58,23 +59,23 @@ class HomePage extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: Obx( 
+            child: Obx(
               () => ListView.builder(
                 itemCount: datacontroller.Records.length,
                 physics: NeverScrollableScrollPhysics(),
-                   itemBuilder: (context, index) {
-                return  GestureDetector(
-                  child: PlacesTile(
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () => Get.to(TilesDetails()),
+                    child: PlacesTile(
                         name: datacontroller.Records[index]["title"].toString(),
-                        city: "Paris",
+                        city: datacontroller.Records[index]["city"].toString(),
                         rating: 4.9,
-                        price: 300,
-                        imagelink:
-                            "https://images.pexels.com/photos/532826/pexels-photo-532826.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"),
-                );
+                        imagelink: datacontroller.Records[index]["imageurl"]
+                            .toString()),
+                  );
                 },
               ),
-          ),
+            ),
           ),
         ],
       ),
