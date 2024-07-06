@@ -14,17 +14,9 @@ Future<void> main() async {
   );
   FirebaseAuth auth = FirebaseAuth.instance;
   User? user = auth.currentUser;
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return GetMaterialApp(
+  runApp(GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
-    );
-  }
+      home: user == null ? SplashScreen() : CityScreen() 
+    ));
 }
+

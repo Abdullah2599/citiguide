@@ -22,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   // final TextEditingController _passwordController = TextEditingController();
   // final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  LoginController loginController = new LoginController();
+  LoginController loginController = LoginController();
 
   bool _obscurePassword = true;
 
@@ -33,15 +33,31 @@ class _LoginPageState extends State<LoginPage> {
   //   super.dispose();
   // }
 
-  void loginform() {
-    if (loginController.LoginformKey[1].currentState!.validate()) {
+  void loginform() async {
+    if (loginController.LoginFormKey.currentState!.validate()) {
       loginController.signInWithEmailAndPassword();
+
+      // Await the http get response, then decode the json-formatted response.
+      // var response = await LoginController();
+      // if (response.statusCode == 200) {
+      // var jsonResponse =
+      //     json.decode(response.body) as Map<String, dynamic>;
+      //  setState(() {
+      //    itemCount = jsonResponse['totalItems'].toString();
+      //  });
+      // }
+      //         setState(() {
+      //          isLoading = false;
+      //        });
       // Navigator.pushReplacement(
       //   context,
       //   MaterialPageRoute(
       //     builder: (context) => CityScreen(),
       //   ),
       // );
+      loginController.LoginFormKey.currentState!.reset();
+      loginController.emailAddress.text = "";
+      loginController.password.text = "";
     }
   }
 
@@ -89,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.15),
                     Form(
-                      key: loginController.LoginformKey[1],
+                      key: loginController.LoginFormKey,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -186,18 +202,57 @@ class _LoginPageState extends State<LoginPage> {
                           Container(
                             width: double.infinity,
                             height: 45,
-                            child: MaterialButton(
-                              onPressed: loginform,
-                              color: Colors.blue,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: const Text(
-                                "Login",
-                                style: TextStyle(
-                                    fontSize: 15, color: Colors.white),
-                              ),
-                            ),
+                            child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.circular(20), // <-- Radius
+                                  ),
+                                ),
+                                child: Obx(
+                                  () => loginController.loader.value
+                                      ? const SizedBox(
+                                          height: 30,
+                                          width: 30,
+                                          child: CircularProgressIndicator(
+                                              strokeWidth: 3,
+                                              color: Colors.blue),
+                                        )
+                                      : const Text('Sign in'),
+                                ),
+                                onPressed: loginform
+
+                                // Future.delayed(const Duration(seconds: 3),
+                                //     () {
+                                //   setState(() {
+                                //     if (loginController.emailAddress.text !=
+                                //             "" ||
+                                //         loginController.password.text !=
+                                //             "") {
+                                //       isLoading = false;
+                                //     } else {
+                                //       isLoading = true;
+                                //     }
+                                //   });
+                                // });
+                                ),
+                            // child: MaterialButton(
+                            //   onPressed: loginform
+                            //       ? SizedBox(
+                            //         height: 25,
+                            //          width: 25,
+                            //         child: CircularProgressIndicator(),
+                            //   ),
+                            //   color: Colors.blue,
+                            //   shape: RoundedRectangleBorder(
+                            //     borderRadius: BorderRadius.circular(5),
+                            //   ),
+                            //   child: const Text(
+                            //     "Login",
+                            //     style: TextStyle(
+                            //         fontSize: 15, color: Colors.white),
+                            //   ),
+                            // ),
                           ),
                           const SizedBox(height: 20),
                           Row(

@@ -30,6 +30,9 @@ class _SignupPageState extends State<SignupPage> {
       // print("Email: ${registerController.emailAddress.text}");
       // print("Password: ${registerController.password.text}");
       registerController.createUserWithEmailAndPassword();
+      registerController.registerFormKey.currentState!.reset();
+      registerController.emailAddress.text = "";
+      registerController.password.text = "";
     }
   }
 

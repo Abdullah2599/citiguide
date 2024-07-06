@@ -94,27 +94,27 @@ class CityScreen extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: GestureDetector(
-                onTap: () => Get.to(HomePage()),
-                child: Obx(
-                  () => GridView.builder(
-                    itemCount: cityController.citiesRecords.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 2,
-                        mainAxisSpacing: 2),
-                    itemBuilder: (context, index) {
-                      return Padding(
-                          padding: const EdgeInsets.all(10.0),
+              child: Obx(
+                () => GridView.builder(
+                  itemCount: cityController.citiesRecords.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 2,
+                      mainAxisSpacing: 2),
+                  itemBuilder: (context, index) {
+                    return Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: GestureDetector(
+                          onTap: () => Get.to(HomePage(ciity:  cityController.citiesRecords[index]["cname"],)),
                           child: CityCard(
                             cityimg: cityController.citiesRecords[index]["cimg"]
                                 .toString(),
                             cityname: cityController.citiesRecords[index]
                                     ["cname"]
                                 .toString(),
-                          ));
-                    },
-                  ),
+                          ),
+                        ));
+                  },
                 ),
               ),
             ),
