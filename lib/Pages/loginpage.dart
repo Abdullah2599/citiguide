@@ -6,6 +6,7 @@ import 'package:citiguide/Pages/profile_page.dart';
 import 'package:citiguide/controllers/LoginController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'backgroundui.dart';
 
 import 'signuppage.dart';
@@ -202,58 +203,36 @@ class _LoginPageState extends State<LoginPage> {
                           Container(
                             width: double.infinity,
                             height: 45,
-                            child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.circular(20), // <-- Radius
-                                  ),
-                                ),
-                                child: Obx(
-                                  () => loginController.loader.value
-                                      ? const SizedBox(
-                                          height: 30,
-                                          width: 30,
-                                          child: CircularProgressIndicator(
-                                              strokeWidth: 3,
-                                              color: Colors.blue),
-                                        )
-                                      : const Text('Sign in'),
-                                ),
-                                onPressed: loginform
-
-                                // Future.delayed(const Duration(seconds: 3),
-                                //     () {
-                                //   setState(() {
-                                //     if (loginController.emailAddress.text !=
-                                //             "" ||
-                                //         loginController.password.text !=
-                                //             "") {
-                                //       isLoading = false;
-                                //     } else {
-                                //       isLoading = true;
-                                //     }
-                                //   });
-                                // });
-                                ),
-                            // child: MaterialButton(
-                            //   onPressed: loginform
-                            //       ? SizedBox(
-                            //         height: 25,
-                            //          width: 25,
-                            //         child: CircularProgressIndicator(),
-                            //   ),
-                            //   color: Colors.blue,
-                            //   shape: RoundedRectangleBorder(
-                            //     borderRadius: BorderRadius.circular(5),
-                            //   ),
-                            //   child: const Text(
-                            //     "Login",
-                            //     style: TextStyle(
-                            //         fontSize: 15, color: Colors.white),
-                            //   ),
-                            // ),
+                            child: RoundedLoadingButton(
+                              controller: loginController.btnController,
+                              onPressed: loginform,
+                              child: const Text('Sign in'),
+                            ),
                           ),
+                          // Container(
+                          //   width: double.infinity,
+                          //   height: 45,
+                          //   child: ElevatedButton(
+                          //       style: ElevatedButton.styleFrom(
+                          //         shape: RoundedRectangleBorder(
+                          //           borderRadius:
+                          //               BorderRadius.circular(20), // <-- Radius
+                          //         ),
+                          //       ),
+                          //       onPressed: loginform,
+                          //       child: Obx(
+                          //         () => loginController.loader.value
+                          //             ? const SizedBox(
+                          //                 height: 30,
+                          //                 width: 30,
+                          //                 child: CircularProgressIndicator(
+                          //                     strokeWidth: 3,
+                          //                     color: Colors.blue),
+                          //               )
+                          //             : const Text('Sign in'),
+                          //       )
+                          //       ),
+                          // ),
                           const SizedBox(height: 20),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -287,7 +266,6 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-
 
 // import 'package:cityguide/Pages/backgroundui.dart';
 
@@ -494,7 +472,7 @@ class _LoginPageState extends State<LoginPage> {
 //                       ),
 //                       SizedBox(
 //                         height: 10,
-//                       ),              
+//                       ),
 //                       Row(
 //                         mainAxisAlignment: MainAxisAlignment.center,
 //                         children: [
@@ -512,7 +490,7 @@ class _LoginPageState extends State<LoginPage> {
 //                                   color:
 //                                       Colors.white), // Set text color to white
 //                             ),
-//                           )                     
+//                           )
 //                         ],
 //                       ),
 //                     ],

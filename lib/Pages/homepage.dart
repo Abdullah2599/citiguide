@@ -2,6 +2,7 @@ import 'package:citiguide/Pages/maindetails.dart';
 import 'package:citiguide/Pages/tourist_details.dart';
 import 'package:citiguide/Theme/color.dart';
 import 'package:citiguide/components/reusable/appbar.dart';
+import 'package:citiguide/components/reusable/categorybuttons.dart';
 import 'package:citiguide/components/reusable/places_tile.dart';
 import 'package:citiguide/components/reusable/textbutton.dart';
 import 'package:citiguide/controllers/DataController.dart';
@@ -11,16 +12,23 @@ import 'package:get/get.dart';
 class HomePage extends StatelessWidget {
   HomePage({super.key, this.ciity});
 
-  final ciity;
+  final dynamic ciity;
   Datacontroller datacontroller = new Datacontroller();
+  final RxString _selectedCategory = 'Popular Attractions'.obs;
+  final List<String> categories = [
+    "Popular Attractions",
+    "Hotels",
+    "Restaurants",
+    "Others"
+  ];
 
   @override
   Widget build(BuildContext context) {
-    datacontroller.fetchData(city: ciity);
+    datacontroller.fetchData(city: ciity, category: _selectedCategory.value);
     print("lenght " + datacontroller.Records.length.toString());
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 230, 244, 248),
-      appBar: app_Bar("city Name"),
+      appBar: app_Bar(ciity),
       body: Column(
         children: [
           Padding(
@@ -50,12 +58,9 @@ class HomePage extends StatelessWidget {
             child: ListView(
               physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
-              children: [
-                myButon(Function: () {}, buttontext: "Hotels"),
-                myButon(Function: () {}, buttontext: "Restaurants"),
-                myButon(Function: () {}, buttontext: "Popoular attractions"),
-                myButon(Function: () {}, buttontext: "Others")
-              ],
+              children: categories
+                  .map((category) => _categoryButton(category))
+                  .toList(),
             ),
           ),
           Expanded(
@@ -65,7 +70,9 @@ class HomePage extends StatelessWidget {
                 physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   return GestureDetector(
-                    onTap: () => Get.to(TilesDetails()),
+                    onTap: () => Get.to(TilesDetails(
+                      placeData: datacontroller.Records[index],
+                    )),
                     child: PlacesTile(
                         name: datacontroller.Records[index]["title"].toString(),
                         city: datacontroller.Records[index]["city"].toString(),
@@ -92,6 +99,22 @@ class HomePage extends StatelessWidget {
               label: 'Profile',
             ),
           ]),
+    );
+  }
+
+  Widget _categoryButton(String category) {
+    return Obx(
+      () => myButton(
+        Function: () {
+          _selectedCategory.value = category; // Update the selected category
+          datacontroller.fetchData(
+              city: ciity,
+              category: category); // Fetch data based on the selected category
+        },
+        buttontext: category,
+        isActive: _selectedCategory.value ==
+            category, // Check if this button is for the selected category
+      ),
     );
   }
 }

@@ -11,26 +11,30 @@ class Datacontroller extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchData();
+    // fetchData();
   }
 
-  Future<void> fetchData({city}) async {
+  Future<void> fetchData({required String city, String? category}) async {
     DatabaseReference ref = FirebaseDatabase.instance.ref("data");
 
     // Get the data once
     DatabaseEvent event = await ref.once();
 
     // Clear the list before populating it
+    Records.clear();
 
     // Iterate through children and add values to the list
     event.snapshot.children.forEach((element) {
       Map<dynamic, dynamic> data = element.value as Map<dynamic, dynamic>;
-     
+
       if (data['city'].toString() == city) {
-        
-        Records.add(data);
+        if (category == null ||
+            data['category'].toString().toLowerCase() ==
+                category.toLowerCase()) {
+          Records.add(data);
+        }
       }
-       print("my data" +Records.toString());
     });
+    print("Fetched data + ${Records.toString()}");
   }
 }

@@ -1,14 +1,14 @@
-import 'package:citiguide/Pages/cityscreen.dart';
 import 'package:citiguide/Pages/loginpage.dart';
-import 'package:citiguide/Theme/color.dart';
-import 'package:citiguide/components/reusable/materialbutton.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:citiguide/components/reusable/sizedbox.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
 
 app_Bar(String text) {
   return AppBar(
-    // automaticallyImplyLeading: false,
+    automaticallyImplyLeading: false,
     title: Text(
       text,
       style: TextStyle(color: Colors.white),
@@ -39,10 +39,12 @@ app_Bar(String text) {
             //           btnColor: Colors.red)
             //     ]);
             Get.defaultDialog(
-                onConfirm: () => {
-                      Get.snackbar("Logout", "Logout successfully"),
-                      Get.to(LoginPage())
-                    },
+                onConfirm: () async {
+                  await FirebaseAuth.instance.signOut();
+                  Get.snackbar("Logout", "Logout successfully");
+
+                  Get.to(LoginPage());
+                },
                 onCancel: () => {Get.back()},
                 title: "Logout",
                 content: Column(

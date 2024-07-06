@@ -1,6 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:url_launcher/link.dart';
+import 'package:citiguide/components/reusable/reusableicons.dart';
 
 // Define Review class (similar to previous)
 class Review {
@@ -12,7 +14,9 @@ class Review {
 }
 
 class TilesDetails extends StatefulWidget {
-  const TilesDetails({super.key});
+  final dynamic placeData;
+
+  const TilesDetails({super.key, required this.placeData});
 
   @override
   _TilesDetailsState createState() => _TilesDetailsState();
@@ -69,7 +73,7 @@ class _TilesDetailsState extends State<TilesDetails> {
             height: 700,
             width: double.infinity,
             child: Image.network(
-              "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2a/bc/76/0d/la-grande-boucherie-joie.jpg?w=1200&h=-1&s=1",
+              widget.placeData["imageurl"].toString(),
               height: double.infinity,
               fit: BoxFit.fitHeight,
             ),
@@ -80,21 +84,24 @@ class _TilesDetailsState extends State<TilesDetails> {
             bottom: 10,
             left: 10,
             right: 10,
-            child: ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                elevation: 5,
-                backgroundColor: Colors.blue,
-                shape: const StadiumBorder(),
-                padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 8.0),
-              ),
-              child: const Text(
-                "Get Direction",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+            child: Link(
+              uri: Uri.parse(widget.placeData["location"].toString()),
+              builder: (context, followlink) => ElevatedButton(
+                onPressed: followlink,
+                style: ElevatedButton.styleFrom(
+                  elevation: 5,
+                  backgroundColor: Colors.blue,
+                  shape: const StadiumBorder(),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 8.0),
+                ),
+                child: const Text(
+                  "Get Direction",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
@@ -139,22 +146,22 @@ class _TilesDetailsState extends State<TilesDetails> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Expanded(
+                      Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Racette",
-                              style: TextStyle(
+                              widget.placeData["title"].toString(),
+                              style: const TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black87,
                               ),
                             ),
-                            SizedBox(height: 5),
+                            const SizedBox(height: 5),
                             Text(
-                              "New York",
-                              style: TextStyle(
+                              widget.placeData["city"].toString(),
+                              style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black54,
@@ -163,54 +170,32 @@ class _TilesDetailsState extends State<TilesDetails> {
                           ],
                         ),
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          // Add your action here
-                          print('Contact Now pressed');
-                        },
-                        style: ElevatedButton.styleFrom(
-                          elevation: 5,
-                          backgroundColor:
-                              const Color.fromARGB(255, 14, 175, 175),
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 12,
-                            horizontal: 24,
+                      Link(
+                        uri: Uri.parse(widget.placeData["contact"].toString()),
+                        builder: (context, contactlink) => ElevatedButton(
+                          onPressed: contactlink,
+                          style: ElevatedButton.styleFrom(
+                            elevation: 5,
+                            backgroundColor:
+                                const Color.fromARGB(255, 14, 175, 175),
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 12,
+                              horizontal: 24,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
                           ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-                        child: const Text(
-                          'Contact Now',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                          child: const Text(
+                            'Contact Now',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
-                      //        Column(
-                      //   children: [
-                      //     Text(
-                      //       "4.6",
-                      //       style: TextStyle(
-                      //         fontSize: 20,
-                      //         fontWeight: FontWeight.bold,
-                      //         color: Colors.black87,
-                      //       ),
-                      //     ),
-                      //     Icon(
-                      //       Icons.star,
-                      //       color: Colors.yellow,
-                      //       size: 20,
-                      //     ),
-                      //     Icon(
-                      //       Icons.favorite,
-                      //       color: Colors.red,
-                      //       size: 20,
-                      //     ),
-                      //   ],
-                      // ),
                     ],
                   ),
                 ),
@@ -228,40 +213,27 @@ class _TilesDetailsState extends State<TilesDetails> {
                     ),
                   ),
                 ),
+                // SizedBox(height: 10),
                 SizedBox(
                   height: 100,
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: [
-                      iconContainer(
-                          icon: Icons.food_bank,
-                          icontext: "Fine Dining",
-                          color: const Color.fromARGB(255, 14, 175, 175)),
-                      iconContainer(
-                          icon: Icons.local_bar,
-                          icontext: "Bar",
-                          color: const Color.fromARGB(255, 14, 175, 175)),
-                      iconContainer(
-                          icon: Icons.local_parking,
-                          icontext: "Parking",
-                          color: const Color.fromARGB(255, 14, 175, 175)),
-                      iconContainer(
-                          icon: Icons.fastfood,
-                          icontext: "Fast Food",
-                          color: const Color.fromARGB(255, 14, 175, 175)),
-                      iconContainer(
-                          icon: Icons.wifi,
-                          icontext: "Wifi",
-                          color: const Color.fromARGB(255, 14, 175, 175)),
+                      for (var offer in widget.placeData['offer'])
+                        iconContainer(
+                          icon: getIconForOffer(offer),
+                          icontext: offer, // Show the offer text here
+                          color: const Color.fromARGB(255, 14, 175, 175),
+                        ),
                     ],
                   ),
                 ),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         "Description",
                         style: TextStyle(
                           fontSize: 18,
@@ -271,7 +243,7 @@ class _TilesDetailsState extends State<TilesDetails> {
                       ),
                       SizedBox(height: 4),
                       Text(
-                        "Recette is a lively restaurant in Williamsburg, Brooklyn. We use the best ingredients and provide a great atmosphere. Looking forward to hosting you soon!",
+                        widget.placeData["desc"].toString(),
                         style: TextStyle(
                           fontSize: 15,
                           color: Color.fromARGB(185, 0, 0, 0),
@@ -322,25 +294,24 @@ class _TilesDetailsState extends State<TilesDetails> {
                                   controller: _reviewController,
                                   maxLines: 3,
                                   decoration: const InputDecoration(
-                                    labelText: 'Write your review...',
-                                    alignLabelWithHint: true,
+                                    labelText: 'Write your review here',
                                   ),
                                 ),
                               ],
                             ),
                             actions: [
-                              ElevatedButton(
+                              TextButton(
                                 onPressed: () {
-                                  Navigator.of(context).pop();
+                                  Navigator.pop(context);
                                 },
-                                child: const Text('Cancel'),
+                                child: const Text("Cancel"),
                               ),
                               ElevatedButton(
                                 onPressed: () {
                                   _submitReview();
-                                  Navigator.of(context).pop();
+                                  Navigator.pop(context);
                                 },
-                                child: const Text('Submit'),
+                                child: const Text("Submit"),
                               ),
                             ],
                           ),
@@ -408,40 +379,6 @@ class _TilesDetailsState extends State<TilesDetails> {
     );
   }
 
-  // Widget for the back button
-  Widget buttonArrow(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: InkWell(
-        onTap: () {
-          Navigator.pop(context);
-        },
-        child: Container(
-          clipBehavior: Clip.hardEdge,
-          height: 55,
-          width: 55,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(25)),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: Container(
-              height: 55,
-              width: 55,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25),
-              ),
-              child: const Icon(
-                Icons.arrow_back_ios,
-                size: 20,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  // Widget for individual feature icons
   Widget iconContainer(
       {required IconData icon, required String icontext, Color? color}) {
     return Padding(
@@ -455,11 +392,17 @@ class _TilesDetailsState extends State<TilesDetails> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
+                SizedBox(
+                  height: 2,
+                ),
                 Icon(
                   icon,
                   size: 30,
                   color: color ??
                       Colors.black54, // Default to black54 if color is null
+                ),
+                SizedBox(
+                  height: 4,
                 ),
                 Text(
                   icontext,
@@ -472,4 +415,36 @@ class _TilesDetailsState extends State<TilesDetails> {
       ),
     );
   }
+}
+
+Widget buttonArrow(BuildContext context) {
+  return Padding(
+    padding: const EdgeInsets.all(20.0),
+    child: InkWell(
+      onTap: () {
+        Navigator.pop(context);
+      },
+      child: Container(
+        clipBehavior: Clip.hardEdge,
+        height: 55,
+        width: 55,
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(25)),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: Container(
+            height: 55,
+            width: 55,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(25),
+            ),
+            child: const Icon(
+              Icons.arrow_back_ios,
+              size: 20,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
 }

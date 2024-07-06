@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:citiguide/Pages/loginpage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class LoginController extends GetxController {
   //TODO: Implement LoginController
@@ -14,20 +15,25 @@ class LoginController extends GetxController {
   // final List<GlobalObjectKey<FormState>> LoginformKey =
   //     List.generate(10, (index) => GlobalObjectKey<FormState>(index));
   final GlobalKey<FormState> LoginFormKey = GlobalKey<FormState>();
-  final RxBool loader = false.obs;
+  final RoundedLoadingButtonController btnController =
+      RoundedLoadingButtonController();
+  // final RxBool loader = false.obs;
 
   void signInWithEmailAndPassword() async {
     try {
-      loader.value = true;
+      btnController.start();
+      // loader.value = true;
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailAddress.text, password: password.text);
       Get.snackbar('Success', 'Login Success');
+      btnController.success();
       emailAddress.clear();
       password.clear();
-      loader.value = false;
-      Get.to(CityScreen());
+      // loader.value = false;
+      Get.off(CityScreen());
     } on FirebaseAuthException catch (e) {
-       loader.value = false;
+      //  loader.value = false;
+      btnController.reset();
       if (e.code == 'invalid-credential') {
         Get.snackbar('Error', 'No user found for that email.');
       } else if (e.code == 'wrong-password') {
