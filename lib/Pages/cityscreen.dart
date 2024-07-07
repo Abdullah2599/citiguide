@@ -53,7 +53,7 @@ class CityScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     cityController.fetchCities();
     return Scaffold(
-      appBar: app_Bar('Cities'),
+      appBar: app_Bar('Cities', false),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -105,7 +105,10 @@ class CityScreen extends StatelessWidget {
                     return Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: GestureDetector(
-                          onTap: () => Get.to(HomePage(ciity:  cityController.citiesRecords[index]["cname"],)),
+                          onTap: () => Get.to(() => HomePage(
+                                ciity: cityController.citiesRecords[index]
+                                    ["cname"],
+                              )),
                           child: CityCard(
                             cityimg: cityController.citiesRecords[index]["cimg"]
                                 .toString(),

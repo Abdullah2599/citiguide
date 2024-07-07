@@ -6,9 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
 
-app_Bar(String text) {
+app_Bar(String text, bool truf) {
   return AppBar(
-    automaticallyImplyLeading: false,
+    automaticallyImplyLeading: truf,
+    clipBehavior: Clip.hardEdge,
+    foregroundColor: Colors.white,
     title: Text(
       text,
       style: TextStyle(color: Colors.white),
@@ -41,7 +43,10 @@ app_Bar(String text) {
             Get.defaultDialog(
                 onConfirm: () async {
                   await FirebaseAuth.instance.signOut();
-                  Get.snackbar("Logout", "Logout successfully");
+                  Get.snackbar("Logout", "Logout successfully",
+                      backgroundColor: const Color.fromARGB(167, 0, 0, 0),
+                      barBlur: 10.0,
+                      colorText: Colors.white);
 
                   Get.to(LoginPage());
                 },

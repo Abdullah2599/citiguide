@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:url_launcher/link.dart';
 import 'package:citiguide/components/reusable/reusableicons.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // Define Review class (similar to previous)
 class Review {
@@ -84,24 +85,24 @@ class _TilesDetailsState extends State<TilesDetails> {
             bottom: 10,
             left: 10,
             right: 10,
-            child: Link(
-              uri: Uri.parse(widget.placeData["location"].toString()),
-              builder: (context, followlink) => ElevatedButton(
-                onPressed: followlink,
-                style: ElevatedButton.styleFrom(
-                  elevation: 5,
-                  backgroundColor: Colors.blue,
-                  shape: const StadiumBorder(),
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 20, horizontal: 8.0),
-                ),
-                child: const Text(
-                  "Get Direction",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+            child: ElevatedButton(
+              onPressed: () {
+                launchUrl(Uri.parse(widget.placeData["location"].toString()),
+                    mode: LaunchMode.externalApplication);
+              },
+              style: ElevatedButton.styleFrom(
+                elevation: 5,
+                backgroundColor: Colors.blue,
+                shape: const StadiumBorder(),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 8.0),
+              ),
+              child: const Text(
+                "Get Direction",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
@@ -170,29 +171,30 @@ class _TilesDetailsState extends State<TilesDetails> {
                           ],
                         ),
                       ),
-                      Link(
-                        uri: Uri.parse(widget.placeData["contact"].toString()),
-                        builder: (context, contactlink) => ElevatedButton(
-                          onPressed: contactlink,
-                          style: ElevatedButton.styleFrom(
-                            elevation: 5,
-                            backgroundColor:
-                                const Color.fromARGB(255, 14, 175, 175),
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 12,
-                              horizontal: 24,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
+                      ElevatedButton(
+                        onPressed: () {
+                          launchUrl(
+                              Uri.parse(widget.placeData["contact"].toString()),
+                              mode: LaunchMode.inAppBrowserView);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          elevation: 5,
+                          backgroundColor:
+                              const Color.fromARGB(255, 14, 175, 175),
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 12,
+                            horizontal: 24,
                           ),
-                          child: const Text(
-                            'Contact Now',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                        child: const Text(
+                          'Contact Now',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
                           ),
                         ),
                       ),

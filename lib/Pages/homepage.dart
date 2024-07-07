@@ -28,7 +28,7 @@ class HomePage extends StatelessWidget {
     print("lenght " + datacontroller.Records.length.toString());
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 230, 244, 248),
-      appBar: app_Bar(ciity),
+      appBar: app_Bar(ciity, true),
       body: Column(
         children: [
           Padding(
@@ -70,9 +70,9 @@ class HomePage extends StatelessWidget {
                 physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   return GestureDetector(
-                    onTap: () => Get.to(TilesDetails(
-                      placeData: datacontroller.Records[index],
-                    )),
+                    onTap: () => Get.to(() => TilesDetails(
+                          placeData: datacontroller.Records[index],
+                        )),
                     child: PlacesTile(
                         name: datacontroller.Records[index]["title"].toString(),
                         city: datacontroller.Records[index]["city"].toString(),

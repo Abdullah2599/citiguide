@@ -17,27 +17,36 @@ class LoginController extends GetxController {
   final GlobalKey<FormState> LoginFormKey = GlobalKey<FormState>();
   final RoundedLoadingButtonController btnController =
       RoundedLoadingButtonController();
-  // final RxBool loader = false.obs;
+  //  final RxBool loader = false.obs;
 
   void signInWithEmailAndPassword() async {
     try {
       btnController.start();
-      // loader.value = true;
+      //  loader.value = true;
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailAddress.text, password: password.text);
-      Get.snackbar('Success', 'Login Success');
       btnController.success();
+      Get.snackbar('Success', 'Login Success',
+          backgroundColor: Color.fromARGB(167, 0, 0, 0),
+          barBlur: 2.0,
+          colorText: Colors.white);
       emailAddress.clear();
       password.clear();
       // loader.value = false;
       Get.off(CityScreen());
     } on FirebaseAuthException catch (e) {
-      //  loader.value = false;
+      //loader.value = false;
       btnController.reset();
       if (e.code == 'invalid-credential') {
-        Get.snackbar('Error', 'No user found for that email.');
+        Get.snackbar('Error', 'No user found for that email.',
+            backgroundColor: const Color.fromARGB(167, 0, 0, 0),
+            barBlur: 15.0,
+            colorText: Colors.white);
       } else if (e.code == 'wrong-password') {
-        Get.snackbar('Error', 'Wrong password provided for that user.');
+        Get.snackbar('Error', 'Wrong password provided for that user.',
+            backgroundColor: const Color.fromARGB(167, 0, 0, 0),
+            barBlur: 15.0,
+            colorText: Colors.white);
       }
     }
   }

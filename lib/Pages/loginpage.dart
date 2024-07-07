@@ -27,35 +27,10 @@ class _LoginPageState extends State<LoginPage> {
 
   bool _obscurePassword = true;
 
-  // @override
-  // void dispose() {
-  //   _emailController.dispose();
-  //   _passwordController.dispose();
-  //   super.dispose();
-  // }
-
   void loginform() async {
     if (loginController.LoginFormKey.currentState!.validate()) {
       loginController.signInWithEmailAndPassword();
 
-      // Await the http get response, then decode the json-formatted response.
-      // var response = await LoginController();
-      // if (response.statusCode == 200) {
-      // var jsonResponse =
-      //     json.decode(response.body) as Map<String, dynamic>;
-      //  setState(() {
-      //    itemCount = jsonResponse['totalItems'].toString();
-      //  });
-      // }
-      //         setState(() {
-      //          isLoading = false;
-      //        });
-      // Navigator.pushReplacement(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (context) => CityScreen(),
-      //   ),
-      // );
       loginController.LoginFormKey.currentState!.reset();
       loginController.emailAddress.text = "";
       loginController.password.text = "";
@@ -133,10 +108,12 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             validator: (value) {
                               if (value!.isEmpty) {
+                                loginController.btnController.stop();
                                 return "Please enter your email";
                               } else if (!RegExp(
                                       r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
                                   .hasMatch(value)) {
+                                loginController.btnController.stop();
                                 return "Invalid email format";
                               }
                               return null;
@@ -171,8 +148,10 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             validator: (value) {
                               if (value!.isEmpty) {
+                                loginController.btnController.stop();
                                 return "Please enter your password";
                               } else if (value.length < 6) {
+                                loginController.btnController.stop();
                                 return "Password must be at least 6 characters long";
                               }
                               return null;
@@ -206,7 +185,10 @@ class _LoginPageState extends State<LoginPage> {
                             child: RoundedLoadingButton(
                               controller: loginController.btnController,
                               onPressed: loginform,
-                              child: const Text('Sign in'),
+                              child: const Text(
+                                'Sign in',
+                                style: TextStyle(color: Colors.white),
+                              ),
                             ),
                           ),
                           // Container(
