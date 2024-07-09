@@ -1,4 +1,7 @@
+import 'package:citiguide/Theme/color.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 class ProfileSettingsPage extends StatefulWidget {
   const ProfileSettingsPage({super.key});
@@ -132,6 +135,20 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
           ],
         ),
       ),
+       bottomNavigationBar: BottomNavigationBar(
+          onTap: (value) => Get.to(const ProfileSettingsPage()),
+          elevation: 30,
+          selectedItemColor: ColorTheme.primaryColor,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.place),
+              label: 'Places',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Profile',
+            )
+          ]),
     );
   }
 }

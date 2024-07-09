@@ -53,7 +53,7 @@ class CityScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     cityController.fetchCities();
     return Scaffold(
-      appBar: app_Bar('Cities', false),
+      appBar: app_Bar('Cities'),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(

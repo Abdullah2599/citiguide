@@ -6,7 +6,7 @@ import 'package:citiguide/Pages/profile_page.dart';
 import 'package:citiguide/controllers/LoginController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:rounded_loading_button/rounded_loading_button.dart';
+
 import 'backgroundui.dart';
 
 import 'signuppage.dart';
@@ -108,12 +108,12 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             validator: (value) {
                               if (value!.isEmpty) {
-                                loginController.btnController.stop();
+                               
                                 return "Please enter your email";
                               } else if (!RegExp(
                                       r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
                                   .hasMatch(value)) {
-                                loginController.btnController.stop();
+                               
                                 return "Invalid email format";
                               }
                               return null;
@@ -148,10 +148,10 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             validator: (value) {
                               if (value!.isEmpty) {
-                                loginController.btnController.stop();
+                               
                                 return "Please enter your password";
                               } else if (value.length < 6) {
-                                loginController.btnController.stop();
+                                
                                 return "Password must be at least 6 characters long";
                               }
                               return null;
@@ -179,42 +179,42 @@ class _LoginPageState extends State<LoginPage> {
                             ],
                           ),
                           const SizedBox(height: 10),
-                          Container(
-                            width: double.infinity,
-                            height: 45,
-                            child: RoundedLoadingButton(
-                              controller: loginController.btnController,
-                              onPressed: loginform,
-                              child: const Text(
-                                'Sign in',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          ),
                           // Container(
                           //   width: double.infinity,
                           //   height: 45,
-                          //   child: ElevatedButton(
-                          //       style: ElevatedButton.styleFrom(
-                          //         shape: RoundedRectangleBorder(
-                          //           borderRadius:
-                          //               BorderRadius.circular(20), // <-- Radius
-                          //         ),
-                          //       ),
-                          //       onPressed: loginform,
-                          //       child: Obx(
-                          //         () => loginController.loader.value
-                          //             ? const SizedBox(
-                          //                 height: 30,
-                          //                 width: 30,
-                          //                 child: CircularProgressIndicator(
-                          //                     strokeWidth: 3,
-                          //                     color: Colors.blue),
-                          //               )
-                          //             : const Text('Sign in'),
-                          //       )
-                          //       ),
+                          //   child: RoundedLoadingButton(
+                          //     controller: loginController.btnController,
+                          //     onPressed: loginform,
+                          //     child: const Text(
+                          //       'Sign in',
+                          //       style: TextStyle(color: Colors.white),
+                          //     ),
+                          //   ),
                           // ),
+                          Container(
+                            width: double.infinity,
+                            height: 45,
+                            child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.circular(20), // <-- Radius
+                                  ),
+                                ),
+                                onPressed: loginform,
+                                child: Obx(
+                                  () => loginController.loader.value
+                                      ? const SizedBox(
+                                          height: 30,
+                                          width: 30,
+                                          child: CircularProgressIndicator(
+                                              strokeWidth: 3,
+                                              color: Colors.blue),
+                                        )
+                                      : const Text('Sign in'),
+                                )
+                                ),
+                          ),
                           const SizedBox(height: 20),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,

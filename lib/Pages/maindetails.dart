@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:citiguide/Theme/color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:url_launcher/link.dart';
@@ -225,7 +226,7 @@ class _TilesDetailsState extends State<TilesDetails> {
                         iconContainer(
                           icon: getIconForOffer(offer),
                           icontext: offer, // Show the offer text here
-                          color: const Color.fromARGB(255, 14, 175, 175),
+                          color: ColorTheme.primaryColor,
                         ),
                     ],
                   ),
@@ -255,77 +256,81 @@ class _TilesDetailsState extends State<TilesDetails> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      "Reviews",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black87,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "Reviews",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
+                        ),
                       ),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: const Text("Write a Review"),
-                            content: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                RatingBar.builder(
-                                  initialRating: _userRating,
-                                  minRating: 1,
-                                  direction: Axis.horizontal,
-                                  allowHalfRating: true,
-                                  itemCount: 5,
-                                  itemSize: 30,
-                                  itemBuilder: (context, _) => const Icon(
-                                    Icons.star,
-                                    color: Colors.amber,
+                      IconButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: const Text("Write a Review"),
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  RatingBar.builder(
+                                    initialRating: _userRating,
+                                    minRating: 1,
+                                    direction: Axis.horizontal,
+                                    allowHalfRating: true,
+                                    itemCount: 5,
+                                    itemSize: 30,
+                                    itemBuilder: (context, _) => const Icon(
+                                      Icons.star,
+                                      color: Colors.amber,
+                                    ),
+                                    onRatingUpdate: (rating) {
+                                      setState(() {
+                                        _userRating = rating;
+                                      });
+                                    },
                                   ),
-                                  onRatingUpdate: (rating) {
-                                    setState(() {
-                                      _userRating = rating;
-                                    });
+                                  TextField(
+                                    controller: _reviewController,
+                                    maxLines: 3,
+                                    decoration: const InputDecoration(
+                                      labelText: 'Write your review here',
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
                                   },
+                                  child: const Text("Cancel"),
                                 ),
-                                TextField(
-                                  controller: _reviewController,
-                                  maxLines: 3,
-                                  decoration: const InputDecoration(
-                                    labelText: 'Write your review here',
-                                  ),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    _submitReview();
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text("Submit"),
                                 ),
                               ],
                             ),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Text("Cancel"),
-                              ),
-                              ElevatedButton(
-                                onPressed: () {
-                                  _submitReview();
-                                  Navigator.pop(context);
-                                },
-                                child: const Text("Submit"),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                      icon: const Icon(Icons.add_comment_outlined),
-                    ),
-                  ],
+                          );
+                        },
+                        icon: const Icon(Icons.add_comment_outlined),
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 10),
                 ...reviews.map((review) => Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 8.0),
                       child: Container(
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
@@ -381,72 +386,106 @@ class _TilesDetailsState extends State<TilesDetails> {
     );
   }
 
-  Widget iconContainer(
-      {required IconData icon, required String icontext, Color? color}) {
+  Widget iconContainer({
+    required IconData icon,
+    required String icontext,
+    required Color color,
+  }) {
+    return Container(
+      height: 60,
+      width: 80,
+      margin: const EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        color: color,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            icon,
+            color: Colors.white,
+          ),
+          SizedBox(height: 5),
+          Text(
+            icontext,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+//   Widget iconContainer(
+//       {required IconData icon, required String icontext, Color? color}) {
+//     return Padding(
+//       padding: const EdgeInsets.all(8.0),
+//       child: SizedBox(
+//         height: 80,
+//         width: 80,
+//         child: Card(
+//           elevation: 2,
+//           child: Padding(
+//             padding: const EdgeInsets.all(8.0),
+//             child: Column(
+//               children: [
+//                 SizedBox(
+//                   height: 2,
+//                 ),
+//                 Icon(
+//                   icon,
+//                   size: 30,
+//                   color: color ??
+//                       Colors.black54, // Default to black54 if color is null
+//                 ),
+//                 SizedBox(
+//                   height: 4,
+//                 ),
+//                 Text(
+//                   icontext,
+//                   style: const TextStyle(color: Colors.black54, fontSize: 10),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+  Widget buttonArrow(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: SizedBox(
-        height: 80,
-        width: 80,
-        child: Card(
-          elevation: 2,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 2,
-                ),
-                Icon(
-                  icon,
-                  size: 30,
-                  color: color ??
-                      Colors.black54, // Default to black54 if color is null
-                ),
-                SizedBox(
-                  height: 4,
-                ),
-                Text(
-                  icontext,
-                  style: const TextStyle(color: Colors.black54, fontSize: 10),
-                ),
-              ],
+      padding: const EdgeInsets.all(20.0),
+      child: InkWell(
+        onTap: () {
+          Navigator.pop(context);
+        },
+        child: Container(
+          clipBehavior: Clip.hardEdge,
+          height: 55,
+          width: 55,
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(25)),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+            child: Container(
+              height: 55,
+              width: 55,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+              ),
+              child: const Icon(
+                Icons.arrow_back_ios,
+                size: 20,
+                color: Colors.white,
+              ),
             ),
           ),
         ),
       ),
     );
   }
-}
-
-Widget buttonArrow(BuildContext context) {
-  return Padding(
-    padding: const EdgeInsets.all(20.0),
-    child: InkWell(
-      onTap: () {
-        Navigator.pop(context);
-      },
-      child: Container(
-        clipBehavior: Clip.hardEdge,
-        height: 55,
-        width: 55,
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(25)),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          child: Container(
-            height: 55,
-            width: 55,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(25),
-            ),
-            child: const Icon(
-              Icons.arrow_back_ios,
-              size: 20,
-              color: Colors.white,
-            ),
-          ),
-        ),
-      ),
-    ),
-  );
 }

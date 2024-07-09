@@ -6,9 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
 
-app_Bar(String text, bool truf) {
+app_Bar(String text, ) {
   return AppBar(
-    automaticallyImplyLeading: truf,
+    // automaticallyImplyLeading: truf,
+    // leading: I,
+        // icon: Icon(Icons.arrow_back_ios)),
     clipBehavior: Clip.hardEdge,
     foregroundColor: Colors.white,
     title: Text(

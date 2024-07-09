@@ -28,7 +28,7 @@ class HomePage extends StatelessWidget {
     print("lenght " + datacontroller.Records.length.toString());
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 230, 244, 248),
-      appBar: app_Bar(ciity, true),
+      appBar: app_Bar(ciity),
       body: Column(
         children: [
           Padding(
