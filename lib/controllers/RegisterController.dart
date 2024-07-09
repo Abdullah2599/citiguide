@@ -1,4 +1,5 @@
 import 'package:citiguide/Pages/loginpage.dart';
+import 'package:citiguide/Pages/profile_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -20,7 +21,10 @@ class RegisterController extends GetxController {
       Get.snackbar("Success", "Account Created");
       emailAddress.clear();
       password.clear();
-      Get.to(LoginPage());
+      Get.off(() => ProfileSettingsPage(
+            fromPage: 'CitiesScreen',
+            isNewUser: true,
+          ));
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         Get.snackbar("Weak Password", 'The password provided is too weak.');

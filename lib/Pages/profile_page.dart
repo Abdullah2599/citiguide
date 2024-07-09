@@ -1,24 +1,39 @@
-import 'package:citiguide/Theme/color.dart';
+import 'package:citiguide/components/reusable/appbar.dart';
+import 'package:citiguide/components/reusable/bottomnavigationbar.dart';
+import 'package:citiguide/controllers/ProfileSettingsController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 class ProfileSettingsPage extends StatefulWidget {
-  const ProfileSettingsPage({super.key});
+  const ProfileSettingsPage({
+    Key? key,
+    required this.fromPage,
+    this.isNewUser = false,
+  }) : super(key: key);
+
+  final String fromPage;
+  final bool isNewUser;
+
   @override
   State<ProfileSettingsPage> createState() => _ProfileSettingsPageState();
 }
 
 class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
-  final String name = "John Doe";
-  final String email = "john.doe@example.com";
+  final ProfileSettingsController controller =
+      Get.put(ProfileSettingsController());
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   void _showChangePasswordDialog() {
+    final newPasswordController = TextEditingController();
+    final confirmPasswordController = TextEditingController();
+
     showDialog(
       context: context,
       builder: (context) {
-        final newPasswordController = TextEditingController();
-        final confirmPasswordController = TextEditingController();
         return AlertDialog(
           title: const Text('Change Password'),
           content: Column(
@@ -48,15 +63,12 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
               onPressed: () {
                 if (newPasswordController.text ==
                     confirmPasswordController.text) {
-                  // Handle password change logic
+                  controller.changePassword(newPasswordController.text);
                   Navigator.of(context).pop();
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text('Password changed successfully!'),
-                  ));
                 } else {
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text('Passwords do not match!'),
-                  ));
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Passwords do not match!')),
+                  );
                 }
               },
               child: const Text('Change'),
@@ -70,85 +82,162 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile Settings'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Stack(
-              children: <Widget>[
-                const CircleAvatar(
-                  radius: 60,
-                  backgroundImage: NetworkImage(
-                      "https://cdn.pixabay.com/photo/2019/08/11/18/59/icon-4399701_1280.png"), // Placeholder image
-                ),
-                Positioned(
-                  bottom: 0,
-                  right: 0,
-                  child: Container(
-                    // color: Colors.blue,
-                    decoration: BoxDecoration(
-                        color: Colors.blue,
-                        borderRadius: BorderRadiusDirectional.circular(20.0)),
-                    alignment: Alignment.center,
-                    child: IconButton(
-                      iconSize: 20.0,
-                      icon: const Icon(Icons.add_a_photo_outlined,
-                          color: Colors.white),
-                      onPressed: () {
-                        // Handle add image action
-                      },
-                    ),
+      appBar: app_Bar('Profile', true),
+      body: Obx(() {
+        return controller.isLoading.value
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Stack(
+                        children: <Widget>[
+                          CircleAvatar(
+                            radius: 60,
+                            backgroundImage: controller
+                                    .profileImageUrl.value.isNotEmpty
+                                ? NetworkImage(controller.profileImageUrl.value)
+                                : const AssetImage(
+                                        './assets/images/default_avatar.png')
+                                    as ImageProvider,
+                            backgroundColor: Colors.grey,
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                color: Colors.blue,
+                                shape: BoxShape.circle,
+                              ),
+                              alignment: Alignment.center,
+                              child: IconButton(
+                                iconSize: 20.0,
+                                icon: const Icon(Icons.add_a_photo_outlined,
+                                    color: Colors.white),
+                                onPressed: controller.pickImage,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 30),
+                      ListTile(
+                        title: const Text(
+                          'Name',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: widget.isNewUser
+                            ? TextField(
+                                controller: controller.nameController,
+                                decoration: const InputDecoration(
+                                  hintText: 'Enter your name',
+                                ),
+                                onSubmitted: (value) {
+                                  if (value.isNotEmpty) {
+                                    controller.updateUserName(isNewUser: true);
+                                  }
+                                },
+                              )
+                            : Text(controller.name.isNotEmpty
+                                ? controller.name
+                                : 'No name set'),
+                        trailing: !widget.isNewUser
+                            ? IconButton(
+                                icon: const Icon(Icons.edit),
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: const Text('Edit Name'),
+                                        content: TextField(
+                                          controller: controller.nameController,
+                                          decoration: const InputDecoration(
+                                            hintText: 'Enter new name',
+                                          ),
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: const Text('Cancel'),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              if (controller.nameController.text
+                                                  .isNotEmpty) {
+                                                controller.updateUserName();
+                                                Navigator.of(context).pop();
+                                              } else {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  const SnackBar(
+                                                      content: Text(
+                                                          'Name cannot be empty!')),
+                                                );
+                                              }
+                                            },
+                                            child: const Text('Save'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                              )
+                            : null,
+                      ),
+                      const Divider(),
+                      ListTile(
+                        title: const Text(
+                          'Email',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Text(controller.email),
+                      ),
+                      const Divider(),
+                      const SizedBox(height: 30),
+                      widget.isNewUser
+                          ? ElevatedButton(
+                              onPressed: () {
+                                controller.updateUserName(isNewUser: true);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 40, vertical: 15),
+                              ),
+                              child: const Text('Submit'),
+                            )
+                          : ElevatedButton(
+                              onPressed: _showChangePasswordDialog,
+                              style: ElevatedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 40, vertical: 15),
+                              ),
+                              child: const Text('Change Password'),
+                            ),
+                    ],
                   ),
                 ),
-              ],
+              );
+      }),
+      bottomNavigationBar: widget.isNewUser
+          ? null
+          : CustomBottomNavigationBar(
+              label: widget.fromPage == 'CityScreen' ? 'Cities' : 'Attractions',
+              currentIndex: 1,
+              onTap: (index) {
+                if (index == 0) {
+                  Get.back();
+                }
+              },
             ),
-            const SizedBox(height: 30),
-            ListTile(
-              title: const Text(
-                'Name',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              subtitle: Text(name),
-            ),
-            const Divider(),
-            ListTile(
-              title: const Text(
-                'Email',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              subtitle: Text(email),
-            ),
-            const Divider(),
-            const SizedBox(height: 30),
-            ElevatedButton(
-              onPressed: _showChangePasswordDialog,
-              style: ElevatedButton.styleFrom(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-              ),
-              child: const Text('Change Password'),
-            ),
-          ],
-        ),
-      ),
-       bottomNavigationBar: BottomNavigationBar(
-          onTap: (value) => Get.to(const ProfileSettingsPage()),
-          elevation: 30,
-          selectedItemColor: ColorTheme.primaryColor,
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.place),
-              label: 'Places',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Profile',
-            )
-          ]),
     );
   }
 }

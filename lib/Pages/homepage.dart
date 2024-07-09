@@ -1,7 +1,9 @@
 import 'package:citiguide/Pages/maindetails.dart';
+import 'package:citiguide/Pages/profile_page.dart';
 import 'package:citiguide/Pages/tourist_details.dart';
 import 'package:citiguide/Theme/color.dart';
 import 'package:citiguide/components/reusable/appbar.dart';
+import 'package:citiguide/components/reusable/bottomnavigationbar.dart';
 import 'package:citiguide/components/reusable/categorybuttons.dart';
 import 'package:citiguide/components/reusable/places_tile.dart';
 import 'package:citiguide/components/reusable/textbutton.dart';
@@ -28,7 +30,7 @@ class HomePage extends StatelessWidget {
     print("lenght " + datacontroller.Records.length.toString());
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 230, 244, 248),
-      appBar: app_Bar(ciity),
+      appBar: app_Bar(ciity, true),
       body: Column(
         children: [
           Padding(
@@ -86,19 +88,15 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-          elevation: 30,
-          selectedItemColor: ColorTheme.primaryColor,
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.place),
-              label: 'Places',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Profile',
-            ),
-          ]),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        currentIndex: 0,
+        label: 'Attractions',
+        onTap: (index) {
+          if (index == 1) {
+            Get.to(() => ProfileSettingsPage(fromPage: 'HomePage'));
+          }
+        },
+      ),
     );
   }
 

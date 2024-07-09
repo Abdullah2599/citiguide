@@ -180,8 +180,7 @@ class _TilesDetailsState extends State<TilesDetails> {
                         },
                         style: ElevatedButton.styleFrom(
                           elevation: 5,
-                          backgroundColor:
-                              const Color.fromARGB(255, 14, 175, 175),
+                          backgroundColor: ColorTheme.primaryColor,
                           padding: const EdgeInsets.symmetric(
                             vertical: 12,
                             horizontal: 24,

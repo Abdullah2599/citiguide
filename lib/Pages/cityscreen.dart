@@ -3,6 +3,7 @@ import 'package:citiguide/Pages/profile_page.dart';
 import 'package:citiguide/Pages/tourist_details.dart';
 import 'package:citiguide/Theme/color.dart';
 import 'package:citiguide/components/reusable/appbar.dart';
+import 'package:citiguide/components/reusable/bottomnavigationbar.dart';
 import 'package:citiguide/components/reusable/citycard.dart';
 import 'package:citiguide/controllers/CityController.dart';
 import 'package:citiguide/models/citymodel.dart';
@@ -53,7 +54,7 @@ class CityScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     cityController.fetchCities();
     return Scaffold(
-      appBar: app_Bar('Cities'),
+      appBar: app_Bar('Cities', false),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -124,20 +125,15 @@ class CityScreen extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-          onTap: (value) => Get.to(const ProfileSettingsPage()),
-          elevation: 30,
-          selectedItemColor: ColorTheme.primaryColor,
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.place),
-              label: 'Places',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Profile',
-            )
-          ]),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        currentIndex: 0,
+        label: 'Cities',
+        onTap: (index) {
+          if (index == 1) {
+            Get.to(() => ProfileSettingsPage(fromPage: 'CityScreen'));
+          }
+        },
+      ),
     );
   }
 }
