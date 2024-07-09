@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:citiguide/Pages/homepage.dart';
 import 'package:citiguide/Pages/profile_page.dart';
 import 'package:citiguide/Pages/tourist_details.dart';
@@ -106,6 +107,9 @@ class CityScreen extends StatelessWidget {
                     return Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: GestureDetector(
+                          onLongPress: () {
+                            bottomSheet(context);
+                          },
                           onTap: () => Get.to(() => HomePage(
                                 ciity: cityController.citiesRecords[index]
                                     ["cname"],
@@ -136,4 +140,63 @@ class CityScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+Future bottomSheet(BuildContext context) {
+  return showModalBottomSheet(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      context: context,
+      builder: (context) => SingleChildScrollView(
+            child: Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Container(
+                      decoration: BoxDecoration(boxShadow: [
+                        BoxShadow(
+                            color: Colors.grey,
+                            blurRadius: 18,
+                            blurStyle: BlurStyle.outer)
+                      ]),
+                      height: 200,
+                      width: 400,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(7)),
+                        child: CachedNetworkImage(
+                          imageUrl:
+                              "https://images.pexels.com/photos/208745/pexels-photo-208745.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                          height: 500,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Title",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 22),
+                          ),
+                          Text(
+                            "Desc",
+                            style: TextStyle(fontSize: 18),
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ));
 }
