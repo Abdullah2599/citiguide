@@ -37,15 +37,6 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  void navigators() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => SignupPage(),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -108,12 +99,10 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             validator: (value) {
                               if (value!.isEmpty) {
-                               
                                 return "Please enter your email";
                               } else if (!RegExp(
                                       r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
                                   .hasMatch(value)) {
-                               
                                 return "Invalid email format";
                               }
                               return null;
@@ -148,10 +137,8 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             validator: (value) {
                               if (value!.isEmpty) {
-                               
                                 return "Please enter your password";
                               } else if (value.length < 6) {
-                                
                                 return "Password must be at least 6 characters long";
                               }
                               return null;
@@ -212,8 +199,7 @@ class _LoginPageState extends State<LoginPage> {
                                               color: Colors.blue),
                                         )
                                       : const Text('Sign in'),
-                                )
-                                ),
+                                )),
                           ),
                           const SizedBox(height: 20),
                           Row(
@@ -224,7 +210,9 @@ class _LoginPageState extends State<LoginPage> {
                                 style: TextStyle(color: Colors.white),
                               ),
                               TextButton(
-                                onPressed: navigators,
+                                onPressed: () {
+                                  Get.offAll(() => SignupPage());
+                                },
                                 child: const Text(
                                   "Sign up",
                                   style: TextStyle(

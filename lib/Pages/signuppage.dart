@@ -36,23 +36,6 @@ class _SignupPageState extends State<SignupPage> {
     }
   }
 
-  void _navigateToLogin() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => LoginPage(),
-      ),
-    );
-  }
-
-  // @override
-  // void dispose() {
-  //   _nameController.dispose();
-  //   _emailController.dispose();
-  //   _passwordController.dispose();
-  //   super.dispose();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -191,7 +174,9 @@ class _SignupPageState extends State<SignupPage> {
                                 style: TextStyle(color: Colors.white),
                               ),
                               TextButton(
-                                onPressed: _navigateToLogin,
+                                onPressed: () {
+                                  Get.offAll(() => LoginPage());
+                                },
                                 child: const Text(
                                   "Sign in",
                                   style: TextStyle(
