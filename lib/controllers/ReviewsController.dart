@@ -78,7 +78,38 @@ class ReviewController extends GetxController {
     });
   }
 
+  Future<bool> hasUserReviewed(String placeId) async {
+    try {
+      User? user = _auth.currentUser;
+      if (user != null) {
+        final snapshot = await _database
+            .ref('reviews')
+            .orderByChild('dataid')
+            .equalTo(placeId)
+            .get();
+        if (snapshot.value != null) {
+          Map<dynamic, dynamic> data = snapshot.value as Map<dynamic, dynamic>;
+          for (var entry in data.entries) {
+            if (entry.value['email'] == user.email) {
+              return true;
+            }
+          }
+        }
+      }
+      return false;
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to check review status');
+      return false;
+    }
+  }
+
   void addReview(String placeId, double rating, String comment) async {
+    if (await hasUserReviewed(placeId)) {
+      Get.snackbar(
+          'Error', 'You have already submitted a review for this place');
+      return;
+    }
+
     try {
       await _database.ref('reviews').push().set({
         'dataid': placeId,
@@ -87,6 +118,7 @@ class ReviewController extends GetxController {
         'comment': comment,
       });
       Get.snackbar('Success', 'Review submitted successfully');
+      fetchReviews(placeId); // Refresh the reviews list
     } catch (e) {
       Get.snackbar('Error', 'Failed to submit review');
     }

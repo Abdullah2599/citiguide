@@ -40,7 +40,6 @@ class HomePage extends StatelessWidget {
                 contentPadding: EdgeInsets.symmetric(vertical: 15.0),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30.0),
-                  // borderSide: BorderSide(width: 0.8),
                 ),
                 hintText: 'Search Cities and Places',
                 prefixIcon: const Icon(
@@ -65,6 +64,26 @@ class HomePage extends StatelessWidget {
                   .toList(),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.sort),
+                  onPressed: () {
+                    datacontroller.sortByRating(ascending: true);
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.sort_by_alpha),
+                  onPressed: () {
+                    datacontroller.sortByRating(ascending: false);
+                  },
+                ),
+              ],
+            ),
+          ),
           Expanded(
             child: Obx(
               () => ListView.builder(
@@ -79,7 +98,9 @@ class HomePage extends StatelessWidget {
                     child: PlacesTile(
                         name: datacontroller.Records[index]["title"].toString(),
                         city: datacontroller.Records[index]["city"].toString(),
-                        rating: 4.9,
+                        rating: datacontroller.Records[index]
+                                ["averageRating"] ??
+                            0.0,
                         imagelink: datacontroller.Records[index]["imageurl"]
                             .toString()),
                   );
