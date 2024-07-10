@@ -41,24 +41,31 @@ class ReviewController extends GetxController {
         .orderByChild('dataid')
         .equalTo(placeId)
         .onValue
-        .listen((event) {
+        .listen((event) async {
       var reviewsList = <Review>[];
       if (event.snapshot.value != null) {
         Map<dynamic, dynamic> data =
             event.snapshot.value as Map<dynamic, dynamic>;
-        data.forEach((key, value) {
-          final reviewer = value['email'] as String?;
-          final rating = (value['rating'] is int)
-              ? (value['rating'] as int).toDouble()
-              : value['rating'] as double;
-          final text = value['comment'] as String?;
+        for (var entry in data.entries) {
+          final reviewerEmail = entry.value['email'] as String?;
+          final rating = (entry.value['rating'] is int)
+              ? (entry.value['rating'] as int).toDouble()
+              : entry.value['rating'] as double;
+          final text = entry.value['comment'] as String?;
+
+          // Fetch user details from Firestore
+          DocumentSnapshot userDoc =
+              await _firestore.collection('users').doc(reviewerEmail).get();
+          final userName = userDoc['name'] as String?;
+          final userProfilePic = userDoc['image'] as String?;
 
           reviewsList.add(Review(
-            reviewer: reviewer,
+            reviewer: userName,
             rating: rating,
             text: text,
+            profilePic: userProfilePic,
           ));
-        });
+        }
 
         // Sort reviews based on the sortOrder
         reviewsList.sort((a, b) {
@@ -109,10 +116,12 @@ class Review {
   final String? reviewer;
   final double? rating; // Make sure rating is a double
   final String? text;
+  final String? profilePic; // Add profile picture link
 
   Review({
     required this.reviewer,
     required this.rating,
     required this.text,
+    required this.profilePic,
   });
 }

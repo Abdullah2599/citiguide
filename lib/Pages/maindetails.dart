@@ -340,7 +340,14 @@ class _TilesDetailsState extends State<TilesDetails> {
                                 elevation: 2,
                                 margin: const EdgeInsets.symmetric(vertical: 4),
                                 child: ListTile(
-                                  leading: Icon(Icons.person),
+                                  leading: review.profilePic != null
+                                      ? CircleAvatar(
+                                          backgroundImage:
+                                              NetworkImage(review.profilePic!),
+                                        )
+                                      : const CircleAvatar(
+                                          child: Icon(Icons.person),
+                                        ),
                                   title: Text(review.reviewer.toString()),
                                   subtitle: Text(review.text.toString()),
                                   trailing: Row(
