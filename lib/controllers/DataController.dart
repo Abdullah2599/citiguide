@@ -13,6 +13,7 @@ class Datacontroller extends GetxController {
   }
 
   Future<void> fetchData({required String city, String? category}) async {
+    Records.clear();
     DatabaseReference ref = FirebaseDatabase.instance.ref("data");
 
     // Get the data once

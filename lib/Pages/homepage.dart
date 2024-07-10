@@ -15,7 +15,7 @@ class HomePage extends StatelessWidget {
   HomePage({super.key, this.ciity});
 
   final dynamic ciity;
-  Datacontroller datacontroller = new Datacontroller();
+  Datacontroller datacontroller = Get.put(Datacontroller());
   final RxString _selectedCategory = 'Popular Attractions'.obs;
   final List<String> categories = [
     "Popular Attractions",
@@ -65,21 +65,33 @@ class HomePage extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
+              // mainAxisSize: MainAxisSize.min,
               children: [
-                IconButton(
-                  icon: Icon(Icons.sort),
-                  onPressed: () {
-                    datacontroller.sortByRating(ascending: true);
-                  },
+                Text(
+                  'Ratings',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-                IconButton(
-                  icon: Icon(Icons.sort_by_alpha),
-                  onPressed: () {
-                    datacontroller.sortByRating(ascending: false);
-                  },
+                Spacer(),
+                SizedBox(
+                  width: 30, // Adjust the width as needed
+                  child: IconButton(
+                    icon: Icon(Icons.arrow_upward, size: 18.0),
+                    onPressed: () {
+                      datacontroller.sortByRating(ascending: false);
+                    },
+                  ),
+                ),
+                SizedBox(
+                  width: 30, // Adjust the width as needed
+                  child: IconButton(
+                    icon: Icon(Icons.arrow_downward, size: 18.0),
+                    onPressed: () {
+                      datacontroller.sortByRating(ascending: true);
+                    },
+                  ),
                 ),
               ],
             ),
@@ -88,13 +100,19 @@ class HomePage extends StatelessWidget {
             child: Obx(
               () => ListView.builder(
                 itemCount: datacontroller.Records.length,
-                physics: NeverScrollableScrollPhysics(),
+                physics: BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () => Get.to(() => TilesDetails(
-                          placeData: datacontroller.Records[index],
-                          placeId: datacontroller.Records[index]['id'],
-                        )),
+                              placeData: datacontroller.Records[index],
+                              placeId: datacontroller.Records[index]['id'],
+                            ))!
+                        .then((value) {
+                      datacontroller.fetchData(
+                        city: ciity,
+                        category: _selectedCategory.value,
+                      );
+                    }),
                     child: PlacesTile(
                         name: datacontroller.Records[index]["title"].toString(),
                         city: datacontroller.Records[index]["city"].toString(),

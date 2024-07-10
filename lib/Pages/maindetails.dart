@@ -1,3 +1,4 @@
+import 'package:citiguide/Pages/homepage.dart';
 import 'package:citiguide/Theme/color.dart';
 import 'package:citiguide/components/reusable/reusableicons.dart';
 import 'package:citiguide/controllers/ReviewsController.dart';
@@ -75,7 +76,17 @@ class _TilesDetailsState extends State<TilesDetails> {
               fit: BoxFit.fitHeight,
             ),
           ),
-          buttonArrow(context),
+          Positioned(
+            top: 50,
+            left: 20,
+            child: GestureDetector(
+              onTap: () {
+                Get.back(result: true);
+              },
+              child:
+                  Icon(Icons.arrow_back_ios_new, size: 30, color: Colors.white),
+            ),
+          ),
           scrollDetails(),
           Positioned(
             bottom: 10,
@@ -245,93 +256,138 @@ class _TilesDetailsState extends State<TilesDetails> {
                           color: Colors.black87,
                         ),
                       ),
-                      const SizedBox(height: 16),
-                      Row(
-                        children: [
-                          const Text(
-                            "User Reviews",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black87,
+                      const SizedBox(height: 12),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12.0,
+                        ),
+                        child: Row(
+                          children: [
+                            const Text(
+                              "User Reviews",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black87,
+                              ),
                             ),
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: const Text('Submit Your Review'),
-                                    content: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Obx(
-                                          () => Text(
-                                            "Logged in as: ${reviewController.userName.value}",
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              color: Colors.black87,
+                            Spacer(),
+                            SizedBox(
+                              width: 32,
+                              child: IconButton(
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        backgroundColor: Colors.white,
+                                        title: const Text('Submit Your Review'),
+                                        content: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Obx(
+                                              () => Text(
+                                                "Logged in as: ${reviewController.userName.value}",
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Colors.black87,
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(height: 8),
+                                            RatingBar.builder(
+                                              initialRating: 0,
+                                              minRating: 1,
+                                              direction: Axis.horizontal,
+                                              allowHalfRating: true,
+                                              itemCount: 5,
+                                              itemPadding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 2.0),
+                                              itemBuilder: (context, _) =>
+                                                  const Icon(
+                                                Icons.star,
+                                                color: Colors.amber,
+                                              ),
+                                              onRatingUpdate: (rating) {
+                                                _userRating = rating;
+                                              },
+                                            ),
+                                            const SizedBox(height: 8),
+                                            TextField(
+                                              controller: _reviewController,
+                                              keyboardType: TextInputType
+                                                  .multiline, // Allows for multi-line input
+                                              maxLines: 6,
+                                              decoration: const InputDecoration(
+                                                border: OutlineInputBorder(),
+                                                filled: true,
+                                                fillColor: Colors.white,
+                                                hintText: 'Write your review',
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: const Text(
+                                              'Cancel',
+                                              style: TextStyle(
+                                                  color: Colors.black),
                                             ),
                                           ),
-                                        ),
-                                        const SizedBox(height: 8),
-                                        RatingBar.builder(
-                                          initialRating: 0,
-                                          minRating: 1,
-                                          direction: Axis.horizontal,
-                                          allowHalfRating: true,
-                                          itemCount: 5,
-                                          itemPadding:
-                                              const EdgeInsets.symmetric(
-                                                  horizontal: 4.0),
-                                          itemBuilder: (context, _) =>
-                                              const Icon(
-                                            Icons.star,
-                                            color: Colors.amber,
+                                          ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              elevation: 5,
+                                              backgroundColor:
+                                                  ColorTheme.primaryColor,
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                vertical: 4,
+                                                horizontal: 16,
+                                              ),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                              ),
+                                            ),
+                                            onPressed: _submitReview,
+                                            child: const Text(
+                                              'Submit Review',
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
                                           ),
-                                          onRatingUpdate: (rating) {
-                                            _userRating = rating;
-                                          },
-                                        ),
-                                        const SizedBox(height: 8),
-                                        TextField(
-                                          controller: _reviewController,
-                                          decoration: const InputDecoration(
-                                            border: OutlineInputBorder(),
-                                            labelText: 'Write your review',
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: const Text('Cancel'),
-                                      ),
-                                      ElevatedButton(
-                                        onPressed: _submitReview,
-                                        child: const Text('Submit Review'),
-                                      ),
-                                    ],
+                                        ],
+                                      );
+                                    },
                                   );
                                 },
-                              );
-                            },
-                            icon: Icon(Icons.reviews),
-                          ),
-                          // Sorting button
-                          IconButton(
-                            onPressed: reviewController.toggleSortOrder,
-                            icon: Icon(Icons.sort),
-                          ),
-                        ],
+                                icon: Icon(Icons.add_comment_outlined),
+                              ),
+                            ),
+                            // Sorting button
+                            SizedBox(
+                              width: 26,
+                              child: IconButton(
+                                onPressed: reviewController.toggleSortOrder,
+                                icon: Icon(Icons.swap_vert),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      const SizedBox(height: 8),
-                      SizedBox(
-                        height: 200, // Adjust this height as needed
+                      const SizedBox(height: 2),
+                      Container(
+                        padding: EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                            color: Color.fromARGB(167, 218, 237, 247),
+                            borderRadius:
+                                BorderRadius.all(Radius.elliptical(10, 10))),
+                        height: 350, // Adjust this height as needed
                         child: Obx(
                           () => ListView(
                             controller: scrollcontroller,
@@ -353,9 +409,12 @@ class _TilesDetailsState extends State<TilesDetails> {
                                   trailing: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Text(review.rating.toString()),
+                                      Text(
+                                        review.rating.toString(),
+                                        style: TextStyle(fontSize: 15),
+                                      ),
                                       const Icon(Icons.star,
-                                          color: Colors.amber),
+                                          size: 16, color: Colors.amber),
                                     ],
                                   ),
                                 ),
@@ -364,7 +423,7 @@ class _TilesDetailsState extends State<TilesDetails> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 25),
+                      SizedBox(height: 80),
                     ],
                   ),
                 ),
@@ -383,19 +442,28 @@ class _TilesDetailsState extends State<TilesDetails> {
   }) {
     return Container(
       margin: const EdgeInsets.all(6),
-      width: 90,
+      width: 80,
+      height: 80,
       decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5), // Shadow color
+            spreadRadius: 2, // Spread radius
+            blurRadius: 5, // Blur radius
+            offset: Offset(0, 3), // Changes position of shadow
+          ),
+        ],
         color: color,
         borderRadius: const BorderRadius.all(Radius.circular(20)),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, size: 35, color: Colors.white),
+          Icon(icon, size: 26, color: Colors.white),
           const SizedBox(height: 5),
           Text(
             icontext,
-            style: const TextStyle(color: Colors.white, fontSize: 15),
+            style: const TextStyle(color: Colors.white, fontSize: 14),
             textAlign: TextAlign.center,
           ),
         ],
@@ -403,18 +471,7 @@ class _TilesDetailsState extends State<TilesDetails> {
     );
   }
 
-  Positioned buttonArrow(BuildContext context) {
-    return Positioned(
-      top: 50,
-      left: 20,
-      child: GestureDetector(
-        onTap: () => Navigator.pop(context),
-        child: const CircleAvatar(
-          radius: 25,
-          backgroundColor: Colors.white,
-          child: Icon(Icons.arrow_back, size: 30, color: Colors.black87),
-        ),
-      ),
-    );
-  }
+  // Positioned buttonArrow(BuildContext context) {
+  //   return
+  // }
 }

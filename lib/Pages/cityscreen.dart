@@ -8,15 +8,15 @@ import 'package:citiguide/components/reusable/bottomnavigationbar.dart';
 import 'package:citiguide/components/reusable/citycard.dart';
 import 'package:citiguide/controllers/CityController.dart';
 import 'package:citiguide/models/citymodel.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CityScreen extends StatelessWidget {
-  List cityList = [];
-
   CityScreen({super.key});
 
-  CityController cityController = new CityController();
+  CityController cityController = CityController();
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,6 @@ class CityScreen extends StatelessWidget {
                   contentPadding: EdgeInsets.symmetric(vertical: 15.0),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),
-                    // borderSide: BorderSide(width: 0.8),
                   ),
                   hintText: 'Search Cities and Places',
                   fillColor: Colors.white,
@@ -64,33 +63,38 @@ class CityScreen extends StatelessWidget {
             ),
             Expanded(
               child: Obx(
-                () => GridView.builder(
-                  itemCount: cityController.citiesRecords.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 2,
-                      mainAxisSpacing: 2),
-                  itemBuilder: (context, index) {
-                    return Padding(
+                () {
+                  // Sort the cities alphabetically
+                  List sortedCities = List.from(cityController.citiesRecords)
+                    ..sort(
+                        (a, b) => (a["cname"] as String).compareTo(b["cname"]));
+
+                  return GridView.builder(
+                    itemCount: sortedCities.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 2,
+                            mainAxisSpacing: 2),
+                    itemBuilder: (context, index) {
+                      return Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: GestureDetector(
                           onLongPress: () {
-                            bottomSheet(context);
+                            bottomSheet(context, sortedCities[index]);
                           },
                           onTap: () => Get.to(() => HomePage(
-                                ciity: cityController.citiesRecords[index]
-                                    ["cname"],
+                                ciity: sortedCities[index]["cname"],
                               )),
                           child: CityCard(
-                            cityimg: cityController.citiesRecords[index]["cimg"]
-                                .toString(),
-                            cityname: cityController.citiesRecords[index]
-                                    ["cname"]
-                                .toString(),
+                            cityimg: sortedCities[index]["cimg"].toString(),
+                            cityname: sortedCities[index]["cname"].toString(),
                           ),
-                        ));
-                  },
-                ),
+                        ),
+                      );
+                    },
+                  );
+                },
               ),
             ),
           ],
@@ -109,61 +113,64 @@ class CityScreen extends StatelessWidget {
   }
 }
 
-Future bottomSheet(BuildContext context) {
+Future<void> bottomSheet(BuildContext context, Map<dynamic, dynamic> cityData) {
   return showModalBottomSheet(
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
-      context: context,
-      builder: (context) => SingleChildScrollView(
-            child: Container(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Container(
-                      decoration: BoxDecoration(boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey,
-                            blurRadius: 18,
-                            blurStyle: BlurStyle.outer)
-                      ]),
-                      height: 200,
-                      width: 400,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.all(Radius.circular(7)),
-                        child: CachedNetworkImage(
-                          imageUrl:
-                              "https://images.pexels.com/photos/208745/pexels-photo-208745.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-                          height: 500,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Title",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 22),
-                          ),
-                          Text(
-                            "Desc",
-                            style: TextStyle(fontSize: 18),
-                          )
-                        ],
-                      ),
-                    ),
+    shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: Colors.white,
+    elevation: 10,
+    showDragHandle: true,
+    enableDrag: true,
+    builder: (context) => SingleChildScrollView(
+      child: Container(
+        padding: EdgeInsets.fromLTRB(22.0, 5, 22.0, 22.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey,
+                    blurRadius: 18,
+                    blurStyle: BlurStyle.outer,
                   )
                 ],
               ),
+              height: 200,
+              width: double.infinity,
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                child: CachedNetworkImage(
+                  imageUrl: cityData["cimg"], // Use cityData for image URL
+                  height: 200,
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
-          ));
+            SizedBox(height: 16),
+            Text(
+              cityData["cname"], // Use cityData for city name
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 22,
+              ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              cityData["cdesc"] ??
+                  'No description available', // Use cityData for city description
+              style: TextStyle(fontSize: 18),
+            ),
+            SizedBox(
+              height: 30,
+            )
+          ],
+        ),
+      ),
+    ),
+  );
 }

@@ -115,7 +115,7 @@ class PlacesTile extends StatelessWidget {
               const Icon(
                 Icons.star,
                 size: 15,
-                color: Colors.blue,
+                color: Colors.amber,
               ),
             ],
           ),
