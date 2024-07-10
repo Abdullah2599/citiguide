@@ -26,15 +26,17 @@ class Datacontroller extends GetxController {
     // Iterate through children and add values to the list
     event.snapshot.children.forEach((element) {
       Map<dynamic, dynamic> data = element.value as Map<dynamic, dynamic>;
+      String id = element.key!; // Get the unique ID
 
       if (data['city'].toString() == city) {
         if (category == null ||
             data['category'].toString().toLowerCase() ==
                 category.toLowerCase()) {
+          // Add the ID to the data map
+          data['id'] = id;
           Records.add(data);
         }
       }
     });
-    print("Fetched data + ${Records.toString()}");
   }
 }

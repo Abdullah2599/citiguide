@@ -27,7 +27,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     datacontroller.fetchData(city: ciity, category: _selectedCategory.value);
-    print("lenght " + datacontroller.Records.length.toString());
+
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 230, 244, 248),
       appBar: app_Bar(ciity, true),
@@ -74,6 +74,7 @@ class HomePage extends StatelessWidget {
                   return GestureDetector(
                     onTap: () => Get.to(() => TilesDetails(
                           placeData: datacontroller.Records[index],
+                          placeId: datacontroller.Records[index]['id'],
                         )),
                     child: PlacesTile(
                         name: datacontroller.Records[index]["title"].toString(),
