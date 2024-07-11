@@ -1,3 +1,4 @@
+import 'package:citiguide/Theme/color.dart';
 import 'package:citiguide/components/reusable/appbar.dart';
 import 'package:citiguide/components/reusable/bottomnavigationbar.dart';
 import 'package:citiguide/controllers/ProfileSettingsController.dart';
@@ -82,6 +83,7 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 236, 249, 245),
       appBar: app_Bar('Profile', true),
       body: Obx(() {
         return controller.isLoading.value
@@ -110,8 +112,8 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                             bottom: 0,
                             right: 0,
                             child: Container(
-                              decoration: const BoxDecoration(
-                                color: Colors.blue,
+                              decoration: BoxDecoration(
+                                color: ColorTheme.primaryColor,
                                 shape: BoxShape.circle,
                               ),
                               alignment: Alignment.center,
@@ -127,14 +129,23 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                       ),
                       const SizedBox(height: 30),
                       ListTile(
-                        title: const Text(
-                          'Name',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                        title: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: const Text(
+                            'Name',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
                         ),
                         subtitle: widget.isNewUser
                             ? TextField(
                                 controller: controller.nameController,
-                                decoration: const InputDecoration(
+                                decoration: InputDecoration(
+                                  filled: true,
+                                  focusColor: Colors.white,
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide.none,
+                                      borderRadius: BorderRadius.circular(5)),
+                                  fillColor: Colors.white,
                                   hintText: 'Enter your name',
                                 ),
                                 onSubmitted: (value) {
@@ -209,18 +220,36 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                                 controller.updateUserName(isNewUser: true);
                               },
                               style: ElevatedButton.styleFrom(
+                                elevation: 5,
+                                backgroundColor:
+                                    Color.fromARGB(255, 7, 206, 182),
+                                shape: const StadiumBorder(),
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 40, vertical: 15),
                               ),
-                              child: const Text('Submit'),
+                              child: const Text(
+                                'Submit',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             )
                           : ElevatedButton(
                               onPressed: _showChangePasswordDialog,
                               style: ElevatedButton.styleFrom(
+                                elevation: 5,
+                                backgroundColor:
+                                    Color.fromARGB(255, 7, 206, 182),
+                                shape: const StadiumBorder(),
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 40, vertical: 15),
                               ),
-                              child: const Text('Change Password'),
+                              child: const Text(
+                                'Change Password',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
                     ],
                   ),

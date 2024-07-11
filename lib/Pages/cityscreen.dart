@@ -29,8 +29,8 @@ class CityScreen extends StatelessWidget {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: <Color>[
-                Color.fromARGB(255, 5, 6, 58),
-                Color.fromARGB(255, 5, 6, 39),
+                Color.fromARGB(255, 233, 248, 245),
+                Color.fromARGB(255, 236, 249, 245),
               ]),
         ),
         child: Column(
@@ -39,23 +39,17 @@ class CityScreen extends StatelessWidget {
               padding: const EdgeInsets.all(20.0),
               child: TextField(
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: 15.0),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  hintText: 'Search Cities and Places',
                   fillColor: Colors.white,
                   filled: true,
-                  prefixIcon: const Icon(
-                    Icons.search,
-                    size: 30.0,
-                    color: Colors.black,
-                  ),
+                  border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.circular(30)),
+                  contentPadding: EdgeInsets.all(20),
+                  hintText: 'Search Cities',
                   suffixIcon: IconButton(
                     onPressed: () {},
                     icon: const Icon(
-                      Icons.clear,
-                      color: Colors.black,
+                      Icons.search,
                     ),
                   ),
                 ),

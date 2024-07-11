@@ -31,102 +31,115 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 230, 244, 248),
       appBar: app_Bar(ciity, true),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: TextField(
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(vertical: 15.0),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30.0),
-                ),
-                hintText: 'Search Cities and Places',
-                prefixIcon: const Icon(
-                  Icons.search,
-                  size: 30.0,
-                ),
-                suffixIcon: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.clear),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: <Color>[
+                Color.fromARGB(255, 233, 248, 245),
+                Color.fromARGB(255, 236, 249, 245),
+              ]),
+        ),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: TextField(
+                decoration: InputDecoration(
+                  fillColor: Colors.white,
+                  filled: true,
+                  border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.circular(30)),
+                  contentPadding: EdgeInsets.all(20),
+                  hintText: 'Search Places and Attractions',
+                  suffixIcon: IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.search,
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 40,
-            width: MediaQuery.of(context).size.width,
-            child: ListView(
-              physics: const BouncingScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              children: categories
-                  .map((category) => _categoryButton(category))
-                  .toList(),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              // mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'Ratings',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                Spacer(),
-                SizedBox(
-                  width: 30, // Adjust the width as needed
-                  child: IconButton(
-                    icon: Icon(Icons.arrow_upward, size: 18.0),
-                    onPressed: () {
-                      datacontroller.sortByRating(ascending: false);
-                    },
-                  ),
-                ),
-                SizedBox(
-                  width: 30, // Adjust the width as needed
-                  child: IconButton(
-                    icon: Icon(Icons.arrow_downward, size: 18.0),
-                    onPressed: () {
-                      datacontroller.sortByRating(ascending: true);
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: Obx(
-              () => ListView.builder(
-                itemCount: datacontroller.Records.length,
-                physics: BouncingScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () => Get.to(() => TilesDetails(
-                              placeData: datacontroller.Records[index],
-                              placeId: datacontroller.Records[index]['id'],
-                            ))!
-                        .then((value) {
-                      datacontroller.fetchData(
-                        city: ciity,
-                        category: _selectedCategory.value,
-                      );
-                    }),
-                    child: PlacesTile(
-                        name: datacontroller.Records[index]["title"].toString(),
-                        city: datacontroller.Records[index]["city"].toString(),
-                        rating: datacontroller.Records[index]
-                                ["averageRating"] ??
-                            0.0,
-                        imagelink: datacontroller.Records[index]["imageurl"]
-                            .toString()),
-                  );
-                },
+            SizedBox(
+              height: 40,
+              width: MediaQuery.of(context).size.width,
+              child: ListView(
+                physics: const BouncingScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                children: categories
+                    .map((category) => _categoryButton(category))
+                    .toList(),
               ),
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                // mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Ratings',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  Spacer(),
+                  SizedBox(
+                    width: 30, // Adjust the width as needed
+                    child: IconButton(
+                      icon: Icon(Icons.arrow_upward, size: 18.0),
+                      onPressed: () {
+                        datacontroller.sortByRating(ascending: false);
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    width: 30, // Adjust the width as needed
+                    child: IconButton(
+                      icon: Icon(Icons.arrow_downward, size: 18.0),
+                      onPressed: () {
+                        datacontroller.sortByRating(ascending: true);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Obx(
+                () => ListView.builder(
+                  itemCount: datacontroller.Records.length,
+                  physics: BouncingScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () => Get.to(() => TilesDetails(
+                                placeData: datacontroller.Records[index],
+                                placeId: datacontroller.Records[index]['id'],
+                              ))!
+                          .then((value) {
+                        datacontroller.fetchData(
+                          city: ciity,
+                          category: _selectedCategory.value,
+                        );
+                      }),
+                      child: PlacesTile(
+                          name:
+                              datacontroller.Records[index]["title"].toString(),
+                          city:
+                              datacontroller.Records[index]["city"].toString(),
+                          rating: datacontroller.Records[index]
+                                  ["averageRating"] ??
+                              0.0,
+                          imagelink: datacontroller.Records[index]["imageurl"]
+                              .toString()),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
       bottomNavigationBar: CustomBottomNavigationBar(
         currentIndex: 0,

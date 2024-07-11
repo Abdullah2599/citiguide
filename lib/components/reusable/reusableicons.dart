@@ -12,6 +12,41 @@ IconData getIconForOffer(String offer) {
       return Icons.fastfood;
     case 'WiFi':
       return Icons.wifi;
+    case 'Pool':
+      return Icons.pool;
+    case 'Games':
+      return Icons.games;
+    case 'Museum':
+      return Icons.museum;
+    case 'Cafe':
+      return Icons.coffee;
+    case 'Library':
+      return Icons.book;
+    case 'Zoo':
+      return Icons.forest;
+    case 'ATM':
+      return Icons.atm;
+    case 'Subway':
+      return Icons.subway;
+    case 'Air Conditioned':
+      return Icons.ac_unit;
+    case 'Shopping':
+      return Icons.shopping_bag;
+    case 'Food Stalls':
+      return Icons.food_bank;
+    case 'Mosque':
+      return Icons.mosque;
+    case 'Church':
+      return Icons.church;
+    case 'Temple':
+      return Icons.temple_buddhist;
+    case 'Child Care':
+      return Icons.child_care;
+    case 'Playing Area':
+      return Icons.park;
+    case 'Tickets':
+      return Icons.receipt;
+
     default:
       return Icons.help; // Fallback icon if the offer is unknown
   }

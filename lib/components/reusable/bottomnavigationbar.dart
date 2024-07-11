@@ -45,27 +45,43 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      elevation: 30,
-      selectedItemColor: Colors.blue,
-      currentIndex: widget.currentIndex,
-      items: [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.place),
-          label: widget.label,
+    return ClipRRect(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.elliptical(25.0, 25),
+          topRight: Radius.elliptical(25.0, 25),
         ),
-        BottomNavigationBarItem(
-          icon: profileImageUrl != null
-              ? CircleAvatar(
-                  backgroundImage: NetworkImage(profileImageUrl!),
-                  radius: 12, // Adjust radius as needed
-                )
-              : Icon(Icons.person),
-          label:
-              userName ?? 'Profile', // Show userName or fallback to 'Profile'
+        child: 
+        Container(
+      decoration: BoxDecoration(
+          color: Color.fromARGB(255, 236, 249, 245),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.elliptical(25.0, 25),
+            topRight: Radius.elliptical(25.0, 25),
+          )),
+          child:BottomNavigationBar(
+          backgroundColor: Color.fromARGB(255, 7, 206, 182),
+          elevation: 30,
+          selectedItemColor: Color.fromARGB(255, 248, 249, 250),
+          currentIndex: widget.currentIndex,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.place),
+              label: widget.label,
+            ),
+            BottomNavigationBarItem(
+              icon: profileImageUrl != null
+                  ? CircleAvatar(
+                      backgroundImage: NetworkImage(profileImageUrl!),
+                      radius: 12, // Adjust radius as needed
+                    )
+                  : Icon(Icons.person),
+              label: userName ??
+                  'Profile', // Show userName or fallback to 'Profile'
+            ),
+          ],
+          onTap: widget.onTap,
         ),
-      ],
-      onTap: widget.onTap,
+      ),
     );
   }
 }

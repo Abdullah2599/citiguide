@@ -99,7 +99,7 @@ class _TilesDetailsState extends State<TilesDetails> {
               },
               style: ElevatedButton.styleFrom(
                 elevation: 5,
-                backgroundColor: Colors.blue,
+                backgroundColor: ColorTheme.primaryColor,
                 shape: const StadiumBorder(),
                 padding:
                     const EdgeInsets.symmetric(vertical: 20, horizontal: 8.0),
@@ -384,7 +384,7 @@ class _TilesDetailsState extends State<TilesDetails> {
                       Container(
                         padding: EdgeInsets.all(8.0),
                         decoration: BoxDecoration(
-                            color: Color.fromARGB(167, 218, 237, 247),
+                            color: Color.fromARGB(255, 236, 249, 245),
                             borderRadius:
                                 BorderRadius.all(Radius.elliptical(10, 10))),
                         height: 350, // Adjust this height as needed
