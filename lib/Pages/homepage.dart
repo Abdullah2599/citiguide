@@ -15,7 +15,7 @@ class HomePage extends StatelessWidget {
   HomePage({super.key, this.ciity});
 
   final dynamic ciity;
-  Datacontroller datacontroller = Get.put(Datacontroller());
+  final Datacontroller datacontroller = Get.put(Datacontroller());
   final RxString _selectedCategory = 'Popular Attractions'.obs;
   final List<String> categories = [
     "Popular Attractions",
@@ -23,6 +23,8 @@ class HomePage extends StatelessWidget {
     "Restaurants",
     "Others"
   ];
+  final ScrollController _scrollController = ScrollController();
+  final PageStorageBucket _bucket = PageStorageBucket();
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +48,9 @@ class HomePage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: TextField(
+                onChanged: (query) {
+                  datacontroller.searchRecords(query);
+                },
                 decoration: InputDecoration(
                   fillColor: Colors.white,
                   filled: true,
@@ -78,7 +83,6 @@ class HomePage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
-                // mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
                     'Ratings',
@@ -108,33 +112,51 @@ class HomePage extends StatelessWidget {
             ),
             Expanded(
               child: Obx(
-                () => ListView.builder(
-                  itemCount: datacontroller.Records.length,
-                  physics: BouncingScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () => Get.to(() => TilesDetails(
-                                placeData: datacontroller.Records[index],
-                                placeId: datacontroller.Records[index]['id'],
-                              ))!
-                          .then((value) {
-                        datacontroller.fetchData(
-                          city: ciity,
-                          category: _selectedCategory.value,
-                        );
-                      }),
-                      child: PlacesTile(
-                          name:
-                              datacontroller.Records[index]["title"].toString(),
-                          city:
-                              datacontroller.Records[index]["city"].toString(),
-                          rating: datacontroller.Records[index]
-                                  ["averageRating"] ??
-                              0.0,
-                          imagelink: datacontroller.Records[index]["imageurl"]
-                              .toString()),
-                    );
-                  },
+                () => PageStorage(
+                  bucket: _bucket,
+                  child: ListView.builder(
+                    key: PageStorageKey<String>('homePageList'),
+                    controller: _scrollController,
+                    itemCount: datacontroller.filteredRecords.length,
+                    physics: BouncingScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          // Store the scroll position
+                          double scrollPosition =
+                              _scrollController.position.pixels;
+
+                          Get.to(() => TilesDetails(
+                                    placeData:
+                                        datacontroller.filteredRecords[index],
+                                    placeId: datacontroller
+                                        .filteredRecords[index]['id'],
+                                  ))!
+                              .then((value) {
+                            datacontroller.fetchData(
+                              city: ciity,
+                              category: _selectedCategory.value,
+                            );
+                            // Restore the scroll position
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              _scrollController.jumpTo(scrollPosition);
+                            });
+                          });
+                        },
+                        child: PlacesTile(
+                            name: datacontroller.filteredRecords[index]["title"]
+                                .toString(),
+                            city: datacontroller.filteredRecords[index]["city"]
+                                .toString(),
+                            rating: datacontroller.filteredRecords[index]
+                                    ["averageRating"] ??
+                                0.0,
+                            imagelink: datacontroller.filteredRecords[index]
+                                    ["imageurl"]
+                                .toString()),
+                      );
+                    },
+                  ),
                 ),
               ),
             ),

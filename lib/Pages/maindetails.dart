@@ -81,7 +81,7 @@ class _TilesDetailsState extends State<TilesDetails> {
             left: 20,
             child: GestureDetector(
               onTap: () {
-                Get.back(result: true);
+                Get.back(closeOverlays: true);
               },
               child:
                   Icon(Icons.arrow_back_ios_new, size: 30, color: Colors.white),

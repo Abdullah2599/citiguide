@@ -5,14 +5,16 @@ import 'package:firebase_database/firebase_database.dart';
 
 class Datacontroller extends GetxController {
   late RxList<dynamic> Records = [].obs;
-
-  @override
-  void onInit() {
-    super.onInit();
-    // fetchData();
-  }
+  late RxList<dynamic> filteredRecords = [].obs;
+  final RxString currentQuery = ''.obs; // New line
 
   Future<void> fetchData({required String city, String? category}) async {
+    @override
+    void onInit() {
+      super.onInit();
+      fetchData(city: city, category: category);
+    }
+
     Records.clear();
     DatabaseReference ref = FirebaseDatabase.instance.ref("data");
 
@@ -42,6 +44,11 @@ class Datacontroller extends GetxController {
         }
       }
     }
+    filteredRecords.value = Records;
+    if (currentQuery.isNotEmpty) {
+      // New line
+      searchRecords(currentQuery.value); // New line
+    }
   }
 
   Future<double> fetchAverageRating(String placeId) async {
@@ -67,7 +74,7 @@ class Datacontroller extends GetxController {
   }
 
   void sortByRating({bool ascending = true}) {
-    Records.sort((a, b) {
+    filteredRecords.sort((a, b) {
       if (ascending) {
         return (a['averageRating'] as double)
             .compareTo(b['averageRating'] as double);
@@ -76,5 +83,17 @@ class Datacontroller extends GetxController {
             .compareTo(a['averageRating'] as double);
       }
     });
+  }
+
+  void searchRecords(String query) {
+    currentQuery.value = query; // New line
+    if (query.isEmpty) {
+      filteredRecords.value = Records;
+    } else {
+      filteredRecords.value = Records.where((record) {
+        String title = record['title'].toString().toLowerCase();
+        return title.contains(query.toLowerCase());
+      }).toList();
+    }
   }
 }

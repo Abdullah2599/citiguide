@@ -1,96 +1,105 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:citiguide/Pages/homepage.dart';
 import 'package:citiguide/Pages/profile_page.dart';
-import 'package:citiguide/Pages/tourist_details.dart';
 import 'package:citiguide/Theme/color.dart';
 import 'package:citiguide/components/reusable/appbar.dart';
 import 'package:citiguide/components/reusable/bottomnavigationbar.dart';
 import 'package:citiguide/components/reusable/citycard.dart';
 import 'package:citiguide/controllers/CityController.dart';
-import 'package:citiguide/models/citymodel.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CityScreen extends StatelessWidget {
   CityScreen({super.key});
 
-  CityController cityController = CityController();
+  final CityController cityController = Get.put(CityController());
 
   @override
   Widget build(BuildContext context) {
-    cityController.fetchCities();
     return Scaffold(
       appBar: app_Bar('Cities', false),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: <Color>[
-                Color.fromARGB(255, 233, 248, 245),
-                Color.fromARGB(255, 236, 249, 245),
-              ]),
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: <Color>[
+              Color.fromARGB(255, 233, 248, 245),
+              Color.fromARGB(255, 236, 249, 245),
+            ],
+          ),
         ),
         child: Column(
           children: [
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: TextField(
+                onChanged: (value) {
+                  cityController.filterCities();
+                },
+                controller: cityController.searchController,
+                focusNode: cityController.searchFocusNode,
                 autofocus: false,
                 decoration: InputDecoration(
                   fillColor: Colors.white,
                   filled: true,
                   border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.circular(30)),
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(30),
+                  ),
                   contentPadding: EdgeInsets.all(20),
                   hintText: 'Search Cities',
                   suffixIcon: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.search,
-                    ),
+                    onPressed: () {
+                      cityController.clearSearch();
+                    },
+                    icon: Obx(() {
+                      return Icon(
+                        cityController.isSearching.value
+                            ? Icons.clear
+                            : Icons.search,
+                      );
+                    }),
                   ),
                 ),
               ),
             ),
             Expanded(
-              child: Obx(
-                () {
-                  // Sort the cities alphabetically
-                  List sortedCities = List.from(cityController.citiesRecords)
-                    ..sort(
-                        (a, b) => (a["cname"] as String).compareTo(b["cname"]));
+              child: Obx(() {
+                // Sort the cities alphabetically
+                List sortedCities = List.from(cityController.filteredCities)
+                  ..sort((a, b) =>
+                      (a["cname"] as String).compareTo(b["cname"] as String));
 
-                  return GridView.builder(
-                    itemCount: sortedCities.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 2,
-                            mainAxisSpacing: 2),
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: GestureDetector(
-                          onLongPress: () {
-                            bottomSheet(context, sortedCities[index]);
-                          },
-                          onTap: () => Get.to(() => HomePage(
-                                ciity: sortedCities[index]["cname"],
-                              )),
-                          child: CityCard(
-                            cityimg: sortedCities[index]["cimg"].toString(),
-                            cityname: sortedCities[index]["cname"].toString(),
-                          ),
+                return GridView.builder(
+                  itemCount: sortedCities.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 2,
+                    mainAxisSpacing: 2,
+                  ),
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: GestureDetector(
+                        onLongPress: () {
+                          bottomSheet(context, sortedCities[index]);
+                        },
+                        onTap: () {
+                          cityController.searchFocusNode.unfocus();
+                          Get.to(() => HomePage(
+                                ciity: sortedCities[index]["cname"] as String,
+                              ));
+                        },
+                        child: CityCard(
+                          cityimg: sortedCities[index]["cimg"].toString(),
+                          cityname: sortedCities[index]["cname"].toString(),
                         ),
-                      );
-                    },
-                  );
-                },
-              ),
+                      ),
+                    );
+                  },
+                );
+              }),
             ),
           ],
         ),
@@ -111,7 +120,8 @@ class CityScreen extends StatelessWidget {
 Future<void> bottomSheet(BuildContext context, Map<dynamic, dynamic> cityData) {
   return showModalBottomSheet(
     shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+    ),
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.white,
@@ -132,7 +142,7 @@ Future<void> bottomSheet(BuildContext context, Map<dynamic, dynamic> cityData) {
                     color: Colors.grey,
                     blurRadius: 18,
                     blurStyle: BlurStyle.outer,
-                  )
+                  ),
                 ],
               ),
               height: 200,
@@ -140,7 +150,7 @@ Future<void> bottomSheet(BuildContext context, Map<dynamic, dynamic> cityData) {
               child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
                 child: CachedNetworkImage(
-                  imageUrl: cityData["cimg"], // Use cityData for image URL
+                  imageUrl: cityData["cimg"].toString(),
                   height: 200,
                   fit: BoxFit.cover,
                 ),
@@ -148,7 +158,7 @@ Future<void> bottomSheet(BuildContext context, Map<dynamic, dynamic> cityData) {
             ),
             SizedBox(height: 16),
             Text(
-              cityData["cname"], // Use cityData for city name
+              cityData["cname"].toString(),
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 22,
@@ -156,13 +166,10 @@ Future<void> bottomSheet(BuildContext context, Map<dynamic, dynamic> cityData) {
             ),
             SizedBox(height: 8),
             Text(
-              cityData["cdesc"] ??
-                  'No description available', // Use cityData for city description
+              cityData["cdesc"] ?? 'No description available',
               style: TextStyle(fontSize: 18),
             ),
-            SizedBox(
-              height: 30,
-            )
+            SizedBox(height: 30),
           ],
         ),
       ),

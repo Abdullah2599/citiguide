@@ -2,6 +2,7 @@ import 'package:citiguide/Pages/cityscreen.dart';
 import 'package:citiguide/Pages/loginpage.dart';
 import 'package:citiguide/Pages/splash.dart';
 import 'package:citiguide/Pages/welcomescreen.dart';
+import 'package:citiguide/Theme/color.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +46,12 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       home: home,
+      theme: ThemeData(
+        bottomSheetTheme: BottomSheetThemeData(
+          dragHandleColor: ColorTheme
+              .primaryColor, // --> This will change the color of the drag handle
+        ),
+      ),
     );
   }
 }
