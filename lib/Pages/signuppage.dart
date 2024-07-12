@@ -5,8 +5,6 @@ import 'package:citiguide/controllers/RegisterController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'backgroundui.dart';
-// import 'profile_screen.dart';
-// import 'signup.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -18,7 +16,7 @@ class SignupPage extends StatefulWidget {
 class _SignupPageState extends State<SignupPage> {
   final RegisterController registerController = Get.put(RegisterController());
 
-  bool _obscurePassword = true; // Flag to toggle password visibility
+  bool _obscurePassword = true;
 
   void _signupForm() {
     if (registerController.registerFormKey.currentState!.validate()) {

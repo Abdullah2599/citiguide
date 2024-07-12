@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
   final bool isFirstTime;
   final User? user;
 
-  MyApp({required this.isFirstTime, required this.user});
+  const MyApp({super.key, required this.isFirstTime, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +48,7 @@ class MyApp extends StatelessWidget {
       home: home,
       theme: ThemeData(
         bottomSheetTheme: BottomSheetThemeData(
-          dragHandleColor: ColorTheme
-              .primaryColor, // --> This will change the color of the drag handle
+          dragHandleColor: ColorTheme.primaryColor,
         ),
       ),
     );

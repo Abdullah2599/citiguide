@@ -24,7 +24,7 @@ class RegisterController extends GetxController {
       emailAddress.clear();
       password.clear();
       loader.value = false;
-      Get.offAll(() => ProfileSettingsPage(
+      Get.offAll(() => const ProfileSettingsPage(
             fromPage: 'CitiesScreen',
             isNewUser: true,
           ));

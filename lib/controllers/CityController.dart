@@ -7,7 +7,7 @@ class CityController extends GetxController {
   RxList<dynamic> filteredCities = <dynamic>[].obs;
   final TextEditingController searchController = TextEditingController();
   final FocusNode searchFocusNode = FocusNode();
-  final RxBool isSearching = false.obs; // Track whether user is searching
+  final RxBool isSearching = false.obs;
 
   @override
   void onInit() {

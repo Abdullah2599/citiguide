@@ -48,6 +48,6 @@ IconData getIconForOffer(String offer) {
       return Icons.receipt;
 
     default:
-      return Icons.help; // Fallback icon if the offer is unknown
+      return Icons.help;
   }
 }

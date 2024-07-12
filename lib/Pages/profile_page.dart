@@ -7,10 +7,10 @@ import 'package:get/get.dart';
 
 class ProfileSettingsPage extends StatefulWidget {
   const ProfileSettingsPage({
-    Key? key,
+    super.key,
     required this.fromPage,
     this.isNewUser = false,
-  }) : super(key: key);
+  });
 
   final String fromPage;
   final bool isNewUser;

@@ -40,7 +40,7 @@ class ProfileSettingsController extends GetxController {
         profileImageUrl.value = userData?['image'] ?? '';
         nameController.text = name;
       } else {
-        // Create a new document with the user data if it doesn't exist
+        // create a new document with the user data if it doesn't exist
         await _firestore.collection('users').doc(email).set({
           'name': name,
           'image': profileImageUrl.value,
@@ -64,7 +64,7 @@ class ProfileSettingsController extends GetxController {
         Get.snackbar('Success', 'Name updated successfully');
         if (isNewUser) {
           Get.offAll(() =>
-              CityScreen()); // Navigate to the next page after success only if new user
+              CityScreen()); // navigate to the next page after success only if new user
         }
       } catch (e) {
         Get.snackbar('Error', 'Failed to update name: $e');

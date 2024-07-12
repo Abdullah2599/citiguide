@@ -42,8 +42,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
       });
     } else {
       setState(() {
-        profileImageUrl = null; // Reset profileImageUrl if user is null
-        userName = null; // Reset userName if user is null
+        profileImageUrl = null;
+        userName = null;
       });
     }
   }
@@ -84,7 +84,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                           AssetImage('assets/images/default_avatar.png'),
                       radius: 12,
                     ),
-              label: userName ?? '  ', // Show userName or fallback to 'Profile'
+              label: userName ?? '  ',
             ),
           ],
           onTap: widget.onTap,

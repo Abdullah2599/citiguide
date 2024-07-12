@@ -11,8 +11,8 @@ class ReviewController extends GetxController {
   var userName = ''.obs;
   var userEmail = ''.obs;
   var reviews = <Review>[].obs;
-  var sortOrder = SortOrder.highestToLowest.obs; // Default sort order
-  String? placeId; // Store the current placeId
+  var sortOrder = SortOrder.highestToLowest.obs; // default sort order
+  String? placeId; // store the current placeId
 
   @override
   void onInit() {
@@ -35,7 +35,7 @@ class ReviewController extends GetxController {
   }
 
   void fetchReviews(String placeId) {
-    this.placeId = placeId; // Set the current placeId
+    this.placeId = placeId; // set the current placeId
     _database
         .ref('reviews')
         .orderByChild('dataid')
@@ -53,7 +53,7 @@ class ReviewController extends GetxController {
               : entry.value['rating'] as double;
           final text = entry.value['comment'] as String?;
 
-          // Fetch user details from Firestore
+          //details from Firestore
           DocumentSnapshot userDoc =
               await _firestore.collection('users').doc(reviewerEmail).get();
           final userName = userDoc['name'] as String?;
@@ -74,7 +74,7 @@ class ReviewController extends GetxController {
               : a.rating!.compareTo(b.rating!);
         });
       }
-      reviews.value = reviewsList; // Update the reviews observable list
+      reviews.value = reviewsList;
     });
   }
 
@@ -118,7 +118,7 @@ class ReviewController extends GetxController {
         'comment': comment,
       });
       Get.snackbar('Success', 'Review submitted successfully');
-      fetchReviews(placeId); // Refresh the reviews list
+      fetchReviews(placeId);
     } catch (e) {
       Get.snackbar('Error', 'Failed to submit review');
     }
@@ -130,12 +130,12 @@ class ReviewController extends GetxController {
       return;
     }
 
-    // Toggle the sort order between highest rated first and lowest rated first
+    //sort order between highest rated first and lowest rated first
     sortOrder.value = (sortOrder.value == SortOrder.highestToLowest)
         ? SortOrder.lowestToHighest
         : SortOrder.highestToLowest;
 
-    fetchReviews(placeId!); // Fetch reviews again with the new sort order
+    fetchReviews(placeId!);
   }
 }
 
@@ -146,9 +146,9 @@ enum SortOrder {
 
 class Review {
   final String? reviewer;
-  final double? rating; // Make sure rating is a double
+  final double? rating;
   final String? text;
-  final String? profilePic; // Add profile picture link
+  final String? profilePic;
 
   Review({
     required this.reviewer,

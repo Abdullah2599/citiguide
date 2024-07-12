@@ -29,15 +29,6 @@ class _ForgetPassPageState extends State<ForgetPassPage> {
     }
   }
 
-  // void _navigateToLogin() {
-  //   Navigator.push(
-  //     context,
-  //     MaterialPageRoute(
-  //       builder: (context) => LoginPage(),
-  //     ),
-  //   );
-  // }
-
   @override
   void dispose() {
     _emailController.dispose();

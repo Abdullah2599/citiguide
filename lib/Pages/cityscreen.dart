@@ -66,7 +66,7 @@ class CityScreen extends StatelessWidget {
             ),
             Expanded(
               child: Obx(() {
-                // Sort the cities alphabetically
+                //sort the cities alphabetically
                 List sortedCities = List.from(cityController.filteredCities)
                   ..sort((a, b) =>
                       (a["cname"] as String).compareTo(b["cname"] as String));

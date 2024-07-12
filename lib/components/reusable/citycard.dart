@@ -6,9 +6,6 @@ CityCard({required cityimg, required cityname}) {
     elevation: 20,
     child: Stack(
       children: [
-        // Opacity(
-        // opacity: 0.9,
-        // child:
         ClipRRect(
           borderRadius: BorderRadius.all(Radius.circular(7)),
           child: CachedNetworkImage(
@@ -17,13 +14,11 @@ CityCard({required cityimg, required cityname}) {
             fit: BoxFit.cover,
           ),
         ),
-        // ),
         Positioned(
           bottom: 10,
           left: 12,
           child: Stack(
             children: <Widget>[
-              // Stroked text as border.
               Text(
                 cityname,
                 style: TextStyle(
@@ -34,7 +29,6 @@ CityCard({required cityimg, required cityname}) {
                     ..color = Colors.black,
                 ),
               ),
-              // Solid text as fill.
               Text(
                 cityname,
                 style: TextStyle(
@@ -45,17 +39,6 @@ CityCard({required cityimg, required cityname}) {
               ),
             ],
           ),
-          // child: Text(
-          //   cityname,
-          //   style: TextStyle(
-          //     fontSize: 24,
-          //     color: Colors.white,
-          //     foreground: Paint()
-          //       ..style = PaintingStyle.stroke
-          //       ..strokeWidth = 6
-          //       ..color = const Color.fromARGB(255, 0, 0, 0),
-          //   ),
-          // )
         )
       ],
     ),

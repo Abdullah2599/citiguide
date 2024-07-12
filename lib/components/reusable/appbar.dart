@@ -33,11 +33,6 @@ app_Bar(String text, bool truf) {
               content: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // const Icon(
-                  //   Icons.question_mark,
-                  //   size: 40,
-                  // ),
-
                   Text("Are you sure to logout?"),
                 ],
               ),
@@ -51,10 +46,10 @@ app_Bar(String text, bool truf) {
     leading: truf
         ? GestureDetector(
             onTap: () {
-              Get.back(); // Navigate back to previous screen
+              Get.back();
             },
             child: Icon(
-              Icons.arrow_back_ios, // iOS style back button icon
+              Icons.arrow_back_ios,
               color: Colors.white,
             ),
           )

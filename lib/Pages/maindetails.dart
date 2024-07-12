@@ -21,7 +21,6 @@ class TilesDetails extends StatefulWidget {
 class _TilesDetailsState extends State<TilesDetails> {
   final ReviewController reviewController = Get.put(ReviewController());
 
-  // User input controllers
   double _userRating = 0;
   final TextEditingController _reviewController = TextEditingController();
 
@@ -30,7 +29,7 @@ class _TilesDetailsState extends State<TilesDetails> {
     super.initState();
     reviewController.fetchReviews(widget.placeId);
 
-    // Pass the placeId to fetchReviews and setup listener
+    //pass the placeId to fetchReviews and setup listener
     reviewController.sortOrder.listen((_) {
       reviewController.fetchReviews(widget.placeId);
     });
@@ -50,7 +49,6 @@ class _TilesDetailsState extends State<TilesDetails> {
         _reviewController.text,
       );
 
-      // Clear input fields
       setState(() {
         _userRating = 0;
         _reviewController.clear();
@@ -81,10 +79,10 @@ class _TilesDetailsState extends State<TilesDetails> {
             left: 20,
             child: GestureDetector(
               onTap: () {
-                Get.back(closeOverlays: true);
+                Get.back();
               },
-              child:
-                  Icon(Icons.arrow_back_ios_new, size: 30, color: Colors.white),
+              child: Icon(Icons.arrow_back_ios_new,
+                  size: 30, color: ColorTheme.primaryColor),
             ),
           ),
           scrollDetails(),
@@ -316,8 +314,8 @@ class _TilesDetailsState extends State<TilesDetails> {
                                             const SizedBox(height: 8),
                                             TextField(
                                               controller: _reviewController,
-                                              keyboardType: TextInputType
-                                                  .multiline, // Allows for multi-line input
+                                              keyboardType:
+                                                  TextInputType.multiline,
                                               maxLines: 6,
                                               decoration: const InputDecoration(
                                                 border: OutlineInputBorder(),
@@ -396,6 +394,10 @@ class _TilesDetailsState extends State<TilesDetails> {
                                 elevation: 2,
                                 margin: const EdgeInsets.symmetric(vertical: 4),
                                 child: ListTile(
+                                  shape: BeveledRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(5.0))),
+                                  tileColor: Color.fromARGB(136, 166, 255, 233),
                                   leading: review.profilePic != null
                                       ? CircleAvatar(
                                           backgroundImage:
@@ -447,10 +449,10 @@ class _TilesDetailsState extends State<TilesDetails> {
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.5), // Shadow color
-            spreadRadius: 2, // Spread radius
-            blurRadius: 5, // Blur radius
-            offset: Offset(0, 3), // Changes position of shadow
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: Offset(0, 3),
           ),
         ],
         color: color,
