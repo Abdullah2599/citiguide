@@ -1,5 +1,6 @@
 import 'package:citiguide/Pages/loginpage.dart';
 import 'package:citiguide/Pages/signuppage.dart';
+import 'package:citiguide/Theme/color.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -79,7 +80,7 @@ class WelcomScreen extends StatelessWidget {
                             MaterialPageRoute(
                                 builder: (context) => SignupPage()));
                       },
-                      color: Colors.blue,
+                      color: ColorTheme.primaryColor,
                       elevation: 0,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(50)),

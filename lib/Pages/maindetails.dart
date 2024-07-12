@@ -470,8 +470,4 @@ class _TilesDetailsState extends State<TilesDetails> {
       ),
     );
   }
-
-  // Positioned buttonArrow(BuildContext context) {
-  //   return
-  // }
 }

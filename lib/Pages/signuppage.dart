@@ -1,5 +1,6 @@
 import 'package:citiguide/Pages/homepage.dart';
 import 'package:citiguide/Pages/loginpage.dart';
+import 'package:citiguide/Theme/color.dart';
 import 'package:citiguide/controllers/RegisterController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,20 +16,12 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
-  // final TextEditingController _nameController = TextEditingController();
-  // final TextEditingController _emailController = TextEditingController();
-  // final TextEditingController _passwordController = TextEditingController();
-  // final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   final RegisterController registerController = Get.put(RegisterController());
 
   bool _obscurePassword = true; // Flag to toggle password visibility
 
   void _signupForm() {
     if (registerController.registerFormKey.currentState!.validate()) {
-      // Implement signup logic here
-      // print("Email: ${registerController.emailAddress.text}");
-      // print("Password: ${registerController.password.text}");
       registerController.createUserWithEmailAndPassword();
       registerController.registerFormKey.currentState!.reset();
       registerController.emailAddress.text = "";
@@ -51,24 +44,6 @@ class _SignupPageState extends State<SignupPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    // SizedBox(height: MediaQuery.of(context).size.height * 0.15),
-                    // const Text(
-                    //   'Welcome Back!',
-                    //   style: TextStyle(
-                    //     fontWeight: FontWeight.bold,
-                    //     fontSize: 25,
-                    //     color: Colors.white,
-                    //   ),
-                    // ),
-                    // const SizedBox(height: 10),
-                    // const Text(
-                    //   'Discover your favorite places.',
-                    //   style: TextStyle(
-                    //     fontWeight: FontWeight.w100,
-                    //     fontSize: 15,
-                    //     color: Colors.grey,
-                    //   ),
-                    // ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.35),
                     Form(
                       key: registerController.registerFormKey,
@@ -92,8 +67,8 @@ class _SignupPageState extends State<SignupPage> {
                               filled: true,
                               fillColor: Colors.white,
                               hintText: "Email",
-                              prefixIcon:
-                                  const Icon(Icons.person, color: Colors.blue),
+                              prefixIcon: Icon(Icons.person,
+                                  color: ColorTheme.primaryColor),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5),
                               ),
@@ -120,14 +95,14 @@ class _SignupPageState extends State<SignupPage> {
                               filled: true,
                               fillColor: Colors.white,
                               hintText: "Password",
-                              prefixIcon:
-                                  const Icon(Icons.lock, color: Colors.blue),
+                              prefixIcon: Icon(Icons.lock,
+                                  color: ColorTheme.primaryColor),
                               suffixIcon: IconButton(
                                 icon: Icon(
                                   _obscurePassword
                                       ? Icons.visibility
                                       : Icons.visibility_off,
-                                  color: Colors.blue,
+                                  color: ColorTheme.primaryColor,
                                 ),
                                 onPressed: () {
                                   setState(() {
@@ -152,18 +127,31 @@ class _SignupPageState extends State<SignupPage> {
                           Container(
                             width: double.infinity,
                             height: 45,
-                            child: MaterialButton(
-                              onPressed: _signupForm,
-                              color: Colors.blue,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: const Text(
-                                "Sign up",
-                                style: TextStyle(
-                                    fontSize: 15, color: Colors.white),
-                              ),
-                            ),
+                            child: ElevatedButton(
+                                onPressed: _signupForm,
+                                style: ElevatedButton.styleFrom(
+                                  elevation: 5,
+                                  backgroundColor: ColorTheme.primaryColor,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                ),
+                                child: Obx(
+                                  () => registerController.loader.value
+                                      ? const SizedBox(
+                                          height: 30,
+                                          width: 30,
+                                          child: CircularProgressIndicator(
+                                              strokeWidth: 3,
+                                              color: Colors.white),
+                                        )
+                                      : const Text(
+                                          "Sign up",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white),
+                                        ),
+                                )),
                           ),
                           const SizedBox(height: 20),
                           Row(

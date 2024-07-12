@@ -3,6 +3,7 @@ import 'package:citiguide/Pages/forgetpasspage.dart';
 import 'package:citiguide/Pages/homepage.dart';
 
 import 'package:citiguide/Pages/profile_page.dart';
+import 'package:citiguide/Theme/color.dart';
 import 'package:citiguide/controllers/LoginController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -91,8 +92,8 @@ class _LoginPageState extends State<LoginPage> {
                               filled: true,
                               fillColor: Colors.white,
                               hintText: "Email",
-                              prefixIcon:
-                                  const Icon(Icons.person, color: Colors.blue),
+                              prefixIcon: Icon(Icons.person,
+                                  color: ColorTheme.primaryColor),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5),
                               ),
@@ -116,14 +117,14 @@ class _LoginPageState extends State<LoginPage> {
                               filled: true,
                               fillColor: Colors.white,
                               hintText: "Password",
-                              prefixIcon:
-                                  const Icon(Icons.lock, color: Colors.blue),
+                              prefixIcon: Icon(Icons.lock,
+                                  color: ColorTheme.primaryColor),
                               suffixIcon: IconButton(
                                 icon: Icon(
                                   _obscurePassword
                                       ? Icons.visibility
                                       : Icons.visibility_off,
-                                  color: Colors.blue,
+                                  color: ColorTheme.primaryColor,
                                 ),
                                 onPressed: () {
                                   setState(() {
@@ -165,7 +166,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 10),
+                          // const SizedBox(height: 10),
                           // Container(
                           //   width: double.infinity,
                           //   height: 45,
@@ -183,9 +184,11 @@ class _LoginPageState extends State<LoginPage> {
                             height: 45,
                             child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
+                                  elevation: 5,
+                                  backgroundColor: ColorTheme.primaryColor,
                                   shape: RoundedRectangleBorder(
                                     borderRadius:
-                                        BorderRadius.circular(20), // <-- Radius
+                                        BorderRadius.circular(5), // <-- Radius
                                   ),
                                 ),
                                 onPressed: loginform,
@@ -196,9 +199,14 @@ class _LoginPageState extends State<LoginPage> {
                                           width: 30,
                                           child: CircularProgressIndicator(
                                               strokeWidth: 3,
-                                              color: Colors.blue),
+                                              color: Colors.white),
                                         )
-                                      : const Text('Sign in'),
+                                      : const Text(
+                                          'Sign in',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
+                                        ),
                                 )),
                           ),
                           const SizedBox(height: 20),

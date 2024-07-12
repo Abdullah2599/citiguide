@@ -40,25 +40,29 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         profileImageUrl = userDoc['image'] as String?;
         userName = userDoc['name'] as String?;
       });
+    } else {
+      setState(() {
+        profileImageUrl = null; // Reset profileImageUrl if user is null
+        userName = null; // Reset userName if user is null
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.elliptical(25.0, 25),
-          topRight: Radius.elliptical(25.0, 25),
-        ),
-        child: 
-        Container(
-      decoration: BoxDecoration(
-          color: Color.fromARGB(255, 236, 249, 245),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.elliptical(25.0, 25),
-            topRight: Radius.elliptical(25.0, 25),
-          )),
-          child:BottomNavigationBar(
+      borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(10.0),
+        topRight: Radius.circular(10.0),
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+            color: Color.fromARGB(255, 198, 248, 233),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10.0),
+              topRight: Radius.circular(10.0),
+            )),
+        child: BottomNavigationBar(
           backgroundColor: Color.fromARGB(255, 7, 206, 182),
           elevation: 30,
           selectedItemColor: Color.fromARGB(255, 248, 249, 250),
@@ -69,14 +73,18 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               label: widget.label,
             ),
             BottomNavigationBarItem(
-              icon: profileImageUrl != null
+              icon: profileImageUrl != null &&
+                      Uri.parse(profileImageUrl!).isAbsolute
                   ? CircleAvatar(
                       backgroundImage: NetworkImage(profileImageUrl!),
-                      radius: 12, // Adjust radius as needed
+                      radius: 12,
                     )
-                  : Icon(Icons.person),
-              label: userName ??
-                  'Profile', // Show userName or fallback to 'Profile'
+                  : CircleAvatar(
+                      backgroundImage:
+                          AssetImage('assets/images/default_avatar.png'),
+                      radius: 12,
+                    ),
+              label: userName ?? '  ', // Show userName or fallback to 'Profile'
             ),
           ],
           onTap: widget.onTap,
