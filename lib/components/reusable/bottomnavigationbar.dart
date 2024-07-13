@@ -6,12 +6,14 @@ class CustomBottomNavigationBar extends StatefulWidget {
   final int currentIndex;
   final Function(int) onTap;
   final String label;
+  final bool showLikeButton; // Add this parameter
 
   const CustomBottomNavigationBar({
     super.key,
     required this.currentIndex,
     required this.onTap,
     required this.label,
+    this.showLikeButton = false, // Add this parameter
   });
 
   @override
@@ -51,27 +53,33 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.only(
+      borderRadius: const BorderRadius.only(
         topLeft: Radius.circular(10.0),
         topRight: Radius.circular(10.0),
       ),
       child: Container(
-        decoration: BoxDecoration(
-            color: Color.fromARGB(255, 198, 248, 233),
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(10.0),
-              topRight: Radius.circular(10.0),
-            )),
+        decoration: const BoxDecoration(
+          color: Color.fromARGB(255, 198, 248, 233),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(10.0),
+            topRight: Radius.circular(10.0),
+          ),
+        ),
         child: BottomNavigationBar(
-          backgroundColor: Color.fromARGB(255, 7, 206, 182),
+          backgroundColor: const Color.fromARGB(255, 7, 206, 182),
           elevation: 30,
-          selectedItemColor: Color.fromARGB(255, 248, 249, 250),
+          selectedItemColor: const Color.fromARGB(255, 248, 249, 250),
           currentIndex: widget.currentIndex,
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.place),
+              icon: const Icon(Icons.place),
               label: widget.label,
             ),
+            if (widget.showLikeButton)
+              BottomNavigationBarItem(
+                icon: Icon(Icons.favorite_border),
+                label: 'Favorites',
+              ),
             BottomNavigationBarItem(
               icon: profileImageUrl != null &&
                       Uri.parse(profileImageUrl!).isAbsolute
@@ -79,13 +87,14 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                       backgroundImage: NetworkImage(profileImageUrl!),
                       radius: 12,
                     )
-                  : CircleAvatar(
+                  : const CircleAvatar(
                       backgroundImage:
                           AssetImage('assets/images/default_avatar.png'),
                       radius: 12,
                     ),
               label: userName ?? '  ',
             ),
+            // Conditionally show the like button
           ],
           onTap: widget.onTap,
         ),

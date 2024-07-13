@@ -262,9 +262,13 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
           ? null
           : CustomBottomNavigationBar(
               label: widget.fromPage == 'CityScreen' ? 'Cities' : 'Attractions',
-              currentIndex: 1,
+              showLikeButton: true,
+              currentIndex: 2,
               onTap: (index) {
                 if (index == 0) {
+                  Get.back();
+                }
+                if (index == 1) {
                   Get.back();
                 }
               },

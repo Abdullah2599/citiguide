@@ -1,3 +1,4 @@
+import 'package:citiguide/Pages/Favorites.dart';
 import 'package:citiguide/Pages/maindetails.dart';
 import 'package:citiguide/Pages/profile_page.dart';
 import 'package:citiguide/Theme/color.dart';
@@ -168,14 +169,18 @@ class HomePage extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: CustomBottomNavigationBar(
-        currentIndex: 0,
-        label: 'Attractions',
-        onTap: (index) {
-          if (index == 1) {
-            Get.to(() => ProfileSettingsPage(fromPage: 'HomePage'));
-          }
-        },
-      ),
+          currentIndex: 0,
+          label: 'Attractions',
+          showLikeButton: true, // Show like button on HomePage
+          onTap: (index) {
+            if (index == 2) {
+              Get.to(() => ProfileSettingsPage(fromPage: 'HomePage'));
+            }
+
+            if (index == 1) {
+              Get.to(() => FavoritesScreen());
+            }
+          }),
     );
   }
 

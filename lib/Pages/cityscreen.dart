@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:citiguide/Pages/Favorites.dart';
 import 'package:citiguide/Pages/homepage.dart';
 import 'package:citiguide/Pages/profile_page.dart';
 import 'package:citiguide/Theme/color.dart';
@@ -19,7 +20,7 @@ class CityScreen extends StatelessWidget {
     return Scaffold(
       appBar: app_Bar('Cities', false),
       body: GestureDetector(
-          onTap: () {
+        onTap: () {
           FocusScope.of(context).unfocus();
         },
         child: Container(
@@ -74,10 +75,11 @@ class CityScreen extends StatelessWidget {
                   List sortedCities = List.from(cityController.filteredCities)
                     ..sort((a, b) =>
                         (a["cname"] as String).compareTo(b["cname"] as String));
-        
+
                   return GridView.builder(
                     itemCount: sortedCities.length,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       crossAxisSpacing: 2,
                       mainAxisSpacing: 2,
@@ -112,9 +114,13 @@ class CityScreen extends StatelessWidget {
       bottomNavigationBar: CustomBottomNavigationBar(
         currentIndex: 0,
         label: 'Cities',
+        showLikeButton: true, // No like button on CityScreen
         onTap: (index) {
-          if (index == 1) {
+          if (index == 2) {
             Get.to(() => ProfileSettingsPage(fromPage: 'CityScreen'));
+          }
+          if (index == 1) {
+            Get.to(() => FavoritesScreen());
           }
         },
       ),

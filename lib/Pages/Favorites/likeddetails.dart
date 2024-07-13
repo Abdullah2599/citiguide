@@ -3,6 +3,8 @@ import 'package:citiguide/Pages/homepage.dart';
 import 'package:citiguide/Theme/color.dart';
 import 'package:citiguide/components/reusable/reusableicons.dart';
 import 'package:citiguide/controllers/DataController.dart';
+import 'package:citiguide/Pages/Favorites/FavoritesController.dart';
+import 'package:citiguide/Pages/Favorites/LIkeDataController.dart';
 import 'package:citiguide/controllers/ReviewsController.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -11,20 +13,21 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:get/get.dart';
 
-class TilesDetails extends StatefulWidget {
+class LikedDetails extends StatefulWidget {
   final dynamic placeData;
   final String placeId;
 
-  const TilesDetails(
+  const LikedDetails(
       {super.key, required this.placeData, required this.placeId});
 
   @override
-  _TilesDetailsState createState() => _TilesDetailsState();
+  _LikedDetailsstate createState() => _LikedDetailsstate();
 }
 
-class _TilesDetailsState extends State<TilesDetails> {
+class _LikedDetailsstate extends State<LikedDetails> {
   final ReviewController reviewController = Get.put(ReviewController());
-  final Datacontroller dataController = Get.find();
+  // final Likedatacontroller dataController = Get.find();
+  final FavoritesController favoritesController = Get.find();
 
   double _userRating = 0;
   final TextEditingController _reviewController = TextEditingController();
@@ -128,6 +131,8 @@ class _TilesDetailsState extends State<TilesDetails> {
 
     // Update the likes array in Realtime Database
     await placeRef.set(likes);
+
+    favoritesController.fetchLikedPlaces();
   }
 
   @override
@@ -529,33 +534,32 @@ class _TilesDetailsState extends State<TilesDetails> {
     required Color color,
   }) {
     return Container(
-      margin: const EdgeInsets.all(6),
-      width: 80,
-      height: 80,
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: Offset(0, 3),
-          ),
-        ],
-        color: color,
-        borderRadius: const BorderRadius.all(Radius.circular(6)),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, size: 26, color: Colors.white),
-          const SizedBox(height: 5),
-          Text(
-            icontext,
-            style: const TextStyle(color: Colors.white, fontSize: 14),
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
-    );
+        margin: const EdgeInsets.all(6),
+        width: 80,
+        height: 80,
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: Offset(0, 3),
+            ),
+          ],
+          color: color,
+          borderRadius: const BorderRadius.all(Radius.circular(6)),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: 26, color: Colors.white),
+            const SizedBox(height: 5),
+            Text(
+              icontext,
+              style: const TextStyle(color: Colors.white, fontSize: 14),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ));
   }
 }
