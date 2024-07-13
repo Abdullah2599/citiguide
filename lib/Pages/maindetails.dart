@@ -1,7 +1,11 @@
+import 'package:citiguide/Pages/cityscreen.dart';
 import 'package:citiguide/Pages/homepage.dart';
 import 'package:citiguide/Theme/color.dart';
 import 'package:citiguide/components/reusable/reusableicons.dart';
+import 'package:citiguide/controllers/DataController.dart';
 import 'package:citiguide/controllers/ReviewsController.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -24,11 +28,23 @@ class _TilesDetailsState extends State<TilesDetails> {
   double _userRating = 0;
   final TextEditingController _reviewController = TextEditingController();
 
+  late bool like = false;
+  checklike() {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user = auth.currentUser;
+    var likes = widget.placeData["likes"];
+
+    if (likes != null) {
+      like = likes.contains(user!.email.toString());
+      setState(() {});
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     reviewController.fetchReviews(widget.placeId);
-
+    checklike();
     //pass the placeId to fetchReviews and setup listener
     reviewController.sortOrder.listen((_) {
       reviewController.fetchReviews(widget.placeId);
@@ -60,6 +76,51 @@ class _TilesDetailsState extends State<TilesDetails> {
     }
   }
 
+  Future<void> likeOrUnlike(String placeId, bool isLiked) async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user = auth.currentUser;
+
+    if (user == null) {
+      print("User is not logged in.");
+      return;
+    }
+
+    String email = user.email!;
+    DatabaseReference placeRef =
+        FirebaseDatabase.instance.ref('data/$placeId/likes');
+
+    // Fetch the current likes
+    DataSnapshot snapshot = await placeRef.get();
+
+    List<String> likes = [];
+    if (snapshot.exists && snapshot.value is List) {
+      likes = List<String>.from(snapshot.value as List);
+    } else if (snapshot.exists && snapshot.value is Map) {
+      likes = List<String>.from((snapshot.value as Map).values);
+    }
+
+    if (isLiked) {
+      // Add email to the likes if not already present
+      if (!likes.contains(email)) {
+        likes.add(email);
+        Get.snackbar("Message", "You liked this place");
+ 
+  
+        Get.to(() => CityScreen());
+      }
+    } else {
+      // Remove email from the likes if present
+      if (likes.contains(email)) {
+        likes.remove(email);
+        Get.snackbar("Message", "You unliked this place");
+        Get.to(() => CityScreen());
+      }
+    }
+
+    // Update the likes array in Realtime Database
+    await placeRef.set(likes);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,6 +146,22 @@ class _TilesDetailsState extends State<TilesDetails> {
                   size: 30, color: ColorTheme.primaryColor),
             ),
           ),
+          Positioned(
+            top: 50,
+            right: 20,
+            child: GestureDetector(
+              onTap: () {
+                like = !like;
+                setState(() {});
+                likeOrUnlike(widget.placeId, like);
+                // Get.back();
+              },
+              child: Icon(
+                  like ? Icons.favorite : Icons.favorite_border_outlined,
+                  size: 30,
+                  color: ColorTheme.primaryColor),
+            ),
+          ),
           scrollDetails(),
           Positioned(
             bottom: 10,
@@ -98,7 +175,8 @@ class _TilesDetailsState extends State<TilesDetails> {
               style: ElevatedButton.styleFrom(
                 elevation: 5,
                 backgroundColor: ColorTheme.primaryColor,
-                shape: const StadiumBorder(),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5)),
                 padding:
                     const EdgeInsets.symmetric(vertical: 20, horizontal: 8.0),
               ),
@@ -190,8 +268,7 @@ class _TilesDetailsState extends State<TilesDetails> {
                             horizontal: 24,
                           ),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
+                              borderRadius: BorderRadius.circular(5)),
                         ),
                         child: const Text(
                           'Contact Now',
@@ -397,7 +474,7 @@ class _TilesDetailsState extends State<TilesDetails> {
                                   shape: BeveledRectangleBorder(
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(5.0))),
-                                  tileColor: Color.fromARGB(136, 166, 255, 233),
+                                  tileColor: Color.fromARGB(62, 40, 250, 194),
                                   leading: review.profilePic != null
                                       ? CircleAvatar(
                                           backgroundImage:
@@ -456,7 +533,7 @@ class _TilesDetailsState extends State<TilesDetails> {
           ),
         ],
         color: color,
-        borderRadius: const BorderRadius.all(Radius.circular(20)),
+        borderRadius: const BorderRadius.all(Radius.circular(6)),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

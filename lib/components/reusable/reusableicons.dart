@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
-IconData getIconForOffer(String offer) {
+import 'package:flutter_svg_icons/flutter_svg_icons.dart';
+getIconForOffer(String offer) {
   switch (offer) {
     case 'Fee Dining':
       return Icons.food_bank;
@@ -46,6 +46,16 @@ IconData getIconForOffer(String offer) {
       return Icons.park;
     case 'Tickets':
       return Icons.receipt;
+    case 'Hiking':
+      return Icons.hiking;
+    case 'Farm Houses':
+      return Icons.other_houses;
+    case 'Cruise':
+      return Icons.directions_boat;
+    case 'Park':
+      return Icons.park;
+      //  case 'Sea Food':
+      // return SvgIcon(icon: Icons.);
 
     default:
       return Icons.help;

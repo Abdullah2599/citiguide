@@ -18,90 +18,95 @@ class CityScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: app_Bar('Cities', false),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: <Color>[
-              Color.fromARGB(255, 233, 248, 245),
-              Color.fromARGB(255, 236, 249, 245),
-            ],
+      body: GestureDetector(
+          onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: <Color>[
+                Color.fromARGB(255, 233, 248, 245),
+                Color.fromARGB(255, 236, 249, 245),
+              ],
+            ),
           ),
-        ),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: TextField(
-                onChanged: (value) {
-                  cityController.filterCities();
-                },
-                controller: cityController.searchController,
-                focusNode: cityController.searchFocusNode,
-                autofocus: false,
-                decoration: InputDecoration(
-                  fillColor: Colors.white,
-                  filled: true,
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  contentPadding: EdgeInsets.all(20),
-                  hintText: 'Search Cities',
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                      cityController.clearSearch();
-                    },
-                    icon: Obx(() {
-                      return Icon(
-                        cityController.isSearching.value
-                            ? Icons.clear
-                            : Icons.search,
-                      );
-                    }),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: TextField(
+                  onChanged: (value) {
+                    cityController.filterCities();
+                  },
+                  controller: cityController.searchController,
+                  focusNode: cityController.searchFocusNode,
+                  autofocus: false,
+                  decoration: InputDecoration(
+                    fillColor: Colors.white,
+                    filled: true,
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    contentPadding: EdgeInsets.all(20),
+                    hintText: 'Search Cities',
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        cityController.clearSearch();
+                      },
+                      icon: Obx(() {
+                        return Icon(
+                          cityController.isSearching.value
+                              ? Icons.clear
+                              : Icons.search,
+                        );
+                      }),
+                    ),
                   ),
                 ),
               ),
-            ),
-            Expanded(
-              child: Obx(() {
-                //sort the cities alphabetically
-                List sortedCities = List.from(cityController.filteredCities)
-                  ..sort((a, b) =>
-                      (a["cname"] as String).compareTo(b["cname"] as String));
-
-                return GridView.builder(
-                  itemCount: sortedCities.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 2,
-                    mainAxisSpacing: 2,
-                  ),
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: GestureDetector(
-                        onLongPress: () {
-                          bottomSheet(context, sortedCities[index]);
-                        },
-                        onTap: () {
-                          cityController.searchFocusNode.unfocus();
-                          Get.to(() => HomePage(
-                                ciity: sortedCities[index]["cname"] as String,
-                              ));
-                        },
-                        child: CityCard(
-                          cityimg: sortedCities[index]["cimg"].toString(),
-                          cityname: sortedCities[index]["cname"].toString(),
+              Expanded(
+                child: Obx(() {
+                  //sort the cities alphabetically
+                  List sortedCities = List.from(cityController.filteredCities)
+                    ..sort((a, b) =>
+                        (a["cname"] as String).compareTo(b["cname"] as String));
+        
+                  return GridView.builder(
+                    itemCount: sortedCities.length,
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 2,
+                      mainAxisSpacing: 2,
+                    ),
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: GestureDetector(
+                          onLongPress: () {
+                            bottomSheet(context, sortedCities[index]);
+                          },
+                          onTap: () {
+                            cityController.searchFocusNode.unfocus();
+                            Get.to(() => HomePage(
+                                  ciity: sortedCities[index]["cname"] as String,
+                                ));
+                          },
+                          child: CityCard(
+                            cityimg: sortedCities[index]["cimg"].toString(),
+                            cityname: sortedCities[index]["cname"].toString(),
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                );
-              }),
-            ),
-          ],
+                      );
+                    },
+                  );
+                }),
+              ),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: CustomBottomNavigationBar(

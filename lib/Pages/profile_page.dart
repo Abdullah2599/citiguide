@@ -223,7 +223,8 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                                 elevation: 5,
                                 backgroundColor:
                                     Color.fromARGB(255, 7, 206, 182),
-                                shape: const StadiumBorder(),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5)),
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 40, vertical: 15),
                               ),
@@ -240,7 +241,8 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                                 elevation: 5,
                                 backgroundColor:
                                     Color.fromARGB(255, 7, 206, 182),
-                                shape: const StadiumBorder(),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5)),
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 40, vertical: 15),
                               ),
