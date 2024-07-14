@@ -3,6 +3,7 @@ import 'package:citiguide/Pages/homepage.dart';
 import 'package:citiguide/Theme/color.dart';
 import 'package:citiguide/components/reusable/reusableicons.dart';
 import 'package:citiguide/controllers/DataController.dart';
+import 'package:citiguide/controllers/FavoritesController.dart';
 import 'package:citiguide/controllers/ReviewsController.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -24,7 +25,7 @@ class TilesDetails extends StatefulWidget {
 
 class _TilesDetailsState extends State<TilesDetails> {
   final ReviewController reviewController = Get.put(ReviewController());
-  final Datacontroller dataController = Get.find();
+  // final Datacontroller dataController = Get.find();
 
   double _userRating = 0;
   final TextEditingController _reviewController = TextEditingController();
@@ -128,10 +129,14 @@ class _TilesDetailsState extends State<TilesDetails> {
 
     // Update the likes array in Realtime Database
     await placeRef.set(likes);
+
+    // favoritesController.fetchLikedPlaces();
   }
 
   @override
   Widget build(BuildContext context) {
+    final FavoritesController favoritesController =
+        Get.put(FavoritesController());
     return Scaffold(
       body: Stack(
         children: [

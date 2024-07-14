@@ -94,7 +94,8 @@ class CityScreen extends StatelessWidget {
                           onTap: () {
                             cityController.searchFocusNode.unfocus();
                             Get.to(() => HomePage(
-                                  ciity: sortedCities[index]["cname"] as String,
+                                  ciity:
+                                      sortedCities[index]["cname"]! as String,
                                 ));
                           },
                           child: CityCard(

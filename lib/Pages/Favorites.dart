@@ -1,20 +1,25 @@
 import 'package:citiguide/Pages/Favorites/likeddetails.dart';
+import 'package:citiguide/Pages/maindetails.dart';
 import 'package:citiguide/Pages/profile_page.dart';
 import 'package:citiguide/components/reusable/appbar.dart';
 import 'package:citiguide/components/reusable/bottomnavigationbar.dart';
 import 'package:citiguide/components/reusable/places_tile.dart';
-import 'package:citiguide/Pages/Favorites/FavoritesController.dart';
+import 'package:citiguide/controllers/FavoritesController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class FavoritesScreen extends StatelessWidget {
+class FavoritesScreen extends StatefulWidget {
   const FavoritesScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final FavoritesController favoritesController =
-        Get.put(FavoritesController());
+  State<FavoritesScreen> createState() => _FavoritesScreenState();
+}
 
+class _FavoritesScreenState extends State<FavoritesScreen> {
+  final FavoritesController favoritesController =
+      Get.put(FavoritesController());
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: app_Bar('Favorites', true),
       bottomNavigationBar: CustomBottomNavigationBar(
@@ -38,7 +43,7 @@ class FavoritesScreen extends StatelessWidget {
             return GestureDetector(
               onTap: () async {
                 FocusScope.of(context).unfocus();
-                await Get.to(() => LikedDetails(
+                await Get.to(() => TilesDetails(
                       placeData: place,
                       placeId: place['id'],
                     ));

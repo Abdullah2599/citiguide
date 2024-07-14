@@ -5,15 +5,18 @@ import 'package:get/get.dart';
 class FavoritesController extends GetxController {
   var likedPlaces = <Map<String, dynamic>>[].obs;
 
+// FavoritesController({}) {
+//     this.likedPlaces;
+//   }
   @override
   void onInit() {
     super.onInit();
     fetchLikedPlaces();
+    FavoritesController();
   }
 
   Future<void> fetchLikedPlaces() async {
     likedPlaces.clear();
-
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) {
       print('No user is logged in.');
