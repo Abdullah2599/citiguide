@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:citiguide/Golobal%20Loader/boxrotation.dart';
 import 'package:citiguide/Pages/Favorites.dart';
 import 'package:citiguide/Pages/homepage.dart';
 import 'package:citiguide/Pages/profile_page.dart';
@@ -9,6 +10,9 @@ import 'package:citiguide/components/reusable/citycard.dart';
 import 'package:citiguide/controllers/CityController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getwidget/components/loader/gf_loader.dart';
+import 'package:getwidget/size/gf_size.dart';
+import 'package:getwidget/types/gf_loader_type.dart';
 
 class CityScreen extends StatelessWidget {
   CityScreen({super.key});
@@ -17,8 +21,34 @@ class CityScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Function to show exit confirmation dialog
+    Future<bool> showExitConfirmationDialog() async {
+      return await Get.defaultDialog(
+        buttonColor: ColorTheme.primaryColor,
+        confirmTextColor: Colors.white,
+        onConfirm: () {
+          Get.back();
+          Get.back(); // Navigate back twice to exit the app
+        },
+        onCancel: () => Get.back(),
+        title: "Exit",
+        content: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("Are you sure you want to exit?"),
+          ],
+        ),
+      );
+    }
+
+    // Register callback for back button press
+    ModalRoute.of(context)?.addScopedWillPopCallback(() async {
+      bool canPop = await showExitConfirmationDialog();
+      return canPop;
+    });
+
     return Scaffold(
-      appBar: app_Bar('Cities', false),
+      appBar: app_Bar('Cities', false, ''),
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
@@ -71,41 +101,53 @@ class CityScreen extends StatelessWidget {
               ),
               Expanded(
                 child: Obx(() {
-                  //sort the cities alphabetically
-                  List sortedCities = List.from(cityController.filteredCities)
-                    ..sort((a, b) =>
-                        (a["cname"] as String).compareTo(b["cname"] as String));
+                  if (cityController.isLoading.value) {
+                    // Show loader while loading data
+                    return const Center(
+                        child: GFLoader(
+                            size: GFSize.LARGE,
+                            type: GFLoaderType.square,
+                            loaderColorOne: Color.fromARGB(255, 0, 250, 217),
+                            loaderColorTwo: Color.fromARGB(255, 123, 255, 237),
+                            loaderColorThree:
+                                Color.fromARGB(255, 201, 255, 248)));
+                  } else {
+                    //sort the cities alphabetically
+                    List sortedCities = List.from(cityController.filteredCities)
+                      ..sort((a, b) => (a["cname"] as String)
+                          .compareTo(b["cname"] as String));
 
-                  return GridView.builder(
-                    itemCount: sortedCities.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 2,
-                      mainAxisSpacing: 2,
-                    ),
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: GestureDetector(
-                          onLongPress: () {
-                            bottomSheet(context, sortedCities[index]);
-                          },
-                          onTap: () {
-                            cityController.searchFocusNode.unfocus();
-                            Get.to(() => HomePage(
-                                  ciity:
-                                      sortedCities[index]["cname"]! as String,
-                                ));
-                          },
-                          child: CityCard(
-                            cityimg: sortedCities[index]["cimg"].toString(),
-                            cityname: sortedCities[index]["cname"].toString(),
+                    return GridView.builder(
+                      itemCount: sortedCities.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 2,
+                        mainAxisSpacing: 2,
+                      ),
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: GestureDetector(
+                            onLongPress: () {
+                              bottomSheet(context, sortedCities[index]);
+                            },
+                            onTap: () {
+                              cityController.searchFocusNode.unfocus();
+                              Get.to(() => HomePage(
+                                    ciity:
+                                        sortedCities[index]["cname"]! as String,
+                                  ));
+                            },
+                            child: CityCard(
+                              cityimg: sortedCities[index]["cimg"].toString(),
+                              cityname: sortedCities[index]["cname"].toString(),
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                  );
+                        );
+                      },
+                    );
+                  }
                 }),
               ),
             ],
@@ -115,18 +157,36 @@ class CityScreen extends StatelessWidget {
       bottomNavigationBar: CustomBottomNavigationBar(
         currentIndex: 0,
         label: 'Cities',
-        showLikeButton: true, // No like button on CityScreen
         onTap: (index) {
-          if (index == 2) {
+          if (index == 1) {
             Get.to(() => ProfileSettingsPage(fromPage: 'CityScreen'));
           }
-          if (index == 1) {
-            Get.to(() => FavoritesScreen());
-          }
+          // if (index == 1) {
+          //   Get.to(() => FavoritesScreen());
+          // }
         },
       ),
     );
   }
+}
+
+Future<bool> _onBackPressed(BuildContext context) async {
+  return await Get.defaultDialog(
+    buttonColor: ColorTheme.primaryColor,
+    confirmTextColor: Colors.white,
+    onConfirm: () {
+      Get.back();
+      Get.back();
+    },
+    onCancel: () => Get.back(),
+    title: "Exit",
+    content: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text("Are you sure you want to exit?"),
+      ],
+    ),
+  );
 }
 
 Future<void> bottomSheet(BuildContext context, Map<dynamic, dynamic> cityData) {

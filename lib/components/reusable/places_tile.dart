@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class PlacesTile extends StatelessWidget {
@@ -50,8 +51,8 @@ class PlacesTile extends StatelessWidget {
         topLeft: Radius.circular(5),
         topRight: Radius.circular(5),
       ),
-      child: Image.network(
-        imagelink,
+      child: CachedNetworkImage(
+        imageUrl: imagelink,
         fit: BoxFit.cover,
         height: MediaQuery.of(context).size.height * 0.15,
         width: double.infinity,

@@ -13,6 +13,7 @@ class Datacontroller extends GetxController {
   final TextEditingController searchController = TextEditingController();
   final FocusNode searchFocusNode = FocusNode();
   final RxBool isSearching = false.obs;
+  final RxBool isLoading = true.obs; // Added isLoading
 
   Datacontroller({required this.city, String? category}) {
     this.category = (category ?? 'All').obs;
@@ -36,6 +37,7 @@ class Datacontroller extends GetxController {
 
   Future<void> fetchData(
       {required String city, required String category}) async {
+    isLoading.value = true;
     Records.clear();
     DatabaseReference ref = FirebaseDatabase.instance.ref("data");
 
@@ -68,6 +70,7 @@ class Datacontroller extends GetxController {
     if (currentQuery.isNotEmpty) {
       searchRecords(currentQuery.value);
     }
+    isLoading.value = false;
   }
 
   Future<double> fetchAverageRating(String placeId) async {

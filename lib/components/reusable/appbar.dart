@@ -1,3 +1,4 @@
+import 'package:citiguide/Pages/Favorites.dart';
 import 'package:citiguide/Pages/loginpage.dart';
 import 'package:citiguide/Theme/color.dart';
 import 'package:citiguide/controllers/LoginController.dart';
@@ -8,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
 
-app_Bar(String text, bool truf) {
+app_Bar(String text, bool truf, String screen) {
   return AppBar(
     automaticallyImplyLeading: truf,
     clipBehavior: Clip.hardEdge,
@@ -20,7 +21,8 @@ app_Bar(String text, bool truf) {
     surfaceTintColor: Colors.transparent,
     backgroundColor: Color.fromARGB(255, 7, 206, 182),
     actions: [
-      IconButton(
+      if (screen != 'Home')
+        IconButton(
           onPressed: () {
             Get.defaultDialog(
               buttonColor: ColorTheme.primaryColor,
@@ -28,7 +30,9 @@ app_Bar(String text, bool truf) {
               onConfirm: () {
                 LoginController.signOut();
               },
-              onCancel: () => {Get.back()},
+              onCancel: () {
+                Get.back();
+              },
               title: "Log out",
               content: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -41,7 +45,18 @@ app_Bar(String text, bool truf) {
           icon: const Icon(
             Icons.logout,
             color: Colors.white,
-          ))
+          ),
+        )
+      else
+        IconButton(
+          onPressed: () {
+            Get.to(() => FavoritesScreen());
+          },
+          icon: Icon(
+            Icons.star,
+            color: Colors.white,
+          ),
+        ),
     ],
     leading: truf
         ? GestureDetector(

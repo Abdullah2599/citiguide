@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:citiguide/Pages/cityscreen.dart';
 import 'package:citiguide/Pages/homepage.dart';
 import 'package:citiguide/Theme/color.dart';
@@ -29,8 +30,8 @@ class _TilesDetailsState extends State<TilesDetails> {
 
   double _userRating = 0;
   final TextEditingController _reviewController = TextEditingController();
-
   late bool like = false;
+
   checklike() {
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user = auth.currentUser;
@@ -143,8 +144,8 @@ class _TilesDetailsState extends State<TilesDetails> {
           SizedBox(
             height: 700,
             width: double.infinity,
-            child: Image.network(
-              widget.placeData["imageurl"].toString(),
+            child: CachedNetworkImage(
+              imageUrl: widget.placeData["imageurl"].toString(),
               height: double.infinity,
               fit: BoxFit.fitHeight,
             ),
@@ -157,7 +158,7 @@ class _TilesDetailsState extends State<TilesDetails> {
                 Get.back();
               },
               child: Icon(Icons.arrow_back_ios_new,
-                  size: 30, color: ColorTheme.primaryColor),
+                  size: 30, color: Color.fromARGB(255, 157, 255, 239)),
             ),
           ),
           Positioned(
@@ -173,7 +174,7 @@ class _TilesDetailsState extends State<TilesDetails> {
               child: Icon(
                   like ? Icons.favorite : Icons.favorite_border_outlined,
                   size: 30,
-                  color: ColorTheme.primaryColor),
+                  color: Colors.red),
             ),
           ),
           scrollDetails(),
@@ -324,6 +325,9 @@ class _TilesDetailsState extends State<TilesDetails> {
                     ],
                   ),
                 ),
+                SizedBox(
+                  height: 4,
+                ),
                 Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Column(
@@ -348,7 +352,7 @@ class _TilesDetailsState extends State<TilesDetails> {
                       const SizedBox(height: 12),
                       Padding(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 12.0,
+                          horizontal: 6.0,
                         ),
                         child: Row(
                           children: [
@@ -540,10 +544,10 @@ class _TilesDetailsState extends State<TilesDetails> {
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: Offset(0, 3),
+            color: Colors.grey.withOpacity(0.4),
+            spreadRadius: 1,
+            blurRadius: 4,
+            offset: Offset(0, 1.5),
           ),
         ],
         color: color,

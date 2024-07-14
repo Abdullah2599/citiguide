@@ -1,3 +1,4 @@
+import 'package:citiguide/Golobal%20Loader/boxrotation.dart';
 import 'package:citiguide/Pages/Favorites.dart';
 import 'package:citiguide/Pages/maindetails.dart';
 import 'package:citiguide/Pages/profile_page.dart';
@@ -10,6 +11,9 @@ import 'package:citiguide/components/reusable/textbutton.dart';
 import 'package:citiguide/controllers/DataController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getwidget/components/loader/gf_loader.dart';
+import 'package:getwidget/getwidget.dart';
+import 'package:getwidget/types/gf_loader_type.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key, this.ciity});
@@ -31,7 +35,7 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 230, 244, 248),
-      appBar: app_Bar(ciity, true),
+      appBar: app_Bar(ciity, true, 'Home'),
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
@@ -130,37 +134,63 @@ class HomePage extends StatelessWidget {
                 ),
                 Expanded(
                   child: Obx(
-                    () => ListView.builder(
-                      itemCount: datacontroller.filteredRecords.length,
-                      physics: BouncingScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            FocusScope.of(context).unfocus();
-                            Get.to(() => TilesDetails(
-                                  placeData:
-                                      datacontroller.filteredRecords[index],
-                                  placeId: datacontroller.filteredRecords[index]
-                                      ['id'],
-                                ));
-                            FocusScope.of(context).unfocus();
-                          },
-                          child: PlacesTile(
-                              name: datacontroller.filteredRecords[index]
-                                      ["title"]
-                                  .toString(),
-                              city: datacontroller.filteredRecords[index]
-                                      ["city"]
-                                  .toString(),
-                              rating: datacontroller.filteredRecords[index]
-                                      ["averageRating"] ??
-                                  0.0,
-                              imagelink: datacontroller.filteredRecords[index]
-                                      ["imageurl"]
-                                  .toString()),
+                    () {
+                      if (datacontroller.isLoading.value) {
+                        return const Center(
+                            child: GFLoader(
+                                size: GFSize.LARGE,
+                                type: GFLoaderType.square,
+                                loaderColorOne:
+                                    Color.fromARGB(255, 0, 250, 217),
+                                loaderColorTwo:
+                                    Color.fromARGB(255, 123, 255, 237),
+                                loaderColorThree:
+                                    Color.fromARGB(255, 201, 255, 248)));
+                      } else if (datacontroller.filteredRecords.isEmpty) {
+                        return Center(
+                          child: Text(
+                            'No data available',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black54,
+                            ),
+                          ),
                         );
-                      },
-                    ),
+                      } else {
+                        // Show list of places
+                        return ListView.builder(
+                          itemCount: datacontroller.filteredRecords.length,
+                          physics: BouncingScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                FocusScope.of(context).unfocus();
+                                Get.to(() => TilesDetails(
+                                      placeData:
+                                          datacontroller.filteredRecords[index],
+                                      placeId: datacontroller
+                                          .filteredRecords[index]['id'],
+                                    ));
+                              },
+                              child: PlacesTile(
+                                  name: datacontroller.filteredRecords[index]
+                                          ["title"]
+                                      .toString(),
+                                  city: datacontroller.filteredRecords[index]
+                                          ["city"]
+                                      .toString(),
+                                  rating: datacontroller.filteredRecords[index]
+                                          ["averageRating"] ??
+                                      0.0,
+                                  imagelink: datacontroller
+                                      .filteredRecords[index]["imageurl"]
+                                      .toString()),
+                            );
+                          },
+                        );
+                      }
+                    },
                   ),
                 ),
               ],
@@ -171,14 +201,9 @@ class HomePage extends StatelessWidget {
       bottomNavigationBar: CustomBottomNavigationBar(
           currentIndex: 0,
           label: 'Attractions',
-          showLikeButton: true, // Show like button on HomePage
           onTap: (index) {
-            if (index == 2) {
-              Get.to(() => ProfileSettingsPage(fromPage: 'HomePage'));
-            }
-
             if (index == 1) {
-              Get.to(() => FavoritesScreen());
+              Get.to(() => ProfileSettingsPage(fromPage: 'HomePage'));
             }
           }),
     );

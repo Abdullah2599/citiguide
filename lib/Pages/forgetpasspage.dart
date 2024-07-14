@@ -1,10 +1,10 @@
 import 'package:citiguide/Pages/homepage.dart';
 import 'package:citiguide/Pages/loginpage.dart';
-
+import 'package:citiguide/Theme/color.dart';
+import 'package:citiguide/controllers/LoginController.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'backgroundui.dart';
-
-import 'signuppage.dart';
 
 class ForgetPassPage extends StatefulWidget {
   const ForgetPassPage({super.key});
@@ -17,15 +17,21 @@ class _ForgetPassPageState extends State<ForgetPassPage> {
   final TextEditingController _emailController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  void _signupForm() {
+  void _resetPassword() async {
+    FocusScope.of(context).unfocus();
+
     if (_formKey.currentState!.validate()) {
-      print("Email: ${_emailController.text}");
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HomePage(),
-        ),
-      );
+      try {
+        await LoginController.sendPasswordResetEmail(_emailController.text);
+        Get.to(() => LoginPage());
+        // Show success message or navigate to appropriate screen
+        Get.snackbar('Password Reset',
+            'Password reset email sent to ${_emailController.text}');
+      } catch (e) {
+        // Handle errors
+        Get.snackbar(
+            'Password Reset', 'Failed to send password reset email: $e');
+      }
     }
   }
 
@@ -57,24 +63,24 @@ class _ForgetPassPageState extends State<ForgetPassPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text(
-                            ' Forget Password',
+                            'Forget Password',
                             style: TextStyle(
                               fontSize: 23,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                             ),
                           ),
-                          SizedBox(
-                            height: 10,
-                          ),
+                          SizedBox(height: 10),
                           TextFormField(
                             controller: _emailController,
                             decoration: InputDecoration(
                               filled: true,
+                              focusColor: ColorTheme.primaryColor,
+                              hoverColor: ColorTheme.primaryColor,
                               fillColor: Colors.white,
-                              labelText: "Email",
-                              prefixIcon:
-                                  const Icon(Icons.person, color: Colors.blue),
+                              hintText: "Email",
+                              prefixIcon: Icon(Icons.person,
+                                  color: ColorTheme.primaryColor),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5),
                               ),
@@ -90,26 +96,44 @@ class _ForgetPassPageState extends State<ForgetPassPage> {
                               return null;
                             },
                           ),
-                          SizedBox(
-                            height: 20,
-                          ),
+                          SizedBox(height: 20),
                           Container(
                             width: double.infinity,
                             height: 45,
-                            child: MaterialButton(
-                              onPressed: _signupForm,
-                              color: Colors.blue,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5),
+                            child: ElevatedButton(
+                              onPressed: _resetPassword,
+                              style: ElevatedButton.styleFrom(
+                                elevation: 5,
+                                backgroundColor: ColorTheme.primaryColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
                               ),
                               child: const Text(
-                                "Submit",
+                                "Reset Password",
                                 style: TextStyle(
                                     fontSize: 15, color: Colors.white),
                               ),
                             ),
                           ),
                           const SizedBox(height: 20),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              TextButton(
+                                onPressed: () {
+                                  Get.offAll(() => LoginPage());
+                                },
+                                child: const Text(
+                                  "Log in with another account.",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ),

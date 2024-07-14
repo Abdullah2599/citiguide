@@ -27,9 +27,9 @@ class _LoginPageState extends State<LoginPage> {
     if (loginController.LoginFormKey.currentState!.validate()) {
       loginController.signInWithEmailAndPassword();
 
-      loginController.LoginFormKey.currentState!.reset();
-      loginController.emailAddress.text = "";
-      loginController.password.text = "";
+      // loginController.LoginFormKey.currentState!.reset();
+      // loginController.emailAddress.text = "";
+      // loginController.password.text = "";
     }
   }
 

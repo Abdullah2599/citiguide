@@ -8,6 +8,7 @@ class CityController extends GetxController {
   final TextEditingController searchController = TextEditingController();
   final FocusNode searchFocusNode = FocusNode();
   final RxBool isSearching = false.obs;
+  final RxBool isLoading = false.obs;
 
   @override
   void onInit() {
@@ -26,6 +27,7 @@ class CityController extends GetxController {
   }
 
   Future<void> fetchCities() async {
+    isLoading.value = true;
     DatabaseReference ref = FirebaseDatabase.instance.ref("cityList");
 
     // Get the data once
@@ -39,6 +41,7 @@ class CityController extends GetxController {
       Map<dynamic, dynamic> data = element.value as Map<dynamic, dynamic>;
       citiesRecords.add(data);
     });
+    isLoading.value = false;
     // Update the filtered list initially
     filteredCities.value = citiesRecords;
   }

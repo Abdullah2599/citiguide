@@ -1,9 +1,16 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:citiguide/Golobal%20Loader/boxrotation.dart';
+import 'package:citiguide/Pages/Favorites.dart';
+import 'package:citiguide/Pages/cityscreen.dart';
 import 'package:citiguide/Theme/color.dart';
 import 'package:citiguide/components/reusable/appbar.dart';
 import 'package:citiguide/components/reusable/bottomnavigationbar.dart';
 import 'package:citiguide/controllers/ProfileSettingsController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getwidget/components/loader/gf_loader.dart';
+import 'package:getwidget/size/gf_size.dart';
+import 'package:getwidget/types/gf_loader_type.dart';
 
 class ProfileSettingsPage extends StatefulWidget {
   const ProfileSettingsPage({
@@ -28,55 +35,25 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
     super.initState();
   }
 
-  void _showChangePasswordDialog() {
-    final newPasswordController = TextEditingController();
-    final confirmPasswordController = TextEditingController();
-
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Change Password'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: newPasswordController,
-                obscureText: true,
-                decoration: const InputDecoration(labelText: 'New Password'),
-              ),
-              TextField(
-                controller: confirmPasswordController,
-                obscureText: true,
-                decoration:
-                    const InputDecoration(labelText: 'Confirm Password'),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                if (newPasswordController.text ==
-                    confirmPasswordController.text) {
-                  controller.changePassword(newPasswordController.text);
-                  Navigator.of(context).pop();
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Passwords do not match!')),
-                  );
-                }
-              },
-              child: const Text('Change'),
-            ),
-          ],
-        );
+  void _showDeleteAccountDialog() {
+    Get.defaultDialog(
+      buttonColor: ColorTheme.primaryColor,
+      confirmTextColor: Colors.white,
+      onConfirm: () async {
+        await controller.deleteAccount();
+        // Navigator.of(context).pop();
       },
+      onCancel: () {
+        Navigator.pop(context);
+      },
+      title: "Delete Account",
+      content: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+              "Are you sure you want to delete your account? This action cannot be undone."),
+        ],
+      ),
     );
   }
 
@@ -84,12 +61,16 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 236, 249, 245),
-      appBar: app_Bar('Profile', true),
+      appBar: app_Bar('Profile', true, ''),
       body: Obx(() {
         return controller.isLoading.value
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
+            ? const Center(
+                child: GFLoader(
+                    size: GFSize.LARGE,
+                    type: GFLoaderType.square,
+                    loaderColorOne: Color.fromARGB(255, 0, 250, 217),
+                    loaderColorTwo: Color.fromARGB(255, 123, 255, 237),
+                    loaderColorThree: Color.fromARGB(255, 201, 255, 248)))
             : SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -102,7 +83,8 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                             radius: 60,
                             backgroundImage: controller
                                     .profileImageUrl.value.isNotEmpty
-                                ? NetworkImage(controller.profileImageUrl.value)
+                                ? CachedNetworkImageProvider(
+                                    controller.profileImageUrl.value)
                                 : const AssetImage(
                                         './assets/images/default_avatar.png')
                                     as ImageProvider,
@@ -235,23 +217,46 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                                     fontWeight: FontWeight.bold),
                               ),
                             )
-                          : ElevatedButton(
-                              onPressed: _showChangePasswordDialog,
-                              style: ElevatedButton.styleFrom(
-                                elevation: 5,
-                                backgroundColor:
-                                    Color.fromARGB(255, 7, 206, 182),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5)),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 40, vertical: 15),
-                              ),
-                              child: const Text(
-                                'Change Password',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
-                              ),
+                          : Column(
+                              children: [
+                                ElevatedButton(
+                                  onPressed: _showChangePasswordDialog,
+                                  style: ElevatedButton.styleFrom(
+                                    elevation: 5,
+                                    backgroundColor:
+                                        Color.fromARGB(255, 7, 206, 182),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5)),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 40, vertical: 15),
+                                  ),
+                                  child: const Text(
+                                    'Change Password',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+                                ElevatedButton(
+                                  onPressed: _showDeleteAccountDialog,
+                                  style: ElevatedButton.styleFrom(
+                                    elevation: 5,
+                                    backgroundColor:
+                                        Color.fromARGB(255, 255, 45, 45),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5)),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 40, vertical: 15),
+                                  ),
+                                  child: const Text(
+                                    'Delete Account',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ],
                             ),
                     ],
                   ),
@@ -262,17 +267,73 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
           ? null
           : CustomBottomNavigationBar(
               label: widget.fromPage == 'CityScreen' ? 'Cities' : 'Attractions',
-              showLikeButton: true,
-              currentIndex: 2,
+              currentIndex: 1,
               onTap: (index) {
                 if (index == 0) {
                   Get.back();
                 }
-                if (index == 1) {
-                  Get.back();
-                }
               },
             ),
+    );
+  }
+
+  void _showChangePasswordDialog() {
+    final currentPasswordController = TextEditingController();
+    final newPasswordController = TextEditingController();
+    final confirmPasswordController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Change Password'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: currentPasswordController,
+                obscureText: true,
+                decoration: InputDecoration(labelText: 'Current Password'),
+              ),
+              TextField(
+                controller: newPasswordController,
+                obscureText: true,
+                decoration: InputDecoration(labelText: 'New Password'),
+              ),
+              TextField(
+                controller: confirmPasswordController,
+                obscureText: true,
+                decoration: InputDecoration(labelText: 'Confirm Password'),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                if (newPasswordController.text ==
+                    confirmPasswordController.text) {
+                  controller.changePassword(
+                    currentPasswordController.text,
+                    newPasswordController.text,
+                  );
+                  Navigator.of(context).pop();
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Passwords do not match!')),
+                  );
+                }
+              },
+              child: Text('Change'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

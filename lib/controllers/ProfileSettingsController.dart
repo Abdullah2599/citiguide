@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:citiguide/Pages/cityscreen.dart';
+import 'package:citiguide/Pages/loginpage.dart';
+import 'package:citiguide/controllers/LoginController.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -76,17 +78,30 @@ class ProfileSettingsController extends GetxController {
     }
   }
 
-  Future<void> changePassword(String newPassword) async {
+  Future<void> changePassword(
+      String currentPassword, String newPassword) async {
     try {
       final user = _auth.currentUser;
       if (user == null) {
         Get.snackbar('Error', 'User is not authenticated.');
         return;
       }
+
+      // Reauthenticate user with current password
+      final credential =
+          EmailAuthProvider.credential(email: email, password: currentPassword);
+      await user.reauthenticateWithCredential(credential);
+
+      // Change password
       await user.updatePassword(newPassword);
+
       Get.snackbar('Success', 'Password changed successfully');
+    } on FirebaseAuthException catch (e) {
+      Get.snackbar('Error', 'Failed to change password: $e',
+          duration: Duration(seconds: 5));
     } catch (e) {
-      Get.snackbar('Error', 'Failed to change password: $e');
+      Get.snackbar('Error', 'Failed to change password: $e',
+          duration: Duration(seconds: 5));
     }
   }
 
@@ -138,6 +153,35 @@ class ProfileSettingsController extends GetxController {
       }
     } catch (e) {
       Get.snackbar('Error', 'Failed to pick image: $e');
+    }
+  }
+
+  Future<void> deleteAccount() async {
+    try {
+      final user = _auth.currentUser;
+      if (user == null) {
+        Get.snackbar('Error', 'User is not authenticated.');
+        return;
+      }
+
+      // Delete user data from Firestore
+      await _firestore.collection('users').doc(email).delete();
+
+      // Delete user profile image from Firebase Storage
+      final storageRef = FirebaseStorage.instance
+          .ref()
+          .child('profile_images/${user.uid}.jpg');
+      await storageRef.delete();
+
+      // Delete the user account
+      await user.delete();
+      LoginController.signOut();
+      // Optionally navigate to another page after account deletion
+      Get.offAll(() => LoginPage());
+
+      Get.snackbar('Success', 'Account deleted successfully');
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to delete account: $e');
     }
   }
 }
