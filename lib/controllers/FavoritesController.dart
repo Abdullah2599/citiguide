@@ -1,26 +1,29 @@
-import 'package:citiguide/Golobal%20Loader/boxrotation.dart';
-import 'package:citiguide/Golobal%20Loader/boxrotationmodel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class FavoritesController extends GetxController {
   var likedPlaces = <Map<String, dynamic>>[].obs;
-  var isLoading = false.obs; // Track loading state
+  var isLoading = false.obs;
+  var like = false.obs; // Track like state for a specific place
 
-// FavoritesController({}) {
-//     this.likedPlaces;
-//   }
   @override
   void onInit() {
     super.onInit();
     fetchLikedPlaces();
-    //  FavoritesController();
+  }
+
+  @override
+  void onClose() {
+    // Close any streams or listeners here
+    super.onClose();
   }
 
   Future<void> fetchLikedPlaces() async {
     try {
-      isLoading.value = true; // Start loading
+      isLoading.value = true;
+      HapticFeedback.lightImpact();
       likedPlaces.clear();
       final user = FirebaseAuth.instance.currentUser;
       if (user == null) {
@@ -60,5 +63,72 @@ class FavoritesController extends GetxController {
         FirebaseDatabase.instance.ref('data/$placeId/averageRating');
     DatabaseEvent event = await ref.once();
     return event.snapshot.value as double? ?? 0.0;
+  }
+
+  Future<void> likeOrUnlike(String placeId, bool isLiked) async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user = auth.currentUser;
+
+    if (user == null) {
+      print("User is not logged in.");
+      return;
+    }
+
+    String email = user.email!;
+    DatabaseReference placeRef =
+        FirebaseDatabase.instance.ref('data/$placeId/likes');
+
+    // Fetch the current likes
+    DataSnapshot snapshot = await placeRef.get();
+
+    List<String> likes = [];
+    if (snapshot.exists && snapshot.value is List) {
+      likes = List<String>.from(snapshot.value as List);
+    } else if (snapshot.exists && snapshot.value is Map) {
+      likes = List<String>.from((snapshot.value as Map).values);
+    }
+
+    if (isLiked) {
+      // Add email to the likes if not already present
+      if (!likes.contains(email)) {
+        likes.add(email);
+        HapticFeedback.lightImpact();
+        Get.snackbar("Message", "You liked this place");
+      }
+    } else {
+      // Remove email from the likes if present
+      if (likes.contains(email)) {
+        likes.remove(email);
+        HapticFeedback.lightImpact();
+        Get.snackbar("Message", "You unliked this place");
+      }
+    }
+
+    // Update the likes array in Realtime Database
+    await placeRef.set(likes);
+
+    // Update the like state
+    like.value = isLiked;
+
+    // Refresh the liked places list
+    fetchLikedPlaces();
+  }
+
+  void checkLikeStatus(String placeId) async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user = auth.currentUser;
+    if (user == null) return;
+
+    String email = user.email!;
+    DatabaseReference placeRef =
+        FirebaseDatabase.instance.ref('data/$placeId/likes');
+
+    DataSnapshot snapshot = await placeRef.get();
+    if (snapshot.exists) {
+      var likes = snapshot.value as List<dynamic>;
+      like.value = likes.contains(email);
+    } else {
+      like.value = false;
+    }
   }
 }

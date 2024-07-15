@@ -47,6 +47,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: home,
       theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: ColorTheme.primaryColor, brightness: Brightness.light,onPrimary: ColorTheme.primaryColor),
         bottomSheetTheme: BottomSheetThemeData(
           dragHandleColor: ColorTheme.primaryColor,
         ),

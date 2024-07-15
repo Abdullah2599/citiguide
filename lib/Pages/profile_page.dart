@@ -247,7 +247,7 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(5)),
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 40, vertical: 15),
+                                        horizontal: 48, vertical: 15),
                                   ),
                                   child: const Text(
                                     'Delete Account',
@@ -266,11 +266,26 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
       bottomNavigationBar: widget.isNewUser
           ? null
           : CustomBottomNavigationBar(
+              citySelected: true,
               label: widget.fromPage == 'CityScreen' ? 'Cities' : 'Attractions',
-              currentIndex: 1,
+              currentIndex: 3,
               onTap: (index) {
                 if (index == 0) {
-                  Get.back();
+                  widget.fromPage == 'CityScreen' ? Get.back() : '';
+                }
+                if (index == 0) {
+                  widget.fromPage == 'Favorite'
+                      ? Get.to(() => FavoritesScreen())
+                      : '';
+                }
+                if (index == 0) {
+                  Get.to(() => CityScreen());
+                }
+                if (index == 2) {
+                  Get.to(() => FavoritesScreen());
+                }
+                if (index == 1) {
+                  widget.fromPage == 'Homepage' ? Get.back() : '';
                 }
               },
             ),

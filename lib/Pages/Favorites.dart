@@ -28,19 +28,28 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: app_Bar('Favorites', true, ''),
-      // bottomNavigationBar: CustomBottomNavigationBar(
-      //   currentIndex: 1,
-      //   label: widget.fromPage == 'CityScreen' ? 'Cities' : 'Attractions',
-      //   showLikeButton: true,
-      //   onTap: (index) {
-      //     if (index == 2) {
-      //       Get.to(() => ProfileSettingsPage(fromPage: 'CityScreen'));
-      //     }
-      //     if (index == 0) {
-      //       Get.back();
-      //     }
-      //   },
-      // ),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        currentIndex: 2,
+        label: widget.fromPage == 'CityScreen' ? 'Cities' : 'Attractions',
+        citySelected: widget.fromPage == 'CityScreen' ? false : true,
+        onTap: (index) {
+          if (index == 3) {
+            Get.to(() => ProfileSettingsPage(fromPage: 'Favorites'));
+          }
+          if (index == 0) {
+            widget.fromPage == 'CityScreen' ? Get.back() : '';
+            // Get.to(() => FavoritesScreen());
+          }
+          if (index == 0) {
+            CityScreen();
+            // Get.to(() => FavoritesScreen());
+          }
+          if (index == 1) {
+            widget.fromPage == 'Homepage' ? Get.back() : '';
+            // Get.to(() => FavoritesScreen());
+          }
+        },
+      ),
       body: Obx(
         () {
           if (favoritesController.isLoading.value) {
@@ -52,6 +61,14 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                     loaderColorOne: Color.fromARGB(255, 0, 250, 217),
                     loaderColorTwo: Color.fromARGB(255, 123, 255, 237),
                     loaderColorThree: Color.fromARGB(255, 201, 255, 248)));
+          } else if (favoritesController.likedPlaces.isEmpty) {
+            // Show a centered text if there are no liked places
+            return const Center(
+              child: Text(
+                'Nothing here',
+                style: TextStyle(fontSize: 18, color: Colors.grey),
+              ),
+            );
           } else {
             // Show the list of liked places once data is loaded
             return ListView.builder(

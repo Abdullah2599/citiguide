@@ -48,15 +48,36 @@ app_Bar(String text, bool truf, String screen) {
           ),
         )
       else
-        IconButton(
+        // IconButton(
+        //   onPressed: () {
+        //     Get.to(() => FavoritesScreen());
+        //   },
+        //   icon: Icon(
+        //     Icons.star,
+        //     color: Colors.white,
+        //   ),
+        // ),
+
+        ElevatedButton.icon(
+          icon: Icon(
+            Icons.favorite,
+            color: ColorTheme.primaryColor,
+          ),
           onPressed: () {
             Get.to(() => FavoritesScreen());
           },
-          icon: Icon(
-            Icons.star,
-            color: Colors.white,
+          label: Text(
+            "Favorites",
+            style: TextStyle(fontSize: 16, color: ColorTheme.primaryColor),
           ),
-        ),
+          style: ElevatedButton.styleFrom(
+              fixedSize: Size(150, 10),
+              elevation: 5,
+              // backgroundColor: ColorTheme.primaryColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              )),
+        )
     ],
     leading: truf
         ? GestureDetector(

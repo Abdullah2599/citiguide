@@ -1,5 +1,6 @@
 import 'package:citiguide/Golobal%20Loader/boxrotation.dart';
 import 'package:citiguide/Pages/Favorites.dart';
+import 'package:citiguide/Pages/cityscreen.dart';
 import 'package:citiguide/Pages/maindetails.dart';
 import 'package:citiguide/Pages/profile_page.dart';
 import 'package:citiguide/Theme/color.dart';
@@ -199,15 +200,39 @@ class HomePage extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: CustomBottomNavigationBar(
-          currentIndex: 0,
+          citySelected: false,
+          currentIndex: 1,
           label: 'Attractions',
           onTap: (index) {
-            if (index == 1) {
-              Get.to(() => ProfileSettingsPage(fromPage: 'HomePage'));
+            if (index == 3) {
+              Get.to(() => ProfileSettingsPage(fromPage: 'Homepage'));
+            }
+            if (index == 0) {
+              Get.to(() => CityScreen());
+            }
+            if (index == 2) {
+              Get.to(() => FavoritesScreen(
+                    fromPage: 'Homepage',
+                  ));
             }
           }),
     );
   }
+
+  // if (index == 0) {
+  //   widget.fromPage == 'CityScreen' ? Get.back() : '';
+  // }
+  // if (index == 0) {
+  //   widget.fromPage == 'Favorite'
+  //       ? Get.to(() => FavoritesScreen())
+  //       : '';
+  // }
+  // if (index == 0) {
+  //   Get.to(() => CityScreen());
+  // }
+  // if (index == 2) {
+  //   Get.to(() => FavoritesScreen());
+  // }
 
   Widget _categoryButton(String category) {
     return Obx(

@@ -9,6 +9,7 @@ import 'package:citiguide/components/reusable/bottomnavigationbar.dart';
 import 'package:citiguide/components/reusable/citycard.dart';
 import 'package:citiguide/controllers/CityController.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/components/loader/gf_loader.dart';
 import 'package:getwidget/size/gf_size.dart';
@@ -131,6 +132,7 @@ class CityScreen extends StatelessWidget {
                           child: GestureDetector(
                             onLongPress: () {
                               bottomSheet(context, sortedCities[index]);
+                              HapticFeedback.lightImpact();
                             },
                             onTap: () {
                               cityController.searchFocusNode.unfocus();
@@ -155,15 +157,24 @@ class CityScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: CustomBottomNavigationBar(
+        citySelected: false,
         currentIndex: 0,
         label: 'Cities',
         onTap: (index) {
           if (index == 1) {
-            Get.to(() => ProfileSettingsPage(fromPage: 'CityScreen'));
+            // Get.to(() => ProfileSettingsPage(fromPage: 'CityScreen'));
           }
           // if (index == 1) {
           //   Get.to(() => FavoritesScreen());
           // }
+          if (index == 2) {
+            Get.to(() => FavoritesScreen(
+                  fromPage: 'CityScreen',
+                ));
+          }
+          if (index == 3) {
+            Get.to(() => ProfileSettingsPage(fromPage: 'CityScreen'));
+          }
         },
       ),
     );

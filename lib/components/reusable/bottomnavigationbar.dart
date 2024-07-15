@@ -1,104 +1,167 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
   final int currentIndex;
   final Function(int) onTap;
   final String label;
-  // final bool showLikeButton; // Add this parameter
+  final bool citySelected; // Add citySelected to check if city is selected
 
   const CustomBottomNavigationBar({
-    super.key,
+    Key? key,
     required this.currentIndex,
     required this.onTap,
     required this.label,
-    // this.showLikeButton = false, // Add this parameter
-  });
+    required this.citySelected,
+  }) : super(key: key);
 
   @override
-  State<CustomBottomNavigationBar> createState() =>
+  _CustomBottomNavigationBarState createState() =>
       _CustomBottomNavigationBarState();
 }
 
 class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
-  String? profileImageUrl;
-  String? userName;
+  final List<IconData> listOfIcons = [
+    Icons.place,
+    Icons.home,
+    Icons.favorite,
+    Icons.person_rounded,
+  ];
 
-  @override
-  void initState() {
-    super.initState();
-    fetchUserProfile();
-  }
-
-  Future<void> fetchUserProfile() async {
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      DocumentSnapshot userDoc = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.email)
-          .get();
-      setState(() {
-        profileImageUrl = userDoc['image'] as String?;
-        userName = userDoc['name'] as String?;
-      });
-    } else {
-      setState(() {
-        profileImageUrl = null;
-        userName = null;
-      });
-    }
-  }
+  final List<String> listOfStrings = [
+    'Cities',
+    'Home',
+    'Favorites',
+    'Account',
+  ];
 
   @override
   Widget build(BuildContext context) {
+    double displayWidth = MediaQuery.of(context).size.width;
+
     return ClipRRect(
       borderRadius: const BorderRadius.only(
         topLeft: Radius.circular(10.0),
         topRight: Radius.circular(10.0),
       ),
       child: Container(
-        decoration: const BoxDecoration(
-          color: Color.fromARGB(255, 198, 248, 233),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(10.0),
-            topRight: Radius.circular(10.0),
-          ),
-        ),
-        child: BottomNavigationBar(
-          backgroundColor: const Color.fromARGB(255, 7, 206, 182),
-          elevation: 30,
-          selectedItemColor: const Color.fromARGB(255, 248, 249, 250),
-          currentIndex: widget.currentIndex,
-          items: [
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.place),
-              label: widget.label,
+        margin: EdgeInsets.all(displayWidth * .05),
+        height: displayWidth * .155,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(.1),
+              blurRadius: 30,
+              offset: Offset(0, 10),
             ),
-            // if (widget.showLikeButton)
-            //   BottomNavigationBarItem(
-            //     icon: Icon(Icons.favorite),
-            //     label: 'Favorites',
-            //   ),
-            BottomNavigationBarItem(
-              icon: profileImageUrl != null &&
-                      Uri.parse(profileImageUrl!).isAbsolute
-                  ? CircleAvatar(
-                      backgroundImage:
-                          CachedNetworkImageProvider(profileImageUrl!),
-                      radius: 12,
-                    )
-                  : const CircleAvatar(
-                      backgroundImage:
-                          AssetImage('assets/images/default_avatar.png'),
-                      radius: 12,
-                    ),
-              label: userName ?? '  ',
-            ),
-            // Conditionally show the like button
           ],
-          onTap: widget.onTap,
+          borderRadius: BorderRadius.circular(50),
+        ),
+        child: ListView.builder(
+          itemCount: 4, // Change itemCount to 4 for four items
+          scrollDirection: Axis.horizontal,
+          padding: EdgeInsets.symmetric(horizontal: displayWidth * .02),
+          itemBuilder: (context, index) {
+            // Handle tapping logic
+            return InkWell(
+              onTap: () {
+                if (index == 1 && !widget.citySelected) {
+                  print('Select a city first');
+                  return;
+                }
+                setState(() {
+                  widget.onTap(index);
+                  HapticFeedback.lightImpact();
+                });
+              },
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              child: Stack(
+                children: [
+                  AnimatedContainer(
+                    duration: Duration(seconds: 1),
+                    curve: Curves.fastLinearToSlowEaseIn,
+                    width: index == widget.currentIndex
+                        ? displayWidth * .32
+                        : displayWidth * .18,
+                    alignment: Alignment.center,
+                    child: AnimatedContainer(
+                      duration: Duration(seconds: 1),
+                      curve: Curves.fastLinearToSlowEaseIn,
+                      height:
+                          index == widget.currentIndex ? displayWidth * .12 : 0,
+                      width:
+                          index == widget.currentIndex ? displayWidth * .32 : 0,
+                      decoration: BoxDecoration(
+                        color: index == widget.currentIndex
+                            ? Colors.blueAccent.withOpacity(.2)
+                            : Colors.transparent,
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                    ),
+                  ),
+                  AnimatedContainer(
+                    duration: Duration(seconds: 1),
+                    curve: Curves.fastLinearToSlowEaseIn,
+                    width: index == widget.currentIndex
+                        ? displayWidth * .31
+                        : displayWidth * .18,
+                    alignment: Alignment.center,
+                    child: Stack(
+                      children: [
+                        Row(
+                          children: [
+                            AnimatedContainer(
+                              duration: Duration(seconds: 1),
+                              curve: Curves.fastLinearToSlowEaseIn,
+                              width: index == widget.currentIndex
+                                  ? displayWidth * .13
+                                  : 0,
+                            ),
+                            AnimatedOpacity(
+                              opacity: index == widget.currentIndex ? 1 : 0,
+                              duration: Duration(seconds: 1),
+                              curve: Curves.fastLinearToSlowEaseIn,
+                              child: Text(
+                                index == widget.currentIndex
+                                    ? '${listOfStrings[index]}'
+                                    : '',
+                                style: TextStyle(
+                                  color: Colors.blueAccent,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 15,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            AnimatedContainer(
+                              duration: Duration(seconds: 1),
+                              curve: Curves.fastLinearToSlowEaseIn,
+                              width: index == widget.currentIndex
+                                  ? displayWidth * .03
+                                  : 20,
+                            ),
+                            Icon(
+                              listOfIcons[index],
+                              size: displayWidth * .076,
+                              color: index == widget.currentIndex
+                                  ? Colors.blueAccent
+                                  : Colors.black26,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
         ),
       ),
     );

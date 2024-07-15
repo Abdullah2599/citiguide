@@ -26,48 +26,46 @@ class TilesDetails extends StatefulWidget {
 
 class _TilesDetailsState extends State<TilesDetails> {
   final ReviewController reviewController = Get.put(ReviewController());
-  // final Datacontroller dataController = Get.find();
+  final FavoritesController favoritesController =
+      Get.put(FavoritesController());
 
   double _userRating = 0;
   final TextEditingController _reviewController = TextEditingController();
-  late bool like = false;
-
-  checklike() {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    User? user = auth.currentUser;
-    var likes = widget.placeData["likes"];
-
-    if (likes != null) {
-      like = likes.contains(user!.email.toString());
-      setState(() {});
-    }
-  }
 
   @override
   void initState() {
     super.initState();
     reviewController.fetchReviews(widget.placeId);
-    checklike();
+    favoritesController.checkLikeStatus(widget.placeId);
     //pass the placeId to fetchReviews and setup listener
     reviewController.sortOrder.listen((_) {
-      reviewController.fetchReviews(widget.placeId);
-    });
-
-    FirebaseDatabase.instance
-        .ref('data/${widget.placeId}/likes')
-        .onValue
-        .listen((event) {
-      if (event.snapshot.exists) {
-        var likes = event.snapshot.value as List<dynamic>;
-        setState(() {
-          like = likes.contains(FirebaseAuth.instance.currentUser!.email);
-        });
+      if (mounted) {
+        reviewController.fetchReviews(widget.placeId);
       }
     });
+
+    // FirebaseDatabase.instance
+    //     .ref('data/${widget.placeId}/likes')
+    //     .onValue
+    //     .listen((event) {
+    //   if (event.snapshot.exists) {
+    //     var likes = event.snapshot.value as List<dynamic>;
+    //     setState(() {
+    //       favoritesController.like.value =
+    //           likes.contains(FirebaseAuth.instance.currentUser!.email);
+    //     });
+    //   }
+    // });
   }
 
   @override
   void dispose() {
+    reviewController.sortOrder.close();
+    FirebaseDatabase.instance
+        .ref('data/${widget.placeId}/likes')
+        .onValue
+        .listen((event) {})
+        .cancel();
     _reviewController.dispose();
     super.dispose();
   }
@@ -89,49 +87,6 @@ class _TilesDetailsState extends State<TilesDetails> {
     } else {
       Get.snackbar('Error', 'Please provide a rating and a comment');
     }
-  }
-
-  Future<void> likeOrUnlike(String placeId, bool isLiked) async {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    User? user = auth.currentUser;
-
-    if (user == null) {
-      print("User is not logged in.");
-      return;
-    }
-
-    String email = user.email!;
-    DatabaseReference placeRef =
-        FirebaseDatabase.instance.ref('data/$placeId/likes');
-
-    // Fetch the current likes
-    DataSnapshot snapshot = await placeRef.get();
-
-    List<String> likes = [];
-    if (snapshot.exists && snapshot.value is List) {
-      likes = List<String>.from(snapshot.value as List);
-    } else if (snapshot.exists && snapshot.value is Map) {
-      likes = List<String>.from((snapshot.value as Map).values);
-    }
-
-    if (isLiked) {
-      // Add email to the likes if not already present
-      if (!likes.contains(email)) {
-        likes.add(email);
-        Get.snackbar("Message", "You liked this place");
-      }
-    } else {
-      // Remove email from the likes if present
-      if (likes.contains(email)) {
-        likes.remove(email);
-        Get.snackbar("Message", "You unliked this place");
-      }
-    }
-
-    // Update the likes array in Realtime Database
-    await placeRef.set(likes);
-
-    // favoritesController.fetchLikedPlaces();
   }
 
   @override
@@ -166,15 +121,16 @@ class _TilesDetailsState extends State<TilesDetails> {
             right: 20,
             child: GestureDetector(
               onTap: () {
-                like = !like;
-                setState(() {});
-                likeOrUnlike(widget.placeId, like);
-                // Get.back();
+                bool newLikeStatus = !favoritesController.like.value;
+                favoritesController.likeOrUnlike(widget.placeId, newLikeStatus);
               },
-              child: Icon(
-                  like ? Icons.favorite : Icons.favorite_border_outlined,
-                  size: 30,
-                  color: Colors.red),
+              child: Obx(() => Icon(
+                    favoritesController.like.value
+                        ? Icons.favorite
+                        : Icons.favorite_border_outlined,
+                    size: 30,
+                    color: Colors.red,
+                  )),
             ),
           ),
           scrollDetails(),
@@ -481,44 +437,51 @@ class _TilesDetailsState extends State<TilesDetails> {
                             borderRadius:
                                 BorderRadius.all(Radius.elliptical(10, 10))),
                         height: 350, // Adjust this height as needed
-                        child: Obx(
-                          () => ListView(
-                            controller: scrollcontroller,
-                            children: reviewController.reviews.map((review) {
-                              return Card(
-                                elevation: 2,
-                                margin: const EdgeInsets.symmetric(vertical: 4),
-                                child: ListTile(
-                                  shape: BeveledRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(5.0))),
-                                  tileColor: Color.fromARGB(62, 40, 250, 194),
-                                  leading: review.profilePic != null
-                                      ? CircleAvatar(
-                                          backgroundImage:
-                                              NetworkImage(review.profilePic!),
-                                        )
-                                      : const CircleAvatar(
-                                          child: Icon(Icons.person),
+                        child: Obx(() {
+                          if (reviewController.reviews.isEmpty) {
+                            return const Center(
+                              child: Text('No reviews available'),
+                            );
+                          } else {
+                            return ListView(
+                              controller: scrollcontroller,
+                              children: reviewController.reviews.map((review) {
+                                return Card(
+                                  elevation: 2,
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 4),
+                                  child: ListTile(
+                                    shape: BeveledRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5.0))),
+                                    tileColor: Color.fromARGB(62, 40, 250, 194),
+                                    leading: review.profilePic != null
+                                        ? CircleAvatar(
+                                            backgroundImage: NetworkImage(
+                                                review.profilePic!),
+                                          )
+                                        : const CircleAvatar(
+                                            child: Icon(Icons.person),
+                                          ),
+                                    title: Text(review.reviewer.toString()),
+                                    subtitle: Text(review.text.toString()),
+                                    trailing: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          review.rating.toString(),
+                                          style: TextStyle(fontSize: 15),
                                         ),
-                                  title: Text(review.reviewer.toString()),
-                                  subtitle: Text(review.text.toString()),
-                                  trailing: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        review.rating.toString(),
-                                        style: TextStyle(fontSize: 15),
-                                      ),
-                                      const Icon(Icons.star,
-                                          size: 16, color: Colors.amber),
-                                    ],
+                                        const Icon(Icons.star,
+                                            size: 16, color: Colors.amber),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              );
-                            }).toList(),
-                          ),
-                        ),
+                                );
+                              }).toList(),
+                            );
+                          }
+                        }),
                       ),
                       SizedBox(height: 80),
                     ],

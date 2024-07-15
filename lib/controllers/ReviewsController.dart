@@ -53,18 +53,30 @@ class ReviewController extends GetxController {
               : entry.value['rating'] as double;
           final text = entry.value['comment'] as String?;
 
-          //details from Firestore
-          DocumentSnapshot userDoc =
-              await _firestore.collection('users').doc(reviewerEmail).get();
-          final userName = userDoc['name'] as String?;
-          final userProfilePic = userDoc['image'] as String?;
+          // Fetch details from Firestore
+          if (reviewerEmail != null) {
+            DocumentSnapshot userDoc =
+                await _firestore.collection('users').doc(reviewerEmail).get();
+            if (userDoc.exists) {
+              final userName = userDoc['name'] as String?;
+              final userProfilePic = userDoc['image'] as String?;
 
-          reviewsList.add(Review(
-            reviewer: userName,
-            rating: rating,
-            text: text,
-            profilePic: userProfilePic,
-          ));
+              reviewsList.add(Review(
+                reviewer: userName,
+                rating: rating,
+                text: text,
+                profilePic: userProfilePic,
+              ));
+            } else {
+              // Handle the case where userDoc does not exist
+              reviewsList.add(Review(
+                reviewer: 'Unknown User',
+                rating: rating,
+                text: text,
+                profilePic: null,
+              ));
+            }
+          }
         }
 
         // Sort reviews based on the sortOrder
