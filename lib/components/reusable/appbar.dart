@@ -31,7 +31,7 @@ AppBar app_Bar(String text, bool truf, String screen) {
             color: Colors.white,
           ),
         ),
-      if (screen != 'Home')
+      if (screen == 'Profile')
         IconButton(
           onPressed: () {
             Get.defaultDialog(
@@ -57,7 +57,7 @@ AppBar app_Bar(String text, bool truf, String screen) {
             color: Colors.white,
           ),
         ),
-      if (screen != 'Cities' && screen != 'Home')
+      if (screen == 'Home')
         ElevatedButton.icon(
           icon: Icon(
             Icons.favorite,

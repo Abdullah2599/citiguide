@@ -61,7 +61,7 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 236, 249, 245),
-      appBar: app_Bar('Profile', true, ''),
+      appBar: app_Bar('Profile', true, 'Profile'),
       body: Obx(() {
         return controller.isLoading.value
             ? const Center(

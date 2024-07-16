@@ -36,6 +36,15 @@ class PushNotifications {
     }
   }
 
+  void checkTokenAndSubscription() async {
+    String? token = await FirebaseMessaging.instance.getToken();
+    print('FCM Token: $token');
+
+    // Subscribe to 'all' topic
+    FirebaseMessaging.instance.subscribeToTopic('all');
+    print('Subscribed to all topic');
+  }
+
   // get the fcm device token
   static Future<String?> getDeviceToken({int maxRetries = 3}) async {
     try {
