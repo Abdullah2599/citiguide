@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:citiguide/Golobal%20Loader/boxrotation.dart';
+
 import 'package:citiguide/Pages/Favorites.dart';
 import 'package:citiguide/Pages/homepage.dart';
 import 'package:citiguide/Pages/profile_page.dart';
@@ -49,7 +49,7 @@ class CityScreen extends StatelessWidget {
     });
 
     return Scaffold(
-      appBar: app_Bar('Cities', false, ''),
+      appBar: app_Bar('Cities', false, 'Cities'),
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();

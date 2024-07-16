@@ -1,5 +1,6 @@
 import 'package:citiguide/Pages/Favorites.dart';
 import 'package:citiguide/Pages/loginpage.dart';
+import 'package:citiguide/Pages/notificationsscreen.dart';
 import 'package:citiguide/Theme/color.dart';
 import 'package:citiguide/controllers/LoginController.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
 
-app_Bar(String text, bool truf, String screen) {
+AppBar app_Bar(String text, bool truf, String screen) {
   return AppBar(
     automaticallyImplyLeading: truf,
     clipBehavior: Clip.hardEdge,
@@ -18,9 +19,18 @@ app_Bar(String text, bool truf, String screen) {
       text,
       style: TextStyle(color: Colors.white),
     ),
-    surfaceTintColor: Colors.transparent,
     backgroundColor: Color.fromARGB(255, 7, 206, 182),
     actions: [
+      if (screen == 'Cities')
+        IconButton(
+          onPressed: () {
+            Get.to(() => NotificationsScreen());
+          },
+          icon: Icon(
+            Icons.notifications,
+            color: Colors.white,
+          ),
+        ),
       if (screen != 'Home')
         IconButton(
           onPressed: () {
@@ -46,18 +56,8 @@ app_Bar(String text, bool truf, String screen) {
             Icons.logout,
             color: Colors.white,
           ),
-        )
-      else
-        // IconButton(
-        //   onPressed: () {
-        //     Get.to(() => FavoritesScreen());
-        //   },
-        //   icon: Icon(
-        //     Icons.star,
-        //     color: Colors.white,
-        //   ),
-        // ),
-
+        ),
+      if (screen != 'Cities' && screen != 'Home')
         ElevatedButton.icon(
           icon: Icon(
             Icons.favorite,
@@ -71,13 +71,13 @@ app_Bar(String text, bool truf, String screen) {
             style: TextStyle(fontSize: 16, color: ColorTheme.primaryColor),
           ),
           style: ElevatedButton.styleFrom(
-              fixedSize: Size(150, 10),
-              elevation: 5,
-              // backgroundColor: ColorTheme.primaryColor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5),
-              )),
-        )
+            fixedSize: Size(150, 10),
+            elevation: 5,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
+          ),
+        ),
     ],
     leading: truf
         ? GestureDetector(

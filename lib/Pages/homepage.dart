@@ -1,4 +1,3 @@
-import 'package:citiguide/Golobal%20Loader/boxrotation.dart';
 import 'package:citiguide/Pages/Favorites.dart';
 import 'package:citiguide/Pages/cityscreen.dart';
 import 'package:citiguide/Pages/maindetails.dart';
