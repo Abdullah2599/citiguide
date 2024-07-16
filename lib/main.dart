@@ -108,7 +108,8 @@ class MyApp extends StatelessWidget {
     // If there is notification data and the user is signed in, open NotificationsScreen
     if (user != null && notificationData.isNotEmpty) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        Get.to(() => NotificationsScreen(data: notificationData));
+        Future.delayed(Duration.zero,
+            () => Get.to(() => NotificationsScreen(data: notificationData)));
       });
     }
 

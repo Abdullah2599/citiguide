@@ -20,6 +20,10 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   @override
   void initState() {
     super.initState();
+    Future.delayed(Duration.zero, () => processPayload());
+  }
+
+  void processPayload() {
     if (widget.data is RemoteMessage) {
       payload = widget.data.data;
     } else if (widget.data is Map<String, dynamic>) {
@@ -50,21 +54,42 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           itemCount: notificationController.notifications.length,
           itemBuilder: (context, index) {
             var notification = notificationController.notifications[index];
-            return ListTile(
-              title: Text(notification['title']),
-              subtitle: Text(notification['message']),
-              leading: CircleAvatar(
-                child: Text('Icon'),
-              ),
-              trailing: IconButton(
-                icon: Icon(Icons.delete),
-                onPressed: () {
-                  notificationController.deleteNotification(index);
-                },
-              ),
-              onTap: () {
-                // Handle tapping on a notification
+            bool isRead = notification['isRead'] is bool
+                ? notification['isRead']
+                : notification['isRead'] == 'true';
+            return Dismissible(
+              key: Key(notification['timestamp'].toString()),
+              background: Container(color: Colors.red),
+              onDismissed: (direction) {
+                notificationController.deleteNotification(index);
               },
+              child: GestureDetector(
+                onTap: () {
+                  Future.delayed(Duration.zero,
+                      () => notificationController.markAsRead(index));
+                },
+                child: Container(
+                  margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                  decoration: BoxDecoration(
+                    color: isRead ? Colors.cyan[100] : Colors.cyan,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        blurRadius: 5,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: ListTile(
+                    title: Text(notification['title']),
+                    subtitle: Text(notification['message']),
+                    leading: CircleAvatar(
+                      child: Text('Icon'),
+                    ),
+                  ),
+                ),
+              ),
             );
           },
         );

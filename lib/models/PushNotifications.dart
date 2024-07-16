@@ -14,7 +14,7 @@ class PushNotifications {
   static final FlutterLocalNotificationsPlugin
       _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
-  // request notification permission
+  // Request notification permission
   static Future<void> init() async {
     print("Requesting notification permission...");
     await _firebaseMessaging.requestPermission(
@@ -36,23 +36,13 @@ class PushNotifications {
     }
   }
 
-  void checkTokenAndSubscription() async {
-    String? token = await FirebaseMessaging.instance.getToken();
-    print('FCM Token: $token');
-
-    // Subscribe to 'all' topic
-    FirebaseMessaging.instance.subscribeToTopic('all');
-    print('Subscribed to all topic');
-  }
-
-  // get the fcm device token
+  // Get the FCM device token
   static Future<String?> getDeviceToken({int maxRetries = 3}) async {
     try {
       String? token = await FirebaseMessaging.instance.getToken();
       print("Device token: $token");
 
       if (token != null) {
-        await saveUserToken(token);
         return token;
       } else {
         print("Failed to retrieve device token");
@@ -70,6 +60,7 @@ class PushNotifications {
     }
   }
 
+  // Save user token to Firestore
   static Future<void> saveUserToken(String token) async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user == null) {
@@ -78,13 +69,21 @@ class PushNotifications {
     }
 
     String userEmail = user.email ?? "";
+
+    // Check if token already exists for another user
+    var tokenExists = await _checkTokenExistsForOtherUser(token, userEmail);
+    if (tokenExists) {
+      print("Token already exists for another user, not saving.");
+      return;
+    }
+
     Map<String, dynamic> data = {
       "token": token,
     };
 
     try {
       await FirebaseFirestore.instance
-          .collection('users') // Use 'users' collection instead of 'user_data'
+          .collection('users')
           .doc(userEmail)
           .set(data, SetOptions(merge: true)); // Merge with existing data
 
@@ -92,6 +91,23 @@ class PushNotifications {
     } catch (e) {
       print("Error in saving token to Firestore: $e");
     }
+  }
+
+  // Check if token exists for another user
+  static Future<bool> _checkTokenExistsForOtherUser(
+      String token, String currentUserEmail) async {
+    var querySnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .where('token', isEqualTo: token)
+        .get();
+
+    for (var doc in querySnapshot.docs) {
+      if (doc.id != currentUserEmail) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   // // initalize local notifications
