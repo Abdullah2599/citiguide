@@ -27,11 +27,12 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     }
     print("Processed Payload: $payload");
 
-    // Add the notification payload to the controller
     if (payload.isNotEmpty) {
+      String title =
+          payload.containsKey('title') ? payload['title'] : 'No title';
       String message =
           payload.containsKey('message') ? payload['message'] : 'No message';
-      notificationController.addNotification(message);
+      notificationController.addNotification(title, message);
     }
   }
 
@@ -48,12 +49,18 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         return ListView.builder(
           itemCount: notificationController.notifications.length,
           itemBuilder: (context, index) {
-            String notification = notificationController.notifications[index];
+            var notification = notificationController.notifications[index];
             return ListTile(
-              title: Text(notification),
-              subtitle: Text(payload.toString()),
+              title: Text(notification['title']),
+              subtitle: Text(notification['message']),
               leading: CircleAvatar(
                 child: Text('Icon'),
+              ),
+              trailing: IconButton(
+                icon: Icon(Icons.delete),
+                onPressed: () {
+                  notificationController.deleteNotification(index);
+                },
               ),
               onTap: () {
                 // Handle tapping on a notification

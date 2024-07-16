@@ -85,23 +85,6 @@ class PushNotifications {
     }
   }
 
-  // static saveTokentoFirestore({required String token}) async {
-
-  //   bool isUserLoggedin = await LoginController.isLoggedIn();
-  //   print("User is logged in $isUserLoggedin");
-  //   if (isUserLoggedin) {
-  //     await CRUDService.saveUserToken(token!);
-  //     print("save to firestore");
-  //   }
-  //   // also save if token changes
-  //   _firebaseMessaging.onTokenRefresh.listen((event) async {
-  //     if (isUserLoggedin) {
-  //       await CRUDService.saveUserToken(token!);
-  //       print("save to firestore");
-  //     }
-  //   });
-  // }
-
   // // initalize local notifications
   static Future localNotiInit() async {
     // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
@@ -157,25 +140,3 @@ class PushNotifications {
         .show(0, title, body, notificationDetails, payload: payload);
   }
 }
-
-// class CRUDService {
-// // save fcm token to firstore
-//   static Future saveUserToken(String token) async {
-//     User? user = FirebaseAuth.instance.currentUser;
-//     Map<String, dynamic> data = {
-//       "email": user!.email,
-//       "token": token,
-//     };
-//     try {
-//       await FirebaseFirestore.instance
-//           .collection("user_data")
-//           .doc(user.uid)
-//           .set(data);
-
-//       print("Document Added to ${user.uid}");
-//     } catch (e) {
-//       print("error in saving to firestore");
-//       print(e.toString());
-//     }
-//   }
-// }

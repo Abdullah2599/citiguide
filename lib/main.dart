@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:citiguide/Pages/cityscreen.dart';
 import 'package:citiguide/Pages/loginpage.dart';
 import 'package:citiguide/Pages/notificationsscreen.dart';
