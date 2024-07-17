@@ -33,7 +33,7 @@ class CityScreen extends StatelessWidget {
         },
         onCancel: () => Get.back(),
         title: "Exit",
-        content: Column(
+        content: const Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text("Are you sure you want to exit?"),
@@ -43,6 +43,7 @@ class CityScreen extends StatelessWidget {
     }
 
     // Register callback for back button press
+    // ignore: deprecated_member_use
     ModalRoute.of(context)?.addScopedWillPopCallback(() async {
       bool canPop = await showExitConfirmationDialog();
       return canPop;
@@ -55,7 +56,7 @@ class CityScreen extends StatelessWidget {
           FocusScope.of(context).unfocus();
         },
         child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -83,7 +84,7 @@ class CityScreen extends StatelessWidget {
                       borderSide: BorderSide.none,
                       borderRadius: BorderRadius.circular(30),
                     ),
-                    contentPadding: EdgeInsets.all(20),
+                    contentPadding: const EdgeInsets.all(20),
                     hintText: 'Search Cities',
                     suffixIcon: IconButton(
                       onPressed: () {
@@ -168,12 +169,12 @@ class CityScreen extends StatelessWidget {
           //   Get.to(() => FavoritesScreen());
           // }
           if (index == 2) {
-            Get.to(() => FavoritesScreen(
+            Get.to(() => const FavoritesScreen(
                   fromPage: 'CityScreen',
                 ));
           }
           if (index == 3) {
-            Get.to(() => ProfileSettingsPage(fromPage: 'CityScreen'));
+            Get.to(() => const ProfileSettingsPage(fromPage: 'CityScreen'));
           }
         },
       ),
@@ -181,28 +182,9 @@ class CityScreen extends StatelessWidget {
   }
 }
 
-Future<bool> _onBackPressed(BuildContext context) async {
-  return await Get.defaultDialog(
-    buttonColor: ColorTheme.primaryColor,
-    confirmTextColor: Colors.white,
-    onConfirm: () {
-      Get.back();
-      Get.back();
-    },
-    onCancel: () => Get.back(),
-    title: "Exit",
-    content: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text("Are you sure you want to exit?"),
-      ],
-    ),
-  );
-}
-
 Future<void> bottomSheet(BuildContext context, Map<dynamic, dynamic> cityData) {
   return showModalBottomSheet(
-    shape: RoundedRectangleBorder(
+    shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
     ),
     context: context,
@@ -213,12 +195,12 @@ Future<void> bottomSheet(BuildContext context, Map<dynamic, dynamic> cityData) {
     enableDrag: true,
     builder: (context) => SingleChildScrollView(
       child: Container(
-        padding: EdgeInsets.fromLTRB(22.0, 5, 22.0, 22.0),
+        padding: const EdgeInsets.fromLTRB(22.0, 5, 22.0, 22.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
                 boxShadow: [
                   BoxShadow(
@@ -231,7 +213,7 @@ Future<void> bottomSheet(BuildContext context, Map<dynamic, dynamic> cityData) {
               height: 200,
               width: double.infinity,
               child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
                 child: CachedNetworkImage(
                   imageUrl: cityData["cimg"].toString(),
                   height: 200,
@@ -239,20 +221,20 @@ Future<void> bottomSheet(BuildContext context, Map<dynamic, dynamic> cityData) {
                 ),
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Text(
               cityData["cname"].toString(),
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 22,
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(
               cityData["cdesc"] ?? 'No description available',
-              style: TextStyle(fontSize: 18),
+              style: const TextStyle(fontSize: 18),
             ),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
           ],
         ),
       ),

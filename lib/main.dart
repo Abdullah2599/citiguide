@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:citiguide/Pages/cityscreen.dart';
 import 'package:citiguide/Pages/loginpage.dart';
 import 'package:citiguide/Pages/notificationsscreen.dart';
-import 'package:citiguide/Pages/splash.dart';
 import 'package:citiguide/Pages/welcomescreen.dart';
 import 'package:citiguide/Theme/color.dart';
 import 'package:citiguide/controllers/NotificationsController.dart';
@@ -24,15 +23,15 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  print("Initializing Push Notifications...");
+  // print("Initializing Push Notifications...");
   await PushNotifications.init();
-  print("Initializing Local Notifications...");
+  // print("Initializing Local Notifications...");
   await PushNotifications.localNotiInit();
 
   // Handle foreground notifications
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     String payloadData = jsonEncode(message.data);
-    print("Got a message in foreground: $payloadData");
+    // print("Got a message in foreground: $payloadData");
     if (message.notification != null) {
       PushNotifications.showSimpleNotification(
         title: message.notification!.title ?? "No Title",
@@ -44,7 +43,7 @@ Future<void> main() async {
 
   // Handle notification tap in background or terminated state
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-    print('A new onMessageOpenedApp event was published!');
+    // print('A new onMessageOpenedApp event was published!');
     Get.to(() => NotificationsScreen(data: message.data));
   });
 
@@ -60,7 +59,7 @@ Future<void> main() async {
 
   // Check if the app was opened from a notification and handle the redirection
   if (message != null) {
-    print("Launched from terminated state with data: ${message.data}");
+    // print("Launched from terminated state with data: ${message.data}");
 
     if (user != null) {
       // User is signed in, navigate to NotificationsScreen with data
@@ -98,9 +97,9 @@ class MyApp extends StatelessWidget {
     Widget home;
 
     if (isFirstTime) {
-      home = WelcomScreen();
+      home = const WelcomScreen();
     } else if (user == null) {
-      home = LoginPage();
+      home = const LoginPage();
     } else {
       home = CityScreen();
     }

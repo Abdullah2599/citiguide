@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -13,7 +12,7 @@ class Datacontroller extends GetxController {
   final TextEditingController searchController = TextEditingController();
   final FocusNode searchFocusNode = FocusNode();
   final RxBool isSearching = false.obs;
-  final RxBool isLoading = true.obs; // Added isLoading
+  final RxBool isLoading = true.obs;
 
   Datacontroller({required this.city, String? category}) {
     this.category = (category ?? 'All').obs;

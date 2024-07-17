@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-
 import 'package:citiguide/Pages/Favorites.dart';
 import 'package:citiguide/Pages/cityscreen.dart';
 import 'package:citiguide/Theme/color.dart';
@@ -36,17 +35,47 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
   }
 
   void _showDeleteAccountDialog() {
+    final emailController = TextEditingController();
+    final passwordController = TextEditingController();
+
     Get.defaultDialog(
       radius: 5,
       title: "Delete Account",
-      content: const Padding(
-        padding: EdgeInsets.all(8.0),
+      content: Padding(
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               "Are you sure you want to delete your account? This action cannot be undone.",
               textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: emailController,
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
+                hintText: 'Email',
+                border: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: passwordController,
+              obscureText: true,
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
+                hintText: 'Password',
+                border: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
             ),
           ],
         ),
@@ -57,34 +86,50 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
             Get.back(); // Close the dialog
           },
           style: TextButton.styleFrom(
-            backgroundColor: Colors.grey[200], // Example background color
+            backgroundColor: Colors.grey[200],
             padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
             ),
           ),
-          child: Text(
+          child: const Text(
             'Cancel',
-            style: TextStyle(color: Colors.black87), // Example text color
+            style: TextStyle(color: Colors.black87),
           ),
         ),
-        SizedBox(width: 8), // Optional spacing between buttons
+        const SizedBox(width: 8),
         ElevatedButton(
           onPressed: () async {
-            await controller.deleteAccount();
-            Get.back(); // Close the dialog
+            final email = emailController.text;
+            final password = passwordController.text;
+
+            if (email.isNotEmpty && password.isNotEmpty) {
+              await controller.deleteAccount(email, password);
+              Get.back(); // Close the dialog
+            } else {
+              Get.snackbar(
+                'Error',
+                'Please enter email and password.',
+                backgroundColor: const Color.fromARGB(160, 81, 160, 136),
+                barBlur: 3.0,
+                colorText: Colors.white,
+                borderRadius: 5,
+                borderWidth: 50,
+                dismissDirection: DismissDirection.horizontal,
+              );
+            }
           },
           style: ElevatedButton.styleFrom(
             elevation: 5,
-            backgroundColor: ColorTheme.primaryColor, // Your primary color
+            backgroundColor: ColorTheme.primaryColor,
             padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
             ),
           ),
-          child: Text(
+          child: const Text(
             'Delete',
-            style: TextStyle(color: Colors.white), // Example text color
+            style: TextStyle(color: Colors.white),
           ),
         ),
       ],
@@ -94,8 +139,17 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 236, 249, 245),
-      appBar: app_Bar('Profile', true, 'Profile'),
+      backgroundColor: const Color.fromARGB(255, 236, 249, 245),
+      appBar: widget.isNewUser
+          ? AppBar(
+              title: const Text(
+                'Set up Profile',
+                style:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+              backgroundColor: ColorTheme.primaryColor,
+            )
+          : app_Bar('Profile', true, 'Profile'),
       body: Obx(() {
         return controller.isLoading.value
             ? const Center(
@@ -145,9 +199,9 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                       ),
                       const SizedBox(height: 30),
                       ListTile(
-                        title: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: const Text(
+                        title: const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 8.0),
+                          child: Text(
                             'Name',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
@@ -181,10 +235,20 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                                     context: context,
                                     builder: (context) {
                                       return AlertDialog(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(5)),
                                         title: const Text('Edit Name'),
                                         content: TextField(
                                           controller: controller.nameController,
-                                          decoration: const InputDecoration(
+                                          decoration: InputDecoration(
+                                            filled: true,
+                                            focusColor: Colors.white,
+                                            border: OutlineInputBorder(
+                                                borderSide: BorderSide.none,
+                                                borderRadius:
+                                                    BorderRadius.circular(5)),
+                                            fillColor: Colors.white,
                                             hintText: 'Enter new name',
                                           ),
                                         ),
@@ -193,9 +257,23 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                                             onPressed: () {
                                               Navigator.of(context).pop();
                                             },
-                                            child: const Text('Cancel'),
+                                            style: TextButton.styleFrom(
+                                              backgroundColor: Colors.grey[
+                                                  200], // Example background color
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 12,
+                                                      horizontal: 24),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                              ),
+                                            ),
+                                            child: const Text('Cancel',
+                                                style: TextStyle(
+                                                    color: Colors.black87)),
                                           ),
-                                          TextButton(
+                                          ElevatedButton(
                                             onPressed: () {
                                               if (controller.nameController.text
                                                   .isNotEmpty) {
@@ -206,7 +284,7 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                                                   'Enter your name',
                                                   'Name cannot be empty!',
                                                   backgroundColor:
-                                                      Color.fromARGB(
+                                                      const Color.fromARGB(
                                                           160, 81, 160, 136),
                                                   barBlur: 3.0,
                                                   colorText: Colors.white,
@@ -218,7 +296,25 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                                                 );
                                               }
                                             },
-                                            child: const Text('Save'),
+                                            style: ElevatedButton.styleFrom(
+                                              elevation: 5,
+                                              backgroundColor: ColorTheme
+                                                  .primaryColor, // Your primary color
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 12,
+                                                      horizontal: 24),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                              ),
+                                            ),
+                                            child: const Text(
+                                              'Save',
+                                              style: TextStyle(
+                                                  color: Colors
+                                                      .white), // Example text color
+                                            ),
                                           ),
                                         ],
                                       );
@@ -246,7 +342,7 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                               style: ElevatedButton.styleFrom(
                                 elevation: 5,
                                 backgroundColor:
-                                    Color.fromARGB(255, 7, 206, 182),
+                                    const Color.fromARGB(255, 7, 206, 182),
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(5)),
                                 padding: const EdgeInsets.symmetric(
@@ -266,7 +362,7 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                                   style: ElevatedButton.styleFrom(
                                     elevation: 5,
                                     backgroundColor:
-                                        Color.fromARGB(255, 7, 206, 182),
+                                        const Color.fromARGB(255, 7, 206, 182),
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(5)),
                                     padding: const EdgeInsets.symmetric(
@@ -285,7 +381,7 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                                   style: ElevatedButton.styleFrom(
                                     elevation: 5,
                                     backgroundColor:
-                                        Color.fromARGB(255, 255, 45, 45),
+                                        const Color.fromARGB(255, 255, 45, 45),
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(5)),
                                     padding: const EdgeInsets.symmetric(
@@ -317,14 +413,14 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                 }
                 if (index == 0) {
                   widget.fromPage == 'Favorite'
-                      ? Get.to(() => FavoritesScreen())
+                      ? Get.to(() => const FavoritesScreen())
                       : '';
                 }
                 if (index == 0) {
                   Get.to(() => CityScreen());
                 }
                 if (index == 2) {
-                  Get.to(() => FavoritesScreen());
+                  Get.to(() => const FavoritesScreen());
                 }
                 if (index == 1) {
                   widget.fromPage == 'Homepage' ? Get.back() : '';
@@ -340,7 +436,7 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
     final confirmPasswordController = TextEditingController();
 
     Get.defaultDialog(
-      titlePadding: EdgeInsets.only(top: 30),
+      titlePadding: const EdgeInsets.only(top: 30),
       title: 'Change Password',
       content: SingleChildScrollView(
         child: Padding(
@@ -363,7 +459,7 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               TextField(
                 controller: newPasswordController,
                 obscureText: true,
@@ -377,7 +473,7 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               TextField(
                 controller: confirmPasswordController,
                 obscureText: true,
@@ -408,12 +504,12 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
               borderRadius: BorderRadius.circular(5),
             ),
           ),
-          child: Text(
+          child: const Text(
             'Cancel',
             style: TextStyle(color: Colors.black87), // Example text color
           ),
         ),
-        SizedBox(width: 8), // Optional spacing between buttons
+        const SizedBox(width: 8), // Optional spacing between buttons
         ElevatedButton(
           onPressed: () {
             if (newPasswordController.text == confirmPasswordController.text) {
@@ -426,7 +522,7 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
               Get.snackbar(
                 'Error',
                 'Passwords do not match!',
-                backgroundColor: Color.fromARGB(160, 81, 160, 136),
+                backgroundColor: const Color.fromARGB(160, 81, 160, 136),
                 colorText: Colors.white,
                 borderRadius: 5,
                 borderWidth: 50,
@@ -442,7 +538,7 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
               borderRadius: BorderRadius.circular(5),
             ),
           ),
-          child: Text(
+          child: const Text(
             'Change',
             style: TextStyle(color: Colors.white), // Example text color
           ),

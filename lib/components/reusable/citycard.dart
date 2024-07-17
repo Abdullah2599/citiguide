@@ -13,7 +13,7 @@ CityCard({required cityimg, required cityname}) {
     child: Stack(
       children: [
         ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(7)),
+          borderRadius: const BorderRadius.all(Radius.circular(7)),
           child: CachedNetworkImage(
             imageUrl: cityimg,
             height: 500,
@@ -37,7 +37,7 @@ CityCard({required cityimg, required cityname}) {
               ),
               Text(
                 cityname,
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 22,
                   color: Colors.white,

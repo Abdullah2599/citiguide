@@ -1,11 +1,8 @@
 import 'dart:convert';
-
 import 'package:citiguide/Pages/notificationsscreen.dart';
-import 'package:citiguide/controllers/LoginController.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 
@@ -16,7 +13,7 @@ class PushNotifications {
 
   // Request notification permission
   static Future<void> init() async {
-    print("Requesting notification permission...");
+    // print("Requesting notification permission...");
     await _firebaseMessaging.requestPermission(
       alert: true,
       announcement: true,
@@ -26,13 +23,13 @@ class PushNotifications {
       provisional: false,
       sound: true,
     );
-    print("Getting device token...");
+    // print("Getting device token...");
     String? token = await getDeviceToken();
     if (token != null) {
-      print("Device token: $token");
+      // print("Device token: $token");
       saveUserToken(token);
     } else {
-      print("Failed to get device token.");
+      // print("Failed to get device token.");
     }
   }
 
@@ -40,19 +37,19 @@ class PushNotifications {
   static Future<String?> getDeviceToken({int maxRetries = 3}) async {
     try {
       String? token = await FirebaseMessaging.instance.getToken();
-      print("Device token: $token");
+      // print("Device token: $token");
 
       if (token != null) {
         return token;
       } else {
-        print("Failed to retrieve device token");
+        // print("Failed to retrieve device token");
         return null;
       }
     } catch (e) {
-      print("Error getting device token: $e");
+      // print("Error getting device token: $e");
       if (maxRetries > 0) {
-        print("Retrying after 10 seconds...");
-        await Future.delayed(Duration(seconds: 10));
+        // print("Retrying after 10 seconds...");
+        await Future.delayed(const Duration(seconds: 10));
         return getDeviceToken(maxRetries: maxRetries - 1);
       } else {
         return null;
@@ -64,7 +61,7 @@ class PushNotifications {
   static Future<void> saveUserToken(String token) async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user == null) {
-      print("User not logged in, token not saved.");
+      // print("User not logged in, token not saved.");
       return;
     }
 
@@ -73,7 +70,7 @@ class PushNotifications {
     // Check if token already exists for another user
     var tokenExists = await _checkTokenExistsForOtherUser(token, userEmail);
     if (tokenExists) {
-      print("Token already exists for another user, not saving.");
+      // print("Token already exists for another user, not saving.");
       return;
     }
 
@@ -87,9 +84,9 @@ class PushNotifications {
           .doc(userEmail)
           .set(data, SetOptions(merge: true)); // Merge with existing data
 
-      print("Token added to Firestore for user: $userEmail");
+      // print("Token added to Firestore for user: $userEmail");
     } catch (e) {
-      print("Error in saving token to Firestore: $e");
+      // print("Error in saving token to Firestore: $e");
     }
   }
 
@@ -121,7 +118,7 @@ class PushNotifications {
         DarwinInitializationSettings(
       onDidReceiveLocalNotification: (id, title, body, payload) => null,
     );
-    final LinuxInitializationSettings initializationSettingsLinux =
+    const LinuxInitializationSettings initializationSettingsLinux =
         LinuxInitializationSettings(defaultActionName: 'Open notification');
     final InitializationSettings initializationSettings =
         InitializationSettings(
@@ -143,7 +140,7 @@ class PushNotifications {
   // on tap local notification in foreground
   static void onNotificationTap(NotificationResponse notificationResponse) {
     final data = jsonDecode(notificationResponse.payload ?? '{}');
-    print('Data received on notification tap: $data');
+    // print('Data received on notification tap: $data');
     Get.to(() => NotificationsScreen(data: data));
   }
 

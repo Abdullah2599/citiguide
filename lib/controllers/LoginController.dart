@@ -1,5 +1,4 @@
 import 'package:citiguide/Pages/cityscreen.dart';
-import 'package:citiguide/Pages/homepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:citiguide/Pages/loginpage.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +23,7 @@ class LoginController extends GetxController {
       Get.snackbar(
         'Success',
         'Login Success',
-        backgroundColor: Color.fromARGB(160, 81, 160, 136),
+        backgroundColor: const Color.fromARGB(160, 81, 160, 136),
         barBlur: 3.0,
         colorText: Colors.white,
         borderRadius: 5,
@@ -44,7 +43,7 @@ class LoginController extends GetxController {
         Get.snackbar(
           'Error',
           'No user found for that email.',
-          backgroundColor: Color.fromARGB(160, 81, 160, 136),
+          backgroundColor: const Color.fromARGB(160, 81, 160, 136),
           barBlur: 3.0,
           colorText: Colors.white,
           borderRadius: 5,
@@ -57,7 +56,7 @@ class LoginController extends GetxController {
         Get.snackbar(
           'Error',
           'Wrong password provided for that user.',
-          backgroundColor: Color.fromARGB(160, 81, 160, 136),
+          backgroundColor: const Color.fromARGB(160, 81, 160, 136),
           barBlur: 3.0,
           colorText: Colors.white,
           borderRadius: 5,
@@ -71,7 +70,7 @@ class LoginController extends GetxController {
         Get.snackbar(
           'Error',
           'This user account has been disabled.',
-          backgroundColor: Color.fromARGB(160, 81, 160, 136),
+          backgroundColor: const Color.fromARGB(160, 81, 160, 136),
           barBlur: 3.0,
           colorText: Colors.white,
           borderRadius: 5,
@@ -84,7 +83,7 @@ class LoginController extends GetxController {
         Get.snackbar(
           'Error',
           'The email address is not valid.',
-          backgroundColor: Color.fromARGB(160, 81, 160, 136),
+          backgroundColor: const Color.fromARGB(160, 81, 160, 136),
           barBlur: 3.0,
           colorText: Colors.white,
           borderRadius: 5,
@@ -97,7 +96,7 @@ class LoginController extends GetxController {
         Get.snackbar(
           'Error',
           'An unexpected error occurred. Please try again later.',
-          backgroundColor: Color.fromARGB(160, 81, 160, 136),
+          backgroundColor: const Color.fromARGB(160, 81, 160, 136),
           barBlur: 3.0,
           colorText: Colors.white,
           borderRadius: 5,
@@ -112,7 +111,7 @@ class LoginController extends GetxController {
       Get.snackbar(
         'Error',
         'An unexpected error occurred. Please try again later.',
-        backgroundColor: Color.fromARGB(160, 81, 160, 136),
+        backgroundColor: const Color.fromARGB(160, 81, 160, 136),
         barBlur: 3.0,
         colorText: Colors.white,
         borderRadius: 5,
@@ -128,11 +127,11 @@ class LoginController extends GetxController {
   static void signOut() async {
     try {
       await FirebaseAuth.instance.signOut();
-      Get.offAll(() => LoginPage());
+      Get.offAll(() => const LoginPage());
       Get.snackbar(
         "Logout",
         "Logout successfully",
-        backgroundColor: Color.fromARGB(160, 81, 160, 136),
+        backgroundColor: const Color.fromARGB(160, 81, 160, 136),
         barBlur: 3.0,
         colorText: Colors.white,
         borderRadius: 5,
@@ -143,7 +142,7 @@ class LoginController extends GetxController {
       Get.snackbar(
         "Error",
         "Failed to sign out: $e",
-        backgroundColor: Color.fromARGB(160, 81, 160, 136),
+        backgroundColor: const Color.fromARGB(160, 81, 160, 136),
         barBlur: 3.0,
         colorText: Colors.white,
         borderRadius: 5,

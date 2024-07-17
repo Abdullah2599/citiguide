@@ -1,7 +1,4 @@
-import 'package:citiguide/Pages/cityscreen.dart';
 import 'package:citiguide/Pages/forgetpasspage.dart';
-import 'package:citiguide/Pages/homepage.dart';
-import 'package:citiguide/Pages/profile_page.dart';
 import 'package:citiguide/Theme/color.dart';
 import 'package:citiguide/controllers/LoginController.dart';
 import 'package:flutter/material.dart';
@@ -144,7 +141,8 @@ class _LoginPageState extends State<LoginPage> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => ForgetPassPage(),
+                                        builder: (context) =>
+                                            const ForgetPassPage(),
                                       ));
                                 },
                                 child: Text(
@@ -196,7 +194,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               TextButton(
                                 onPressed: () {
-                                  Get.offAll(() => SignupPage());
+                                  Get.offAll(() => const SignupPage());
                                 },
                                 child: const Text(
                                   "Sign up",

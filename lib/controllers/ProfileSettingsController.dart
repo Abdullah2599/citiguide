@@ -66,7 +66,7 @@ class ProfileSettingsController extends GetxController {
         Get.snackbar(
           'Success',
           'Name updated successfully',
-          backgroundColor: Color.fromARGB(160, 81, 160, 136),
+          backgroundColor: const Color.fromARGB(160, 81, 160, 136),
           barBlur: 3.0,
           colorText: Colors.white,
           borderRadius: 5,
@@ -81,7 +81,7 @@ class ProfileSettingsController extends GetxController {
         Get.snackbar(
           'Error',
           'Failed to update name: $e',
-          backgroundColor: Color.fromARGB(160, 81, 160, 136),
+          backgroundColor: const Color.fromARGB(160, 81, 160, 136),
           barBlur: 3.0,
           colorText: Colors.white,
           borderRadius: 5,
@@ -95,7 +95,7 @@ class ProfileSettingsController extends GetxController {
       Get.snackbar(
         'Error',
         'Name cannot be empty.',
-        backgroundColor: Color.fromARGB(160, 81, 160, 136),
+        backgroundColor: const Color.fromARGB(160, 81, 160, 136),
         barBlur: 3.0,
         colorText: Colors.white,
         borderRadius: 5,
@@ -113,7 +113,7 @@ class ProfileSettingsController extends GetxController {
         Get.snackbar(
           'Error',
           'User is not authenticated.',
-          backgroundColor: Color.fromARGB(160, 81, 160, 136),
+          backgroundColor: const Color.fromARGB(160, 81, 160, 136),
           barBlur: 3.0,
           colorText: Colors.white,
           borderRadius: 5,
@@ -134,7 +134,7 @@ class ProfileSettingsController extends GetxController {
       Get.snackbar(
         'Success',
         'Password changed successfully',
-        backgroundColor: Color.fromARGB(160, 81, 160, 136),
+        backgroundColor: const Color.fromARGB(160, 81, 160, 136),
         barBlur: 3.0,
         colorText: Colors.white,
         borderRadius: 5,
@@ -145,7 +145,7 @@ class ProfileSettingsController extends GetxController {
       Get.snackbar(
         'Error',
         'Failed to change password: $e',
-        backgroundColor: Color.fromARGB(160, 81, 160, 136),
+        backgroundColor: const Color.fromARGB(160, 81, 160, 136),
         barBlur: 3.0,
         colorText: Colors.white,
         borderRadius: 5,
@@ -156,7 +156,7 @@ class ProfileSettingsController extends GetxController {
       Get.snackbar(
         'Error',
         'Failed to change password: $e',
-        backgroundColor: Color.fromARGB(160, 81, 160, 136),
+        backgroundColor: const Color.fromARGB(160, 81, 160, 136),
         barBlur: 3.0,
         colorText: Colors.white,
         borderRadius: 5,
@@ -171,7 +171,7 @@ class ProfileSettingsController extends GetxController {
       Get.snackbar(
         'Error',
         'No image selected.',
-        backgroundColor: Color.fromARGB(160, 81, 160, 136),
+        backgroundColor: const Color.fromARGB(160, 81, 160, 136),
         barBlur: 3.0,
         colorText: Colors.white,
         borderRadius: 5,
@@ -187,7 +187,7 @@ class ProfileSettingsController extends GetxController {
         Get.snackbar(
           'Error',
           'User is not authenticated.',
-          backgroundColor: Color.fromARGB(160, 81, 160, 136),
+          backgroundColor: const Color.fromARGB(160, 81, 160, 136),
           barBlur: 3.0,
           colorText: Colors.white,
           borderRadius: 5,
@@ -213,7 +213,7 @@ class ProfileSettingsController extends GetxController {
         Get.snackbar(
           'Success',
           'Profile image updated successfully',
-          backgroundColor: Color.fromARGB(160, 81, 160, 136),
+          backgroundColor: const Color.fromARGB(160, 81, 160, 136),
           barBlur: 3.0,
           colorText: Colors.white,
           borderRadius: 5,
@@ -224,7 +224,7 @@ class ProfileSettingsController extends GetxController {
         Get.snackbar(
           'Error',
           'Failed to upload image: $error',
-          backgroundColor: Color.fromARGB(160, 81, 160, 136),
+          backgroundColor: const Color.fromARGB(160, 81, 160, 136),
           barBlur: 3.0,
           colorText: Colors.white,
           borderRadius: 5,
@@ -238,7 +238,7 @@ class ProfileSettingsController extends GetxController {
       Get.snackbar(
         'Error',
         'Failed to upload image: $e',
-        backgroundColor: Color.fromARGB(160, 81, 160, 136),
+        backgroundColor: const Color.fromARGB(160, 81, 160, 136),
         barBlur: 3.0,
         colorText: Colors.white,
         borderRadius: 5,
@@ -258,7 +258,7 @@ class ProfileSettingsController extends GetxController {
         Get.snackbar(
           'Error',
           'No image selected.',
-          backgroundColor: Color.fromARGB(160, 81, 160, 136),
+          backgroundColor: const Color.fromARGB(160, 81, 160, 136),
           barBlur: 3.0,
           colorText: Colors.white,
           borderRadius: 5,
@@ -270,7 +270,7 @@ class ProfileSettingsController extends GetxController {
       Get.snackbar(
         'Error',
         'Failed to pick image: $e',
-        backgroundColor: Color.fromARGB(160, 81, 160, 136),
+        backgroundColor: const Color.fromARGB(160, 81, 160, 136),
         barBlur: 3.0,
         colorText: Colors.white,
         borderRadius: 5,
@@ -280,59 +280,27 @@ class ProfileSettingsController extends GetxController {
     }
   }
 
-  Future<void> deleteAccount() async {
+  Future<void> deleteAccount(String email, String password) async {
     try {
-      final user = _auth.currentUser;
+      isLoading(true);
+      User? user = _auth.currentUser;
+
       if (user == null) {
-        Get.snackbar(
-          'Error',
-          'User is not authenticated.',
-          backgroundColor: Color.fromARGB(160, 81, 160, 136),
-          barBlur: 3.0,
-          colorText: Colors.white,
-          borderRadius: 5,
-          borderWidth: 50,
-          dismissDirection: DismissDirection.horizontal,
-        );
+        Get.snackbar('Error', 'No user signed in');
         return;
       }
 
-      // Delete user data from Firestore
-      await _firestore.collection('users').doc(email).delete();
+      AuthCredential credential =
+          EmailAuthProvider.credential(email: email, password: password);
+      await user.reauthenticateWithCredential(credential);
 
-      // Delete user profile image from Firebase Storage
-      final storageRef = FirebaseStorage.instance
-          .ref()
-          .child('profile_images/${user.uid}.jpg');
-      await storageRef.delete();
-
-      // Delete the user account
       await user.delete();
-      LoginController.signOut();
-      // Optionally navigate to another page after account deletion
-      Get.offAll(() => LoginPage());
-
-      Get.snackbar(
-        'Success',
-        'Account deleted successfully',
-        backgroundColor: Color.fromARGB(160, 81, 160, 136),
-        barBlur: 3.0,
-        colorText: Colors.white,
-        borderRadius: 5,
-        borderWidth: 50,
-        dismissDirection: DismissDirection.horizontal,
-      );
+      Get.snackbar('Success', 'Account deleted successfully');
+      Get.offAll(() => const LoginPage()); // Navigate to login screen
     } catch (e) {
-      Get.snackbar(
-        'Error',
-        'Failed to delete account: $e',
-        backgroundColor: Color.fromARGB(160, 81, 160, 136),
-        barBlur: 3.0,
-        colorText: Colors.white,
-        borderRadius: 5,
-        borderWidth: 50,
-        dismissDirection: DismissDirection.horizontal,
-      );
+      Get.snackbar('Error', e.toString());
+    } finally {
+      isLoading(false);
     }
   }
 }

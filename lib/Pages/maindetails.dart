@@ -1,12 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:citiguide/Pages/cityscreen.dart';
-import 'package:citiguide/Pages/homepage.dart';
 import 'package:citiguide/Theme/color.dart';
 import 'package:citiguide/components/reusable/reusableicons.dart';
-import 'package:citiguide/controllers/DataController.dart';
 import 'package:citiguide/controllers/FavoritesController.dart';
 import 'package:citiguide/controllers/ReviewsController.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -21,6 +17,7 @@ class TilesDetails extends StatefulWidget {
       {super.key, required this.placeData, required this.placeId});
 
   @override
+  // ignore: library_private_types_in_public_api
   _TilesDetailsState createState() => _TilesDetailsState();
 }
 
@@ -73,7 +70,7 @@ class _TilesDetailsState extends State<TilesDetails> {
       Navigator.of(context).pop();
     } else {
       Get.snackbar('Error', 'Please provide a rating and a comment',
-          backgroundColor: Color.fromARGB(160, 81, 160, 136),
+          backgroundColor: const Color.fromARGB(160, 81, 160, 136),
           barBlur: 3.0,
           colorText: Colors.white,
           borderRadius: 5,
@@ -105,7 +102,7 @@ class _TilesDetailsState extends State<TilesDetails> {
               onTap: () {
                 Get.back();
               },
-              child: Icon(Icons.arrow_back_ios_new,
+              child: const Icon(Icons.arrow_back_ios_new,
                   size: 30, color: Color.fromARGB(255, 157, 255, 239)),
             ),
           ),
@@ -274,11 +271,11 @@ class _TilesDetailsState extends State<TilesDetails> {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 4,
                 ),
                 Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -313,7 +310,7 @@ class _TilesDetailsState extends State<TilesDetails> {
                                 color: Colors.black87,
                               ),
                             ),
-                            Spacer(),
+                            const Spacer(),
                             SizedBox(
                               width: 32,
                               child: IconButton(
@@ -333,7 +330,7 @@ class _TilesDetailsState extends State<TilesDetails> {
                                             Obx(
                                               () => Text(
                                                 "Logged in as: ${reviewController.userName.value}",
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontSize: 16,
                                                   color: Colors.black87,
                                                 ),
@@ -411,7 +408,7 @@ class _TilesDetailsState extends State<TilesDetails> {
                                     },
                                   );
                                 },
-                                icon: Icon(Icons.add_comment_outlined),
+                                icon: const Icon(Icons.add_comment_outlined),
                               ),
                             ),
                             // Sorting button
@@ -419,7 +416,7 @@ class _TilesDetailsState extends State<TilesDetails> {
                               width: 26,
                               child: IconButton(
                                 onPressed: reviewController.toggleSortOrder,
-                                icon: Icon(Icons.swap_vert),
+                                icon: const Icon(Icons.swap_vert),
                               ),
                             ),
                           ],
@@ -427,8 +424,8 @@ class _TilesDetailsState extends State<TilesDetails> {
                       ),
                       const SizedBox(height: 2),
                       Container(
-                        padding: EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: const BoxDecoration(
                             color: Color.fromARGB(255, 236, 249, 245),
                             borderRadius:
                                 BorderRadius.all(Radius.elliptical(10, 10))),
@@ -447,10 +444,11 @@ class _TilesDetailsState extends State<TilesDetails> {
                                   margin:
                                       const EdgeInsets.symmetric(vertical: 4),
                                   child: ListTile(
-                                    shape: BeveledRectangleBorder(
+                                    shape: const BeveledRectangleBorder(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(5.0))),
-                                    tileColor: Color.fromARGB(62, 40, 250, 194),
+                                    tileColor:
+                                        const Color.fromARGB(62, 40, 250, 194),
                                     leading: review.profilePic != null
                                         ? CircleAvatar(
                                             backgroundImage: NetworkImage(
@@ -466,7 +464,7 @@ class _TilesDetailsState extends State<TilesDetails> {
                                       children: [
                                         Text(
                                           review.rating.toString(),
-                                          style: TextStyle(fontSize: 15),
+                                          style: const TextStyle(fontSize: 15),
                                         ),
                                         const Icon(Icons.star,
                                             size: 16, color: Colors.amber),
@@ -479,7 +477,7 @@ class _TilesDetailsState extends State<TilesDetails> {
                           }
                         }),
                       ),
-                      SizedBox(height: 80),
+                      const SizedBox(height: 80),
                     ],
                   ),
                 ),
@@ -506,7 +504,7 @@ class _TilesDetailsState extends State<TilesDetails> {
             color: Colors.grey.withOpacity(0.4),
             spreadRadius: 1,
             blurRadius: 4,
-            offset: Offset(0, 1.5),
+            offset: const Offset(0, 1.5),
           ),
         ],
         color: color,

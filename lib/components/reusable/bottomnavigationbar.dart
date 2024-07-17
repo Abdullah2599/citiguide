@@ -9,14 +9,15 @@ class CustomBottomNavigationBar extends StatefulWidget {
   final bool citySelected; // Add citySelected to check if city is selected
 
   const CustomBottomNavigationBar({
-    Key? key,
+    super.key,
     required this.currentIndex,
     required this.onTap,
     required this.label,
     required this.citySelected,
-  }) : super(key: key);
+  });
 
   @override
+  // ignore: library_private_types_in_public_api
   _CustomBottomNavigationBarState createState() =>
       _CustomBottomNavigationBarState();
 }
@@ -48,7 +49,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
           BoxShadow(
             color: Colors.black.withOpacity(.1),
             blurRadius: 30,
-            offset: Offset(0, 10),
+            offset: const Offset(0, 10),
           ),
         ],
       ),
@@ -73,14 +74,14 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                 Stack(
                   children: [
                     AnimatedContainer(
-                      duration: Duration(seconds: 1),
+                      duration: const Duration(seconds: 1),
                       curve: Curves.fastLinearToSlowEaseIn,
                       width: index == widget.currentIndex
                           ? displayWidth * .32
                           : displayWidth * .18,
                       alignment: Alignment.center,
                       child: AnimatedContainer(
-                        duration: Duration(seconds: 1),
+                        duration: const Duration(seconds: 1),
                         curve: Curves.fastLinearToSlowEaseIn,
                         height: index == widget.currentIndex
                             ? displayWidth * .15
@@ -90,14 +91,14 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                             : 0,
                         decoration: BoxDecoration(
                           color: index == widget.currentIndex
-                              ? Colors.blueAccent.withOpacity(.2)
+                              ? const Color.fromARGB(44, 68, 255, 208)
                               : Colors.transparent,
                           borderRadius: BorderRadius.circular(50),
                         ),
                       ),
                     ),
                     AnimatedContainer(
-                      duration: Duration(seconds: 1),
+                      duration: const Duration(seconds: 1),
                       curve: Curves.fastLinearToSlowEaseIn,
                       width: index == widget.currentIndex
                           ? displayWidth * .31
@@ -110,19 +111,20 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                             listOfIcons[index],
                             size: displayWidth * .075,
                             color: index == widget.currentIndex
-                                ? Colors.blueAccent
+                                ? const Color.fromARGB(255, 7, 206, 182)
                                 : Colors.black26,
                           ),
                           AnimatedOpacity(
                             opacity: index == widget.currentIndex ? 1 : 0,
-                            duration: Duration(seconds: 1),
+                            duration: const Duration(seconds: 1),
                             curve: Curves.fastLinearToSlowEaseIn,
                             child: Text(
                               index == widget.currentIndex
+                                  // ignore: unnecessary_string_interpolations
                                   ? '${listOfStrings[index]}'
                                   : '',
-                              style: TextStyle(
-                                color: Colors.blueAccent,
+                              style: const TextStyle(
+                                color: Color.fromARGB(255, 7, 206, 182),
                                 fontWeight: FontWeight.w600,
                                 fontSize: 10,
                               ),

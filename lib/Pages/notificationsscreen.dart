@@ -31,7 +31,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     } else if (widget.data is Map<String, dynamic>) {
       payload = widget.data;
     }
-    print("Processed Payload: $payload");
+    // print("Processed Payload: $payload");
 
     if (payload.isNotEmpty) {
       String title =
@@ -46,13 +46,13 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 7, 206, 182),
+        backgroundColor: const Color.fromARGB(255, 7, 206, 182),
         foregroundColor: Colors.white,
-        title: Text('Notifications'),
+        title: const Text('Notifications'),
       ),
       body: Obx(() {
         if (notificationController.notifications.isEmpty) {
-          return Center(child: Text('No notifications yet'));
+          return const Center(child: Text('No notifications yet'));
         }
         return ListView.builder(
           itemCount: notificationController.notifications.length,
@@ -73,17 +73,18 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                       () => notificationController.markAsRead(index));
                 },
                 child: Container(
-                  margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                   decoration: BoxDecoration(
                     color: isRead
-                        ? Color.fromARGB(255, 205, 255, 242)
-                        : Color.fromARGB(234, 128, 224, 199),
+                        ? const Color.fromARGB(255, 205, 255, 242)
+                        : const Color.fromARGB(234, 128, 224, 199),
                     borderRadius: BorderRadius.circular(10),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.2),
                         blurRadius: 1,
-                        offset: Offset(0, 2),
+                        offset: const Offset(0, 2),
                       ),
                     ],
                   ),

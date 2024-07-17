@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 class FavoritesController extends GetxController {
   var likedPlaces = <Map<String, dynamic>>[].obs;
   var isLoading = false.obs;
-  var like = false.obs; // Track like state for a specific place
+  var like = false.obs;
 
   @override
   void onInit() {
@@ -52,18 +52,31 @@ class FavoritesController extends GetxController {
           likedPlaces.add(placeData);
         }
       }
-    } catch (e) {
-      print('Error fetching liked places: $e');
     } finally {
       isLoading.value = false;
     }
   }
 
   Future<double> fetchAverageRating(String placeId) async {
-    DatabaseReference ref =
-        FirebaseDatabase.instance.ref('data/$placeId/averageRating');
-    DatabaseEvent event = await ref.once();
-    return event.snapshot.value as double? ?? 0.0;
+    DatabaseReference ref = FirebaseDatabase.instance.ref("reviews");
+    DatabaseEvent event =
+        await ref.orderByChild('dataid').equalTo(placeId).once();
+
+    if (event.snapshot.value == null) {
+      return 0.0;
+    }
+
+    Map<dynamic, dynamic> reviews =
+        event.snapshot.value as Map<dynamic, dynamic>;
+    double totalRating = 0.0;
+    int count = 0;
+
+    reviews.forEach((key, value) {
+      totalRating += (value['rating'] as num).toDouble();
+      count++;
+    });
+
+    return count > 0 ? totalRating / count : 0.0;
   }
 
   Future<void> likeOrUnlike(String placeId, bool isLiked) async {
@@ -71,7 +84,6 @@ class FavoritesController extends GetxController {
     User? user = auth.currentUser;
 
     if (user == null) {
-      print("User is not logged in.");
       return;
     }
 

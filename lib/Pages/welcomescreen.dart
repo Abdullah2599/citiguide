@@ -10,6 +10,7 @@ class WelcomScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 236, 249, 245),
       body: SafeArea(
         child: Container(
           width: double.infinity,
@@ -21,7 +22,7 @@ class WelcomScreen extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  Text(
+                  const Text(
                     "Welcome",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
                   ),
@@ -51,8 +52,10 @@ class WelcomScreen extends StatelessWidget {
                       SharedPreferences prefs =
                           await SharedPreferences.getInstance();
                       await prefs.setBool('isFirstTime', false);
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) => LoginPage()));
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoginPage()));
                     },
                     shape: RoundedRectangleBorder(
                         side: const BorderSide(color: Colors.black),
@@ -78,7 +81,7 @@ class WelcomScreen extends StatelessWidget {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => SignupPage()));
+                                builder: (context) => const SignupPage()));
                       },
                       color: ColorTheme.primaryColor,
                       elevation: 0,

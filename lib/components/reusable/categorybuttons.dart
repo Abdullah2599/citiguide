@@ -1,4 +1,3 @@
-import 'package:citiguide/Theme/color.dart';
 import 'package:flutter/material.dart';
 
 class myButton extends StatelessWidget {
@@ -19,15 +18,19 @@ class myButton extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 10.0),
         padding: const EdgeInsets.symmetric(horizontal: 15.0),
         decoration: BoxDecoration(
-          color: isActive ? Color.fromARGB(255, 7, 206, 182) : Colors.white,
+          color:
+              isActive ? const Color.fromARGB(255, 7, 206, 182) : Colors.white,
           borderRadius: BorderRadius.circular(30.0),
-          border: Border.all(color: Color.fromARGB(255, 7, 206, 182), width: 2),
+          border: Border.all(
+              color: const Color.fromARGB(255, 7, 206, 182), width: 2),
         ),
         child: Center(
           child: Text(
             buttontext,
             style: TextStyle(
-              color: isActive ? Colors.white : Color.fromARGB(255, 7, 206, 182),
+              color: isActive
+                  ? Colors.white
+                  : const Color.fromARGB(255, 7, 206, 182),
               fontWeight: FontWeight.bold,
             ),
           ),

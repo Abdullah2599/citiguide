@@ -1,4 +1,3 @@
-import 'package:citiguide/Pages/homepage.dart';
 import 'package:citiguide/Pages/loginpage.dart';
 import 'package:citiguide/Theme/color.dart';
 import 'package:citiguide/controllers/LoginController.dart';
@@ -23,12 +22,12 @@ class _ForgetPassPageState extends State<ForgetPassPage> {
     if (_formKey.currentState!.validate()) {
       try {
         await LoginController.sendPasswordResetEmail(_emailController.text);
-        Get.to(() => LoginPage());
+        Get.to(() => const LoginPage());
         // Show success message or navigate to appropriate screen
         Get.snackbar(
           'Password Reset',
           'Password reset email sent to ${_emailController.text}',
-          backgroundColor: Color.fromARGB(160, 81, 160, 136),
+          backgroundColor: const Color.fromARGB(160, 81, 160, 136),
           barBlur: 3.0,
           colorText: Colors.white,
           borderRadius: 5,
@@ -40,7 +39,7 @@ class _ForgetPassPageState extends State<ForgetPassPage> {
         Get.snackbar(
           'Password Reset',
           'Failed to send password reset email: $e',
-          backgroundColor: Color.fromARGB(160, 81, 160, 136),
+          backgroundColor: const Color.fromARGB(160, 81, 160, 136),
           barBlur: 3.0,
           colorText: Colors.white,
           borderRadius: 5,
@@ -86,7 +85,7 @@ class _ForgetPassPageState extends State<ForgetPassPage> {
                               color: Colors.white,
                             ),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           TextFormField(
                             controller: _emailController,
                             decoration: InputDecoration(
@@ -112,7 +111,7 @@ class _ForgetPassPageState extends State<ForgetPassPage> {
                               return null;
                             },
                           ),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           Container(
                             width: double.infinity,
                             height: 45,
@@ -138,7 +137,7 @@ class _ForgetPassPageState extends State<ForgetPassPage> {
                             children: [
                               TextButton(
                                 onPressed: () {
-                                  Get.offAll(() => LoginPage());
+                                  Get.offAll(() => const LoginPage());
                                 },
                                 child: const Text(
                                   "Log in with another account.",

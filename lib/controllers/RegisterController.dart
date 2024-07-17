@@ -1,4 +1,3 @@
-import 'package:citiguide/Pages/loginpage.dart';
 import 'package:citiguide/Pages/profile_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +22,7 @@ class RegisterController extends GetxController {
       Get.snackbar(
         "Success",
         "Account Created",
-        backgroundColor: Color.fromARGB(160, 81, 160, 136),
+        backgroundColor: const Color.fromARGB(160, 81, 160, 136),
         barBlur: 3.0,
         colorText: Colors.white,
         borderRadius: 5,
@@ -43,7 +42,7 @@ class RegisterController extends GetxController {
         Get.snackbar(
           "Weak Password",
           'The password provided is too weak.',
-          backgroundColor: Color.fromARGB(160, 81, 160, 136),
+          backgroundColor: const Color.fromARGB(160, 81, 160, 136),
           barBlur: 3.0,
           colorText: Colors.white,
           borderRadius: 5,
@@ -54,7 +53,7 @@ class RegisterController extends GetxController {
         Get.snackbar(
           "Email Already Exists",
           'The account already exists for that email.',
-          backgroundColor: Color.fromARGB(160, 81, 160, 136),
+          backgroundColor: const Color.fromARGB(160, 81, 160, 136),
           barBlur: 3.0,
           colorText: Colors.white,
           borderRadius: 5,

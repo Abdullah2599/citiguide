@@ -34,7 +34,7 @@ class ReviewController extends GetxController {
       Get.snackbar(
         'Error',
         'Failed to fetch user data',
-        backgroundColor: Color.fromARGB(160, 81, 160, 136),
+        backgroundColor: const Color.fromARGB(160, 81, 160, 136),
         barBlur: 3.0,
         colorText: Colors.white,
         borderRadius: 5,
@@ -123,7 +123,7 @@ class ReviewController extends GetxController {
       Get.snackbar(
         'Error',
         'Failed to check review status',
-        backgroundColor: Color.fromARGB(160, 81, 160, 136),
+        backgroundColor: const Color.fromARGB(160, 81, 160, 136),
         barBlur: 3.0,
         colorText: Colors.white,
         borderRadius: 5,
@@ -139,7 +139,7 @@ class ReviewController extends GetxController {
       Get.snackbar(
         'Error',
         'You have already submitted a review for this place',
-        backgroundColor: Color.fromARGB(160, 81, 160, 136),
+        backgroundColor: const Color.fromARGB(160, 81, 160, 136),
         barBlur: 3.0,
         colorText: Colors.white,
         borderRadius: 5,
@@ -159,7 +159,7 @@ class ReviewController extends GetxController {
       Get.snackbar(
         'Success',
         'Review submitted successfully',
-        backgroundColor: Color.fromARGB(160, 81, 160, 136),
+        backgroundColor: const Color.fromARGB(160, 81, 160, 136),
         barBlur: 3.0,
         colorText: Colors.white,
         borderRadius: 5,
@@ -171,7 +171,7 @@ class ReviewController extends GetxController {
       Get.snackbar(
         'Error',
         'Failed to submit review',
-        backgroundColor: Color.fromARGB(160, 81, 160, 136),
+        backgroundColor: const Color.fromARGB(160, 81, 160, 136),
         barBlur: 3.0,
         colorText: Colors.white,
         borderRadius: 5,

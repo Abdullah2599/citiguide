@@ -1,4 +1,3 @@
-import 'package:citiguide/Pages/homepage.dart';
 import 'package:citiguide/Pages/loginpage.dart';
 import 'package:citiguide/Theme/color.dart';
 import 'package:citiguide/controllers/RegisterController.dart';
@@ -56,7 +55,7 @@ class _SignupPageState extends State<SignupPage> {
                               color: Colors.white,
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           TextFormField(
@@ -161,7 +160,7 @@ class _SignupPageState extends State<SignupPage> {
                               ),
                               TextButton(
                                 onPressed: () {
-                                  Get.offAll(() => LoginPage());
+                                  Get.offAll(() => const LoginPage());
                                 },
                                 child: const Text(
                                   "Sign in",

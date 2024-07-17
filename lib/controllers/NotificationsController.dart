@@ -24,8 +24,6 @@ class NotificationController extends GetxController {
     };
     notifications.insert(0, notification);
     updateUnreadCount();
-    // Optionally save the notification to Firestore
-    // saveNotificationToFirestore(notification);
   }
 
   void fetchNotifications() async {
@@ -70,7 +68,7 @@ class NotificationController extends GetxController {
   void markAsRead(int index) async {
     notifications[index]['isRead'] = true;
     updateUnreadCount();
-    // Optionally save the change to Firestore
+    // save the change to Firestore
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       var snapshot = await FirebaseFirestore.instance

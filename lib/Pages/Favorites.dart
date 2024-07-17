@@ -32,7 +32,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
         citySelected: widget.fromPage == 'CityScreen' ? false : true,
         onTap: (index) {
           if (index == 3) {
-            Get.to(() => ProfileSettingsPage(fromPage: 'Favorites'));
+            Get.to(() => const ProfileSettingsPage(fromPage: 'Favorites'));
           }
           if (index == 0) {
             widget.fromPage == 'CityScreen' ? Get.back() : '';
@@ -71,7 +71,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             // Show the list of liked places once data is loaded
             return ListView.builder(
               itemCount: favoritesController.likedPlaces.length,
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               itemBuilder: (context, index) {
                 final place = favoritesController.likedPlaces[index];
                 return GestureDetector(

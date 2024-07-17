@@ -19,9 +19,9 @@ AppBar app_Bar(String text, bool truf, String screen) {
     foregroundColor: Colors.white,
     title: Text(
       text,
-      style: TextStyle(color: Colors.white),
+      style: const TextStyle(color: Colors.white),
     ),
-    backgroundColor: Color.fromARGB(255, 7, 206, 182),
+    backgroundColor: const Color.fromARGB(255, 7, 206, 182),
     actions: [
       if (screen == 'Cities')
         Obx(() {
@@ -30,9 +30,9 @@ AppBar app_Bar(String text, bool truf, String screen) {
             children: [
               IconButton(
                 onPressed: () {
-                  Get.to(() => NotificationsScreen());
+                  Get.to(() => const NotificationsScreen());
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.notifications,
                   color: Colors.white,
                 ),
@@ -42,18 +42,18 @@ AppBar app_Bar(String text, bool truf, String screen) {
                   right: 11,
                   top: 11,
                   child: Container(
-                    padding: EdgeInsets.all(2),
+                    padding: const EdgeInsets.all(2),
                     decoration: BoxDecoration(
                       color: Colors.red,
                       borderRadius: BorderRadius.circular(6),
                     ),
-                    constraints: BoxConstraints(
+                    constraints: const BoxConstraints(
                       minWidth: 14,
                       minHeight: 14,
                     ),
                     child: Text(
                       '$unreadCount',
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 8,
                       ),
@@ -70,7 +70,7 @@ AppBar app_Bar(String text, bool truf, String screen) {
             Get.defaultDialog(
               radius: 5,
               title: "Log out",
-              content: Column(
+              content: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text("Are you sure you want to logout?"),
@@ -90,13 +90,13 @@ AppBar app_Bar(String text, bool truf, String screen) {
                       borderRadius: BorderRadius.circular(5),
                     ),
                   ),
-                  child: Text(
+                  child: const Text(
                     'Cancel',
                     style:
                         TextStyle(color: Colors.black87), // Example text color
                   ),
                 ),
-                SizedBox(width: 8), // Optional spacing between buttons
+                const SizedBox(width: 8), // Optional spacing between buttons
                 ElevatedButton(
                   onPressed: () {
                     LoginController.signOut();
@@ -111,7 +111,7 @@ AppBar app_Bar(String text, bool truf, String screen) {
                       borderRadius: BorderRadius.circular(5),
                     ),
                   ),
-                  child: Text(
+                  child: const Text(
                     'Log out',
                     style: TextStyle(color: Colors.white), // Example text color
                   ),
@@ -127,9 +127,9 @@ AppBar app_Bar(String text, bool truf, String screen) {
       if (screen == 'Home')
         IconButton(
             onPressed: () {
-              Get.to(() => FavoritesScreen());
+              Get.to(() => const FavoritesScreen());
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.favorite,
             ))
     ],
@@ -138,7 +138,7 @@ AppBar app_Bar(String text, bool truf, String screen) {
             onTap: () {
               Get.back();
             },
-            child: Icon(
+            child: const Icon(
               Icons.arrow_back_ios,
               color: Colors.white,
             ),
