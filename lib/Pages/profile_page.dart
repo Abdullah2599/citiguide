@@ -37,23 +37,57 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
 
   void _showDeleteAccountDialog() {
     Get.defaultDialog(
-      buttonColor: ColorTheme.primaryColor,
-      confirmTextColor: Colors.white,
-      onConfirm: () async {
-        await controller.deleteAccount();
-        // Navigator.of(context).pop();
-      },
-      onCancel: () {
-        Navigator.pop(context);
-      },
+      radius: 5,
       title: "Delete Account",
-      content: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-              "Are you sure you want to delete your account? This action cannot be undone."),
-        ],
+      content: const Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Are you sure you want to delete your account? This action cannot be undone.",
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
       ),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Get.back(); // Close the dialog
+          },
+          style: TextButton.styleFrom(
+            backgroundColor: Colors.grey[200], // Example background color
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
+          ),
+          child: Text(
+            'Cancel',
+            style: TextStyle(color: Colors.black87), // Example text color
+          ),
+        ),
+        SizedBox(width: 8), // Optional spacing between buttons
+        ElevatedButton(
+          onPressed: () async {
+            await controller.deleteAccount();
+            Get.back(); // Close the dialog
+          },
+          style: ElevatedButton.styleFrom(
+            elevation: 5,
+            backgroundColor: ColorTheme.primaryColor, // Your primary color
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
+          ),
+          child: Text(
+            'Delete',
+            style: TextStyle(color: Colors.white), // Example text color
+          ),
+        ),
+      ],
     );
   }
 
@@ -168,11 +202,19 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                                                 controller.updateUserName();
                                                 Navigator.of(context).pop();
                                               } else {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  const SnackBar(
-                                                      content: Text(
-                                                          'Name cannot be empty!')),
+                                                Get.snackbar(
+                                                  'Enter your name',
+                                                  'Name cannot be empty!',
+                                                  backgroundColor:
+                                                      Color.fromARGB(
+                                                          160, 81, 160, 136),
+                                                  barBlur: 3.0,
+                                                  colorText: Colors.white,
+                                                  borderRadius: 5,
+                                                  borderWidth: 50,
+                                                  dismissDirection:
+                                                      DismissDirection
+                                                          .horizontal,
                                                 );
                                               }
                                             },
@@ -297,58 +339,115 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
     final newPasswordController = TextEditingController();
     final confirmPasswordController = TextEditingController();
 
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text('Change Password'),
-          content: Column(
+    Get.defaultDialog(
+      titlePadding: EdgeInsets.only(top: 30),
+      title: 'Change Password',
+      content: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(
+            14.0,
+          ),
+          child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
                 controller: currentPasswordController,
                 obscureText: true,
-                decoration: InputDecoration(labelText: 'Current Password'),
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  hintText: 'Current Password',
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                ),
               ),
+              SizedBox(height: 12),
               TextField(
                 controller: newPasswordController,
                 obscureText: true,
-                decoration: InputDecoration(labelText: 'New Password'),
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  hintText: 'New Password',
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                ),
               ),
+              SizedBox(height: 12),
               TextField(
                 controller: confirmPasswordController,
                 obscureText: true,
-                decoration: InputDecoration(labelText: 'Confirm Password'),
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  hintText: 'Confirm Password',
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                ),
               ),
             ],
           ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Cancel'),
+        ),
+      ),
+      radius: 5,
+      actions: [
+        TextButton(
+          onPressed: () {
+            Get.back();
+          },
+          style: TextButton.styleFrom(
+            backgroundColor: Colors.grey[200], // Example background color
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
             ),
-            TextButton(
-              onPressed: () {
-                if (newPasswordController.text ==
-                    confirmPasswordController.text) {
-                  controller.changePassword(
-                    currentPasswordController.text,
-                    newPasswordController.text,
-                  );
-                  Navigator.of(context).pop();
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Passwords do not match!')),
-                  );
-                }
-              },
-              child: Text('Change'),
+          ),
+          child: Text(
+            'Cancel',
+            style: TextStyle(color: Colors.black87), // Example text color
+          ),
+        ),
+        SizedBox(width: 8), // Optional spacing between buttons
+        ElevatedButton(
+          onPressed: () {
+            if (newPasswordController.text == confirmPasswordController.text) {
+              controller.changePassword(
+                currentPasswordController.text,
+                newPasswordController.text,
+              );
+              Get.back();
+            } else {
+              Get.snackbar(
+                'Error',
+                'Passwords do not match!',
+                backgroundColor: Color.fromARGB(160, 81, 160, 136),
+                colorText: Colors.white,
+                borderRadius: 5,
+                borderWidth: 50,
+                dismissDirection: DismissDirection.horizontal,
+              );
+            }
+          },
+          style: ElevatedButton.styleFrom(
+            elevation: 5,
+            backgroundColor: ColorTheme.primaryColor, // Your primary color
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
             ),
-          ],
-        );
-      },
+          ),
+          child: Text(
+            'Change',
+            style: TextStyle(color: Colors.white), // Example text color
+          ),
+        ),
+      ],
     );
   }
 }

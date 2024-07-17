@@ -25,12 +25,28 @@ class _ForgetPassPageState extends State<ForgetPassPage> {
         await LoginController.sendPasswordResetEmail(_emailController.text);
         Get.to(() => LoginPage());
         // Show success message or navigate to appropriate screen
-        Get.snackbar('Password Reset',
-            'Password reset email sent to ${_emailController.text}');
+        Get.snackbar(
+          'Password Reset',
+          'Password reset email sent to ${_emailController.text}',
+          backgroundColor: Color.fromARGB(160, 81, 160, 136),
+          barBlur: 3.0,
+          colorText: Colors.white,
+          borderRadius: 5,
+          borderWidth: 50,
+          dismissDirection: DismissDirection.horizontal,
+        );
       } catch (e) {
         // Handle errors
         Get.snackbar(
-            'Password Reset', 'Failed to send password reset email: $e');
+          'Password Reset',
+          'Failed to send password reset email: $e',
+          backgroundColor: Color.fromARGB(160, 81, 160, 136),
+          barBlur: 3.0,
+          colorText: Colors.white,
+          borderRadius: 5,
+          borderWidth: 50,
+          dismissDirection: DismissDirection.horizontal,
+        );
       }
     }
   }

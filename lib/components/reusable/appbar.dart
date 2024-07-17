@@ -5,7 +5,6 @@ import 'package:citiguide/Theme/color.dart';
 import 'package:citiguide/controllers/LoginController.dart';
 import 'package:citiguide/controllers/NotificationsController.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:citiguide/components/reusable/sizedbox.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -69,21 +68,55 @@ AppBar app_Bar(String text, bool truf, String screen) {
         IconButton(
           onPressed: () {
             Get.defaultDialog(
-              buttonColor: ColorTheme.primaryColor,
-              confirmTextColor: Colors.white,
-              onConfirm: () {
-                LoginController.signOut();
-              },
-              onCancel: () {
-                Get.back();
-              },
+              radius: 5,
               title: "Log out",
               content: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Are you sure to logout?"),
+                  Text("Are you sure you want to logout?"),
                 ],
               ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Get.back();
+                  },
+                  style: TextButton.styleFrom(
+                    backgroundColor:
+                        Colors.grey[200], // Example background color
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                  ),
+                  child: Text(
+                    'Cancel',
+                    style:
+                        TextStyle(color: Colors.black87), // Example text color
+                  ),
+                ),
+                SizedBox(width: 8), // Optional spacing between buttons
+                ElevatedButton(
+                  onPressed: () {
+                    LoginController.signOut();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    elevation: 5,
+                    backgroundColor:
+                        ColorTheme.primaryColor, // Your primary color
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                  ),
+                  child: Text(
+                    'Log out',
+                    style: TextStyle(color: Colors.white), // Example text color
+                  ),
+                ),
+              ],
             );
           },
           icon: const Icon(
@@ -92,26 +125,13 @@ AppBar app_Bar(String text, bool truf, String screen) {
           ),
         ),
       if (screen == 'Home')
-        ElevatedButton.icon(
-          icon: Icon(
-            Icons.favorite,
-            color: ColorTheme.primaryColor,
-          ),
-          onPressed: () {
-            Get.to(() => FavoritesScreen());
-          },
-          label: Text(
-            "Favorites",
-            style: TextStyle(fontSize: 16, color: ColorTheme.primaryColor),
-          ),
-          style: ElevatedButton.styleFrom(
-            fixedSize: Size(150, 10),
-            elevation: 5,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
-            ),
-          ),
-        ),
+        IconButton(
+            onPressed: () {
+              Get.to(() => FavoritesScreen());
+            },
+            icon: Icon(
+              Icons.favorite,
+            ))
     ],
     leading: truf
         ? GestureDetector(

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ReviewController extends GetxController {
@@ -30,7 +31,16 @@ class ReviewController extends GetxController {
         userName.value = userDoc['name'];
       }
     } catch (e) {
-      Get.snackbar('Error', 'Failed to fetch user data');
+      Get.snackbar(
+        'Error',
+        'Failed to fetch user data',
+        backgroundColor: Color.fromARGB(160, 81, 160, 136),
+        barBlur: 3.0,
+        colorText: Colors.white,
+        borderRadius: 5,
+        borderWidth: 50,
+        dismissDirection: DismissDirection.horizontal,
+      );
     }
   }
 
@@ -110,7 +120,16 @@ class ReviewController extends GetxController {
       }
       return false;
     } catch (e) {
-      Get.snackbar('Error', 'Failed to check review status');
+      Get.snackbar(
+        'Error',
+        'Failed to check review status',
+        backgroundColor: Color.fromARGB(160, 81, 160, 136),
+        barBlur: 3.0,
+        colorText: Colors.white,
+        borderRadius: 5,
+        borderWidth: 50,
+        dismissDirection: DismissDirection.horizontal,
+      );
       return false;
     }
   }
@@ -118,7 +137,15 @@ class ReviewController extends GetxController {
   void addReview(String placeId, double rating, String comment) async {
     if (await hasUserReviewed(placeId)) {
       Get.snackbar(
-          'Error', 'You have already submitted a review for this place');
+        'Error',
+        'You have already submitted a review for this place',
+        backgroundColor: Color.fromARGB(160, 81, 160, 136),
+        barBlur: 3.0,
+        colorText: Colors.white,
+        borderRadius: 5,
+        borderWidth: 50,
+        dismissDirection: DismissDirection.horizontal,
+      );
       return;
     }
 
@@ -129,16 +156,37 @@ class ReviewController extends GetxController {
         'rating': rating,
         'comment': comment,
       });
-      Get.snackbar('Success', 'Review submitted successfully');
+      Get.snackbar(
+        'Success',
+        'Review submitted successfully',
+        backgroundColor: Color.fromARGB(160, 81, 160, 136),
+        barBlur: 3.0,
+        colorText: Colors.white,
+        borderRadius: 5,
+        borderWidth: 50,
+        dismissDirection: DismissDirection.horizontal,
+      );
       fetchReviews(placeId);
     } catch (e) {
-      Get.snackbar('Error', 'Failed to submit review');
+      Get.snackbar(
+        'Error',
+        'Failed to submit review',
+        backgroundColor: Color.fromARGB(160, 81, 160, 136),
+        barBlur: 3.0,
+        colorText: Colors.white,
+        borderRadius: 5,
+        borderWidth: 50,
+        dismissDirection: DismissDirection.horizontal,
+      );
     }
   }
 
   void toggleSortOrder() {
     if (placeId == null) {
-      Get.snackbar('Error', 'Place ID is missing');
+      Get.snackbar(
+        'Error',
+        'Place ID is missing',
+      );
       return;
     }
 

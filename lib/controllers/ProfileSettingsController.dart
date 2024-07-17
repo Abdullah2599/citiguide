@@ -63,18 +63,45 @@ class ProfileSettingsController extends GetxController {
             .doc(email)
             .update({'name': newName});
         name = newName;
-        Get.snackbar('Success', 'Name updated successfully');
+        Get.snackbar(
+          'Success',
+          'Name updated successfully',
+          backgroundColor: Color.fromARGB(160, 81, 160, 136),
+          barBlur: 3.0,
+          colorText: Colors.white,
+          borderRadius: 5,
+          borderWidth: 50,
+          dismissDirection: DismissDirection.horizontal,
+        );
         if (isNewUser) {
           Get.offAll(() =>
               CityScreen()); // navigate to the next page after success only if new user
         }
       } catch (e) {
-        Get.snackbar('Error', 'Failed to update name: $e');
+        Get.snackbar(
+          'Error',
+          'Failed to update name: $e',
+          backgroundColor: Color.fromARGB(160, 81, 160, 136),
+          barBlur: 3.0,
+          colorText: Colors.white,
+          borderRadius: 5,
+          borderWidth: 50,
+          dismissDirection: DismissDirection.horizontal,
+        );
       } finally {
         isLoading.value = false;
       }
     } else {
-      Get.snackbar('Error', 'Name cannot be empty.');
+      Get.snackbar(
+        'Error',
+        'Name cannot be empty.',
+        backgroundColor: Color.fromARGB(160, 81, 160, 136),
+        barBlur: 3.0,
+        colorText: Colors.white,
+        borderRadius: 5,
+        borderWidth: 50,
+        dismissDirection: DismissDirection.horizontal,
+      );
     }
   }
 
@@ -83,7 +110,16 @@ class ProfileSettingsController extends GetxController {
     try {
       final user = _auth.currentUser;
       if (user == null) {
-        Get.snackbar('Error', 'User is not authenticated.');
+        Get.snackbar(
+          'Error',
+          'User is not authenticated.',
+          backgroundColor: Color.fromARGB(160, 81, 160, 136),
+          barBlur: 3.0,
+          colorText: Colors.white,
+          borderRadius: 5,
+          borderWidth: 50,
+          dismissDirection: DismissDirection.horizontal,
+        );
         return;
       }
 
@@ -95,26 +131,69 @@ class ProfileSettingsController extends GetxController {
       // Change password
       await user.updatePassword(newPassword);
 
-      Get.snackbar('Success', 'Password changed successfully');
+      Get.snackbar(
+        'Success',
+        'Password changed successfully',
+        backgroundColor: Color.fromARGB(160, 81, 160, 136),
+        barBlur: 3.0,
+        colorText: Colors.white,
+        borderRadius: 5,
+        borderWidth: 50,
+        dismissDirection: DismissDirection.horizontal,
+      );
     } on FirebaseAuthException catch (e) {
-      Get.snackbar('Error', 'Failed to change password: $e',
-          duration: Duration(seconds: 5));
+      Get.snackbar(
+        'Error',
+        'Failed to change password: $e',
+        backgroundColor: Color.fromARGB(160, 81, 160, 136),
+        barBlur: 3.0,
+        colorText: Colors.white,
+        borderRadius: 5,
+        borderWidth: 50,
+        dismissDirection: DismissDirection.horizontal,
+      );
     } catch (e) {
-      Get.snackbar('Error', 'Failed to change password: $e',
-          duration: Duration(seconds: 5));
+      Get.snackbar(
+        'Error',
+        'Failed to change password: $e',
+        backgroundColor: Color.fromARGB(160, 81, 160, 136),
+        barBlur: 3.0,
+        colorText: Colors.white,
+        borderRadius: 5,
+        borderWidth: 50,
+        dismissDirection: DismissDirection.horizontal,
+      );
     }
   }
 
   Future<void> uploadProfileImage() async {
     if (_imageFile == null) {
-      Get.snackbar('Error', 'No image selected.');
+      Get.snackbar(
+        'Error',
+        'No image selected.',
+        backgroundColor: Color.fromARGB(160, 81, 160, 136),
+        barBlur: 3.0,
+        colorText: Colors.white,
+        borderRadius: 5,
+        borderWidth: 50,
+        dismissDirection: DismissDirection.horizontal,
+      );
       return;
     }
 
     try {
       final User? user = FirebaseAuth.instance.currentUser;
       if (user == null) {
-        Get.snackbar('Error', 'User is not authenticated.');
+        Get.snackbar(
+          'Error',
+          'User is not authenticated.',
+          backgroundColor: Color.fromARGB(160, 81, 160, 136),
+          barBlur: 3.0,
+          colorText: Colors.white,
+          borderRadius: 5,
+          borderWidth: 50,
+          dismissDirection: DismissDirection.horizontal,
+        );
         return;
       }
 
@@ -131,14 +210,41 @@ class ProfileSettingsController extends GetxController {
             .doc(user.email)
             .update({'image': downloadUrl});
         profileImageUrl.value = downloadUrl;
-        Get.snackbar('Success', 'Profile image updated successfully');
+        Get.snackbar(
+          'Success',
+          'Profile image updated successfully',
+          backgroundColor: Color.fromARGB(160, 81, 160, 136),
+          barBlur: 3.0,
+          colorText: Colors.white,
+          borderRadius: 5,
+          borderWidth: 50,
+          dismissDirection: DismissDirection.horizontal,
+        );
       }).catchError((error) {
-        Get.snackbar('Error', 'Failed to upload image: $error');
+        Get.snackbar(
+          'Error',
+          'Failed to upload image: $error',
+          backgroundColor: Color.fromARGB(160, 81, 160, 136),
+          barBlur: 3.0,
+          colorText: Colors.white,
+          borderRadius: 5,
+          borderWidth: 50,
+          dismissDirection: DismissDirection.horizontal,
+        );
       }).whenComplete(() {
         isLoading.value = false;
       });
     } catch (e) {
-      Get.snackbar('Error', 'Failed to upload image: $e');
+      Get.snackbar(
+        'Error',
+        'Failed to upload image: $e',
+        backgroundColor: Color.fromARGB(160, 81, 160, 136),
+        barBlur: 3.0,
+        colorText: Colors.white,
+        borderRadius: 5,
+        borderWidth: 50,
+        dismissDirection: DismissDirection.horizontal,
+      );
     }
   }
 
@@ -149,10 +255,28 @@ class ProfileSettingsController extends GetxController {
         _imageFile = pickedFile;
         await uploadProfileImage();
       } else {
-        Get.snackbar('Error', 'No image selected.');
+        Get.snackbar(
+          'Error',
+          'No image selected.',
+          backgroundColor: Color.fromARGB(160, 81, 160, 136),
+          barBlur: 3.0,
+          colorText: Colors.white,
+          borderRadius: 5,
+          borderWidth: 50,
+          dismissDirection: DismissDirection.horizontal,
+        );
       }
     } catch (e) {
-      Get.snackbar('Error', 'Failed to pick image: $e');
+      Get.snackbar(
+        'Error',
+        'Failed to pick image: $e',
+        backgroundColor: Color.fromARGB(160, 81, 160, 136),
+        barBlur: 3.0,
+        colorText: Colors.white,
+        borderRadius: 5,
+        borderWidth: 50,
+        dismissDirection: DismissDirection.horizontal,
+      );
     }
   }
 
@@ -160,7 +284,16 @@ class ProfileSettingsController extends GetxController {
     try {
       final user = _auth.currentUser;
       if (user == null) {
-        Get.snackbar('Error', 'User is not authenticated.');
+        Get.snackbar(
+          'Error',
+          'User is not authenticated.',
+          backgroundColor: Color.fromARGB(160, 81, 160, 136),
+          barBlur: 3.0,
+          colorText: Colors.white,
+          borderRadius: 5,
+          borderWidth: 50,
+          dismissDirection: DismissDirection.horizontal,
+        );
         return;
       }
 
@@ -179,9 +312,27 @@ class ProfileSettingsController extends GetxController {
       // Optionally navigate to another page after account deletion
       Get.offAll(() => LoginPage());
 
-      Get.snackbar('Success', 'Account deleted successfully');
+      Get.snackbar(
+        'Success',
+        'Account deleted successfully',
+        backgroundColor: Color.fromARGB(160, 81, 160, 136),
+        barBlur: 3.0,
+        colorText: Colors.white,
+        borderRadius: 5,
+        borderWidth: 50,
+        dismissDirection: DismissDirection.horizontal,
+      );
     } catch (e) {
-      Get.snackbar('Error', 'Failed to delete account: $e');
+      Get.snackbar(
+        'Error',
+        'Failed to delete account: $e',
+        backgroundColor: Color.fromARGB(160, 81, 160, 136),
+        barBlur: 3.0,
+        colorText: Colors.white,
+        borderRadius: 5,
+        borderWidth: 50,
+        dismissDirection: DismissDirection.horizontal,
+      );
     }
   }
 }

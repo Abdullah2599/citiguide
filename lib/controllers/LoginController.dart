@@ -24,9 +24,12 @@ class LoginController extends GetxController {
       Get.snackbar(
         'Success',
         'Login Success',
-        backgroundColor: Color.fromARGB(167, 0, 0, 0),
-        barBlur: 2.0,
+        backgroundColor: Color.fromARGB(160, 81, 160, 136),
+        barBlur: 3.0,
         colorText: Colors.white,
+        borderRadius: 5,
+        borderWidth: 50,
+        dismissDirection: DismissDirection.horizontal,
       );
 
       emailAddress.clear();
@@ -41,9 +44,12 @@ class LoginController extends GetxController {
         Get.snackbar(
           'Error',
           'No user found for that email.',
-          backgroundColor: const Color.fromARGB(167, 0, 0, 0),
-          barBlur: 15.0,
+          backgroundColor: Color.fromARGB(160, 81, 160, 136),
+          barBlur: 3.0,
           colorText: Colors.white,
+          borderRadius: 5,
+          borderWidth: 50,
+          dismissDirection: DismissDirection.horizontal,
         );
         emailAddress.clear();
         password.clear();
@@ -51,9 +57,12 @@ class LoginController extends GetxController {
         Get.snackbar(
           'Error',
           'Wrong password provided for that user.',
-          backgroundColor: const Color.fromARGB(167, 0, 0, 0),
-          barBlur: 15.0,
+          backgroundColor: Color.fromARGB(160, 81, 160, 136),
+          barBlur: 3.0,
           colorText: Colors.white,
+          borderRadius: 5,
+          borderWidth: 50,
+          dismissDirection: DismissDirection.horizontal,
         );
         // Only clear the password field on wrong-password error
 
@@ -62,9 +71,12 @@ class LoginController extends GetxController {
         Get.snackbar(
           'Error',
           'This user account has been disabled.',
-          backgroundColor: const Color.fromARGB(167, 0, 0, 0),
-          barBlur: 15.0,
+          backgroundColor: Color.fromARGB(160, 81, 160, 136),
+          barBlur: 3.0,
           colorText: Colors.white,
+          borderRadius: 5,
+          borderWidth: 50,
+          dismissDirection: DismissDirection.horizontal,
         );
         emailAddress.clear();
         password.clear();
@@ -72,9 +84,12 @@ class LoginController extends GetxController {
         Get.snackbar(
           'Error',
           'The email address is not valid.',
-          backgroundColor: const Color.fromARGB(167, 0, 0, 0),
-          barBlur: 15.0,
+          backgroundColor: Color.fromARGB(160, 81, 160, 136),
+          barBlur: 3.0,
           colorText: Colors.white,
+          borderRadius: 5,
+          borderWidth: 50,
+          dismissDirection: DismissDirection.horizontal,
         );
         emailAddress.clear();
       } else {
@@ -82,9 +97,12 @@ class LoginController extends GetxController {
         Get.snackbar(
           'Error',
           'An unexpected error occurred. Please try again later.',
-          backgroundColor: const Color.fromARGB(167, 0, 0, 0),
-          barBlur: 15.0,
+          backgroundColor: Color.fromARGB(160, 81, 160, 136),
+          barBlur: 3.0,
           colorText: Colors.white,
+          borderRadius: 5,
+          borderWidth: 50,
+          dismissDirection: DismissDirection.horizontal,
         );
         emailAddress.clear();
         password.clear();
@@ -94,9 +112,12 @@ class LoginController extends GetxController {
       Get.snackbar(
         'Error',
         'An unexpected error occurred. Please try again later.',
-        backgroundColor: const Color.fromARGB(167, 0, 0, 0),
-        barBlur: 15.0,
+        backgroundColor: Color.fromARGB(160, 81, 160, 136),
+        barBlur: 3.0,
         colorText: Colors.white,
+        borderRadius: 5,
+        borderWidth: 50,
+        dismissDirection: DismissDirection.horizontal,
       );
       emailAddress.clear();
       password.clear();
@@ -111,17 +132,23 @@ class LoginController extends GetxController {
       Get.snackbar(
         "Logout",
         "Logout successfully",
-        backgroundColor: const Color.fromARGB(167, 0, 0, 0),
-        barBlur: 10.0,
+        backgroundColor: Color.fromARGB(160, 81, 160, 136),
+        barBlur: 3.0,
         colorText: Colors.white,
+        borderRadius: 5,
+        borderWidth: 50,
+        dismissDirection: DismissDirection.horizontal,
       );
     } catch (e) {
       Get.snackbar(
         "Error",
         "Failed to sign out: $e",
-        backgroundColor: const Color.fromARGB(167, 0, 0, 0),
-        barBlur: 10.0,
+        backgroundColor: Color.fromARGB(160, 81, 160, 136),
+        barBlur: 3.0,
         colorText: Colors.white,
+        borderRadius: 5,
+        borderWidth: 50,
+        dismissDirection: DismissDirection.horizontal,
       );
     }
   }

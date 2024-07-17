@@ -26,10 +26,6 @@ class _LoginPageState extends State<LoginPage> {
   void loginform() async {
     if (loginController.LoginFormKey.currentState!.validate()) {
       loginController.signInWithEmailAndPassword();
-
-      // loginController.LoginFormKey.currentState!.reset();
-      // loginController.emailAddress.text = "";
-      // loginController.password.text = "";
     }
   }
 

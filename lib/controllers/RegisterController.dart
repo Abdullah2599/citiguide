@@ -20,7 +20,16 @@ class RegisterController extends GetxController {
         password: password.text,
       );
 
-      Get.snackbar("Success", "Account Created");
+      Get.snackbar(
+        "Success",
+        "Account Created",
+        backgroundColor: Color.fromARGB(160, 81, 160, 136),
+        barBlur: 3.0,
+        colorText: Colors.white,
+        borderRadius: 5,
+        borderWidth: 50,
+        dismissDirection: DismissDirection.horizontal,
+      );
       emailAddress.clear();
       password.clear();
       loader.value = false;
@@ -31,10 +40,27 @@ class RegisterController extends GetxController {
     } on FirebaseAuthException catch (e) {
       loader.value = false;
       if (e.code == 'weak-password') {
-        Get.snackbar("Weak Password", 'The password provided is too weak.');
+        Get.snackbar(
+          "Weak Password",
+          'The password provided is too weak.',
+          backgroundColor: Color.fromARGB(160, 81, 160, 136),
+          barBlur: 3.0,
+          colorText: Colors.white,
+          borderRadius: 5,
+          borderWidth: 50,
+          dismissDirection: DismissDirection.horizontal,
+        );
       } else if (e.code == 'email-already-in-use') {
-        Get.snackbar("Email Already Exists",
-            'The account already exists for that email.');
+        Get.snackbar(
+          "Email Already Exists",
+          'The account already exists for that email.',
+          backgroundColor: Color.fromARGB(160, 81, 160, 136),
+          barBlur: 3.0,
+          colorText: Colors.white,
+          borderRadius: 5,
+          borderWidth: 50,
+          dismissDirection: DismissDirection.horizontal,
+        );
       }
     } catch (e) {
       Get.snackbar("Error", e.toString());

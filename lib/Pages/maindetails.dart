@@ -43,19 +43,6 @@ class _TilesDetailsState extends State<TilesDetails> {
         reviewController.fetchReviews(widget.placeId);
       }
     });
-
-    // FirebaseDatabase.instance
-    //     .ref('data/${widget.placeId}/likes')
-    //     .onValue
-    //     .listen((event) {
-    //   if (event.snapshot.exists) {
-    //     var likes = event.snapshot.value as List<dynamic>;
-    //     setState(() {
-    //       favoritesController.like.value =
-    //           likes.contains(FirebaseAuth.instance.currentUser!.email);
-    //     });
-    //   }
-    // });
   }
 
   @override
@@ -85,7 +72,13 @@ class _TilesDetailsState extends State<TilesDetails> {
 
       Navigator.of(context).pop();
     } else {
-      Get.snackbar('Error', 'Please provide a rating and a comment');
+      Get.snackbar('Error', 'Please provide a rating and a comment',
+          backgroundColor: Color.fromARGB(160, 81, 160, 136),
+          barBlur: 3.0,
+          colorText: Colors.white,
+          borderRadius: 5,
+          borderWidth: 50,
+          dismissDirection: DismissDirection.horizontal);
     }
   }
 
@@ -147,7 +140,7 @@ class _TilesDetailsState extends State<TilesDetails> {
                 elevation: 5,
                 backgroundColor: ColorTheme.primaryColor,
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5)),
+                    borderRadius: BorderRadius.circular(30)),
                 padding:
                     const EdgeInsets.symmetric(vertical: 20, horizontal: 8.0),
               ),
@@ -239,7 +232,7 @@ class _TilesDetailsState extends State<TilesDetails> {
                             horizontal: 24,
                           ),
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5)),
+                              borderRadius: BorderRadius.circular(30)),
                         ),
                         child: const Text(
                           'Contact Now',
@@ -329,6 +322,9 @@ class _TilesDetailsState extends State<TilesDetails> {
                                     context: context,
                                     builder: (context) {
                                       return AlertDialog(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(5)),
                                         backgroundColor: Colors.white,
                                         title: const Text('Submit Your Review'),
                                         content: Column(
@@ -400,7 +396,7 @@ class _TilesDetailsState extends State<TilesDetails> {
                                               ),
                                               shape: RoundedRectangleBorder(
                                                 borderRadius:
-                                                    BorderRadius.circular(20),
+                                                    BorderRadius.circular(5),
                                               ),
                                             ),
                                             onPressed: _submitReview,

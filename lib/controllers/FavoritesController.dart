@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
@@ -93,14 +94,32 @@ class FavoritesController extends GetxController {
       if (!likes.contains(email)) {
         likes.add(email);
         HapticFeedback.lightImpact();
-        Get.snackbar("Message", "You liked this place");
+        Get.snackbar(
+          "Message",
+          "You liked this place",
+          backgroundColor: Color.fromARGB(160, 81, 160, 136),
+          barBlur: 3.0,
+          colorText: Colors.white,
+          borderRadius: 5,
+          borderWidth: 50,
+          dismissDirection: DismissDirection.horizontal,
+        );
       }
     } else {
       // Remove email from the likes if present
       if (likes.contains(email)) {
         likes.remove(email);
         HapticFeedback.lightImpact();
-        Get.snackbar("Message", "You unliked this place");
+        Get.snackbar(
+          "Message",
+          "You unliked this place",
+          backgroundColor: Color.fromARGB(160, 81, 160, 136),
+          barBlur: 3.0,
+          colorText: Colors.white,
+          borderRadius: 5,
+          borderWidth: 50,
+          dismissDirection: DismissDirection.horizontal,
+        );
       }
     }
 
