@@ -143,7 +143,7 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
       appBar: widget.isNewUser
           ? AppBar(
               title: const Text(
-                'Set up Profile',
+                'Complete Profile Setup',
                 style:
                     TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
               ),
