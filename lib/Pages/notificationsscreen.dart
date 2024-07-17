@@ -21,6 +21,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () => processPayload());
+    notificationController
+        .fetchNotifications(); // Ensure notifications are fetched when screen is opened
   }
 
   void processPayload() {
