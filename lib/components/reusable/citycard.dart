@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
+class citymodel {
+  String cimg;
+  String cname;
+  citymodel({required this.cimg, required this.cname});
+}
+
 CityCard({required cityimg, required cityname}) {
   return Card(
     elevation: 20,

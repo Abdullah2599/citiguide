@@ -46,6 +46,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 7, 206, 182),
+        foregroundColor: Colors.white,
         title: Text('Notifications'),
       ),
       body: Obx(() {
@@ -73,13 +75,15 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 child: Container(
                   margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                   decoration: BoxDecoration(
-                    color: isRead ? Colors.cyan[100] : Colors.cyan,
+                    color: isRead
+                        ? Color.fromARGB(255, 205, 255, 242)
+                        : Color.fromARGB(234, 128, 224, 199),
                     borderRadius: BorderRadius.circular(10),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.2),
-                        blurRadius: 5,
-                        offset: Offset(0, 3),
+                        blurRadius: 1,
+                        offset: Offset(0, 2),
                       ),
                     ],
                   ),
@@ -87,7 +91,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                     title: Text(notification['title']),
                     subtitle: Text(notification['message']),
                     leading: CircleAvatar(
-                      child: Text('Icon'),
+                      child: Image.asset('assets/images/pholder.png'),
                     ),
                   ),
                 ),

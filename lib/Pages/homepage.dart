@@ -7,7 +7,7 @@ import 'package:citiguide/components/reusable/appbar.dart';
 import 'package:citiguide/components/reusable/bottomnavigationbar.dart';
 import 'package:citiguide/components/reusable/categorybuttons.dart';
 import 'package:citiguide/components/reusable/places_tile.dart';
-import 'package:citiguide/components/reusable/textbutton.dart';
+
 import 'package:citiguide/controllers/DataController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

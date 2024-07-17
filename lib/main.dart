@@ -6,7 +6,7 @@ import 'package:citiguide/Pages/splash.dart';
 import 'package:citiguide/Pages/welcomescreen.dart';
 import 'package:citiguide/Theme/color.dart';
 import 'package:citiguide/controllers/NotificationsController.dart';
-import 'package:citiguide/models/PushNotifications.dart';
+import 'package:citiguide/Services/PushNotifications.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
