@@ -50,7 +50,7 @@ class CityScreen extends StatelessWidget {
     });
 
     return Scaffold(
-      appBar: app_Bar('Cities', false, 'Cities'),
+      appBar: app_Bar('Cities', false, 'Cities',''),
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();

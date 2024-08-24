@@ -25,7 +25,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: app_Bar('Favorites', true, ''),
+      appBar: app_Bar('Favorites', true, '',''),
       bottomNavigationBar: CustomBottomNavigationBar(
         currentIndex: 2,
         label: widget.fromPage == 'CityScreen' ? 'Cities' : 'Attractions',

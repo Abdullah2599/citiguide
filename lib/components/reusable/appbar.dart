@@ -1,4 +1,5 @@
 import 'package:citiguide/Pages/Favorites.dart';
+import 'package:citiguide/Pages/eventscreen.dart';
 import 'package:citiguide/Pages/loginpage.dart';
 import 'package:citiguide/Pages/notificationsscreen.dart';
 import 'package:citiguide/Theme/color.dart';
@@ -10,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
 
-AppBar app_Bar(String text, bool truf, String screen) {
+AppBar app_Bar(String text, bool truf, String screen,city) {
   final NotificationController notificationController =
       Get.put(NotificationController());
   return AppBar(
@@ -125,13 +126,25 @@ AppBar app_Bar(String text, bool truf, String screen) {
           ),
         ),
       if (screen == 'Home')
-        IconButton(
+        Row(children: [
+          TextButton(
             onPressed: () {
-              Get.to(() => const FavoritesScreen());
+              Get.to(() => EventsScreen(city: city,));
             },
-            icon: const Icon(
-              Icons.favorite,
-            ))
+            child: Text(
+              'Events',
+              style:
+                  TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+            ),
+          ),
+          IconButton(
+              onPressed: () {
+                Get.to(() => const FavoritesScreen());
+              },
+              icon: const Icon(
+                Icons.favorite,
+              )),
+        ])
     ],
     leading: truf
         ? GestureDetector(

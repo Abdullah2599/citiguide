@@ -149,7 +149,7 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
               ),
               backgroundColor: ColorTheme.primaryColor,
             )
-          : app_Bar('Profile', true, 'Profile'),
+          : app_Bar('Profile', true, 'Profile',''),
       body: Obx(() {
         return controller.isLoading.value
             ? const Center(
