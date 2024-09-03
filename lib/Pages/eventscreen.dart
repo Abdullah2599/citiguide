@@ -19,7 +19,16 @@ class EventsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        clipBehavior: Clip.hardEdge,
+        foregroundColor: Colors.white,
         backgroundColor: ColorTheme.primaryColor,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new),
+          onPressed: () {
+            Get.back();
+          },
+        ),
         title: Text(
           'Events in $city',
           style: TextStyle(color: Colors.white),
@@ -27,8 +36,11 @@ class EventsScreen extends StatelessWidget {
       ),
       body: Obx(() {
         if (eventsController.isLoading.value) {
-          return Center(
+          return const Center(
             child: GFLoader(
+              loaderColorOne: Color.fromARGB(255, 0, 250, 217),
+              loaderColorTwo: Color.fromARGB(255, 123, 255, 237),
+              loaderColorThree: Color.fromARGB(255, 201, 255, 248),
               size: GFSize.LARGE,
               type: GFLoaderType.square,
             ),
@@ -52,9 +64,8 @@ class EventsScreen extends StatelessWidget {
                   title: event['title'],
                   description: event['description'],
                   onDTap: () {
-                    launchUrl(
-                              Uri.parse(event["contact"].toString()),
-                              mode: LaunchMode.inAppBrowserView);
+                    launchUrl(Uri.parse(event["contact"].toString()),
+                        mode: LaunchMode.inAppBrowserView);
                   },
                   onTap: () {
                     eventsController.sendEmail(

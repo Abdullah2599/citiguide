@@ -33,53 +33,74 @@ Widget customEvents(
                   color: Colors.white),
             )),
         Positioned(
-            top: 50,
-            left: 8,
+          top: 50,
+          left: 8,
+          right: 12,
+          child: Container(
+            height: 80,
+            width: 40,
             child: Text(
               description,
-              style: TextStyle(fontSize: 20, color: Colors.white),
-            )),
+              style: TextStyle(
+                color: Colors.white,
+              ),
+              softWrap: true,
+              maxLines: 5,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ),
         Positioned(
-            top: 40,
+            top: 50,
             right: 8,
-            child: Column(
+            child: Row(
               children: [
-                ElevatedButton(
-                    onPressed: onTap,
-                    child: Text(
-                      'Email Details',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.white),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      elevation: 5,
-                      backgroundColor: ColorTheme.primaryColor,
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8, horizontal: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
+                Row(
+                  children: [
+                    Column(
+                      children: [
+                        ElevatedButton(
+                            onPressed: onTap,
+                            child: Text(
+                              'Email Details',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              elevation: 5,
+                              backgroundColor: ColorTheme.primaryColor,
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 8, horizontal: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
 
-                      // shape: ,
-                    )),
-                ElevatedButton(
-                    onPressed: onDTap,
-                    child: Text(
-                      'Details',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.white),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      elevation: 5,
-                      backgroundColor: ColorTheme.primaryColor,
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8, horizontal: 32),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
+                              // shape: ,
+                            )),
+                        ElevatedButton(
+                            onPressed: onDTap,
+                            child: Text(
+                              'Details',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              elevation: 5,
+                              backgroundColor: ColorTheme.primaryColor,
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 8, horizontal: 32),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
 
-                      // shape: ,
-                    )),
+                              // shape: ,
+                            )),
+                      ],
+                    ),
+                  ],
+                ),
               ],
             ))
       ],
