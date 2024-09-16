@@ -1,6 +1,6 @@
-import 'package:citiguide/Pages/cityscreen.dart';
+import 'package:CityNavigator/Pages/cityscreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:citiguide/Pages/loginpage.dart';
+import 'package:CityNavigator/Pages/loginpage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

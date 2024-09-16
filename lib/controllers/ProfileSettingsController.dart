@@ -1,7 +1,7 @@
 import 'dart:io';
-import 'package:citiguide/Pages/cityscreen.dart';
-import 'package:citiguide/Pages/loginpage.dart';
-import 'package:citiguide/controllers/LoginController.dart';
+import 'package:CityNavigator/Pages/cityscreen.dart';
+import 'package:CityNavigator/Pages/loginpage.dart';
+import 'package:CityNavigator/controllers/LoginController.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

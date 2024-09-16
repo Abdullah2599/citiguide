@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:citiguide/Theme/color.dart';
-import 'package:citiguide/components/reusable/reusableicons.dart';
-import 'package:citiguide/controllers/FavoritesController.dart';
-import 'package:citiguide/controllers/ReviewsController.dart';
+import 'package:CityNavigator/Theme/color.dart';
+import 'package:CityNavigator/components/reusable/reusableicons.dart';
+import 'package:CityNavigator/controllers/FavoritesController.dart';
+import 'package:CityNavigator/controllers/ReviewsController.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';

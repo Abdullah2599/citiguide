@@ -1,10 +1,10 @@
-import 'package:citiguide/Pages/cityscreen.dart';
-import 'package:citiguide/Pages/maindetails.dart';
-import 'package:citiguide/Pages/profile_page.dart';
-import 'package:citiguide/components/reusable/appbar.dart';
-import 'package:citiguide/components/reusable/bottomnavigationbar.dart';
-import 'package:citiguide/components/reusable/places_tile.dart';
-import 'package:citiguide/controllers/FavoritesController.dart';
+import 'package:CityNavigator/Pages/cityscreen.dart';
+import 'package:CityNavigator/Pages/maindetails.dart';
+import 'package:CityNavigator/Pages/profile_page.dart';
+import 'package:CityNavigator/components/reusable/appbar.dart';
+import 'package:CityNavigator/components/reusable/bottomnavigationbar.dart';
+import 'package:CityNavigator/components/reusable/places_tile.dart';
+import 'package:CityNavigator/controllers/FavoritesController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/components/loader/gf_loader.dart';

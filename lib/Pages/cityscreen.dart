@@ -1,13 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 
-import 'package:citiguide/Pages/Favorites.dart';
-import 'package:citiguide/Pages/homepage.dart';
-import 'package:citiguide/Pages/profile_page.dart';
-import 'package:citiguide/Theme/color.dart';
-import 'package:citiguide/components/reusable/appbar.dart';
-import 'package:citiguide/components/reusable/bottomnavigationbar.dart';
-import 'package:citiguide/components/reusable/citycard.dart';
-import 'package:citiguide/controllers/CityController.dart';
+import 'package:CityNavigator/Pages/Favorites.dart';
+import 'package:CityNavigator/Pages/homepage.dart';
+import 'package:CityNavigator/Pages/profile_page.dart';
+import 'package:CityNavigator/Theme/color.dart';
+import 'package:CityNavigator/components/reusable/appbar.dart';
+import 'package:CityNavigator/components/reusable/bottomnavigationbar.dart';
+import 'package:CityNavigator/components/reusable/citycard.dart';
+import 'package:CityNavigator/controllers/CityController.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';

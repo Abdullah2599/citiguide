@@ -1,6 +1,6 @@
-import 'package:citiguide/Pages/forgetpasspage.dart';
-import 'package:citiguide/Theme/color.dart';
-import 'package:citiguide/controllers/LoginController.dart';
+import 'package:CityNavigator/Pages/forgetpasspage.dart';
+import 'package:CityNavigator/Theme/color.dart';
+import 'package:CityNavigator/controllers/LoginController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

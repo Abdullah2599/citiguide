@@ -1,6 +1,6 @@
-import 'package:citiguide/Pages/loginpage.dart';
-import 'package:citiguide/Pages/signuppage.dart';
-import 'package:citiguide/Theme/color.dart';
+import 'package:CityNavigator/Pages/loginpage.dart';
+import 'package:CityNavigator/Pages/signuppage.dart';
+import 'package:CityNavigator/Theme/color.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:citiguide/Theme/color.dart';
+import 'package:CityNavigator/Theme/color.dart';
 import 'package:flutter/material.dart';
 
 Widget customEvents(
@@ -24,7 +24,7 @@ Widget customEvents(
         ),
         Positioned(
             top: 20,
-            left: 8,
+            left: 10,
             child: Text(
               title,
               style: TextStyle(
@@ -35,10 +35,11 @@ Widget customEvents(
         Positioned(
           top: 50,
           left: 8,
-          right: 12,
+          //  right: 12,
           child: Container(
+            //  color: Colors.red,
             height: 80,
-            width: 40,
+            width: 100,
             child: Text(
               description,
               style: TextStyle(
@@ -51,54 +52,30 @@ Widget customEvents(
           ),
         ),
         Positioned(
-            top: 50,
             right: 8,
+            bottom: 8,
             child: Row(
               children: [
                 Row(
                   children: [
-                    Column(
-                      children: [
-                        ElevatedButton(
-                            onPressed: onTap,
-                            child: Text(
-                              'Email Details',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              elevation: 5,
-                              backgroundColor: ColorTheme.primaryColor,
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 8, horizontal: 16),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
+                    ElevatedButton(
+                        onPressed: onDTap,
+                        child: Text(
+                          'Details',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.white),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          elevation: 5,
+                          backgroundColor: ColorTheme.primaryColor,
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
 
-                              // shape: ,
-                            )),
-                        ElevatedButton(
-                            onPressed: onDTap,
-                            child: Text(
-                              'Details',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              elevation: 5,
-                              backgroundColor: ColorTheme.primaryColor,
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 8, horizontal: 32),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-
-                              // shape: ,
-                            )),
-                      ],
-                    ),
+                          // shape: ,
+                        )),
                   ],
                 ),
               ],

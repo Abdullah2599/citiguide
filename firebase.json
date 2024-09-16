@@ -1,1 +1,41 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"citiguide-32c72","appId":"1:94145546051:android:4acbb280eddb1245c5d1f6","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"citiguide-32c72","configurations":{"android":"1:94145546051:android:4acbb280eddb1245c5d1f6","ios":"1:94145546051:ios:73c40267862fa955c5d1f6","macos":"1:94145546051:ios:73c40267862fa955c5d1f6","web":"1:94145546051:web:9fe7f0ce4c12b3edc5d1f6","windows":"1:94145546051:web:63af093db04eade1c5d1f6"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "citiguide-32c72",
+          "appId": "1:94145546051:android:4acbb280eddb1245c5d1f6",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "citiguide-32c72",
+          "configurations": {
+            "android": "1:94145546051:android:4acbb280eddb1245c5d1f6",
+            "ios": "1:94145546051:ios:73c40267862fa955c5d1f6",
+            "macos": "1:94145546051:ios:73c40267862fa955c5d1f6",
+            "web": "1:94145546051:web:9fe7f0ce4c12b3edc5d1f6",
+            "windows": "1:94145546051:web:63af093db04eade1c5d1f6"
+          }
+        }
+      }
+    }
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "predeploy": [
+        "npm --prefix \"$RESOURCE_DIR\" run lint"
+      ]
+    }
+  ]
+}

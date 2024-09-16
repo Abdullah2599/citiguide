@@ -1,10 +1,10 @@
-import 'package:citiguide/Pages/Favorites.dart';
-import 'package:citiguide/Pages/eventscreen.dart';
-import 'package:citiguide/Pages/loginpage.dart';
-import 'package:citiguide/Pages/notificationsscreen.dart';
-import 'package:citiguide/Theme/color.dart';
-import 'package:citiguide/controllers/LoginController.dart';
-import 'package:citiguide/controllers/NotificationsController.dart';
+import 'package:CityNavigator/Pages/Favorites.dart';
+import 'package:CityNavigator/Pages/eventscreen.dart';
+import 'package:CityNavigator/Pages/loginpage.dart';
+import 'package:CityNavigator/Pages/notificationsscreen.dart';
+import 'package:CityNavigator/Theme/color.dart';
+import 'package:CityNavigator/controllers/LoginController.dart';
+import 'package:CityNavigator/controllers/NotificationsController.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

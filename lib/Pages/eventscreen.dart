@@ -1,6 +1,7 @@
-import 'package:citiguide/Theme/color.dart';
-import 'package:citiguide/components/reusable/eventstile.dart';
-import 'package:citiguide/controllers/EventsController.dart';
+import 'package:CityNavigator/Pages/eventsdetails.dart';
+import 'package:CityNavigator/Theme/color.dart';
+import 'package:CityNavigator/components/reusable/eventstile.dart';
+import 'package:CityNavigator/controllers/EventsController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/components/loader/gf_loader.dart';
@@ -57,23 +58,22 @@ class EventsScreen extends StatelessWidget {
             itemCount: eventsController.eventsList.length,
             itemBuilder: (context, index) {
               var event = eventsController.eventsList[index];
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: customEvents(
-                  imageurl: event['imageurl'],
-                  title: event['title'],
-                  description: event['description'],
-                  onDTap: () {
-                    launchUrl(Uri.parse(event["contact"].toString()),
-                        mode: LaunchMode.inAppBrowserView);
-                  },
-                  onTap: () {
-                    eventsController.sendEmail(
-                      event['title'],
-                      event['description'],
-                      event['imageurl'],
-                    );
-                  },
+              return GestureDetector(
+                onTap: () {
+                  Get.to(() => Eventsdetails(eventData: event,));
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: customEvents(
+                    imageurl: event['imageurl'],
+                    title: event['title'],
+                    description: event['description'],
+                    onDTap: () {
+                      launchUrl(Uri.parse(event["contact"].toString()),
+                          mode: LaunchMode.inAppBrowserView);
+                    },
+                    
+                  ),
                 ),
               );
             },

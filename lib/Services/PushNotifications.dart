@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:citiguide/Pages/notificationsscreen.dart';
+import 'package:CityNavigator/Pages/notificationsscreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
