@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class OrderController extends GetxController {
@@ -22,7 +23,7 @@ class OrderController extends GetxController {
   Future<void> placeOrder({
     required String eventId,
     required String eventName,
-    required double pricePerTicket,
+    required pricePerTicket,
     required String userName,
     required String phone,
     required String address,
@@ -36,26 +37,71 @@ class OrderController extends GetxController {
         throw Exception("User not authenticated");
       }
 
-      // Create order data
+      // Create an order ID
+      String orderId = _firestore.collection('orders').doc().id;
+
+      // Create order data without the timestamp
       Map<String, dynamic> orderData = {
-        "orderId": _firestore.collection('orders').doc().id,
+        "orderId": orderId,
         "eventId": eventId,
         "eventName": eventName,
         "quantity": quantity.value,
         "totalPrice": pricePerTicket * quantity.value,
-        "orderDate": FieldValue.serverTimestamp(),
         "phone": phone,
         "address": address,
       };
 
-      // Add order to user's orders array in Firestore
+      // Add the order to the user's document
       await _firestore.collection('users').doc(userEmail).update({
         "orders": FieldValue.arrayUnion([orderData]),
       });
 
-      Get.snackbar("Success", "Order placed successfully! Order ID: ${orderData['orderId']}");
+      // Now update the same order with the server timestamp
+      Map<String, dynamic> updatedOrderData =
+          Map<String, dynamic>.from(orderData);
+      updatedOrderData["orderDate"] = Timestamp.now();
+
+      // Remove the previous entry and update with the correct one
+      await _firestore.collection('users').doc(userEmail).update({
+        "orders": FieldValue.arrayRemove([orderData]), // remove the old entry
+      });
+
+      await _firestore.collection('users').doc(userEmail).update({
+        "orders":
+            FieldValue.arrayUnion([updatedOrderData]), // add the updated entry
+      });
+
+     Get.dialog(
+  barrierDismissible: false,
+  AlertDialog(
+    title: Text("Order Placed"),
+    content: Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("Order placed successfully!"),
+        SizedBox(height: 8), // Add some space between the text and the selectable text
+        SelectableText(
+          "Order ID: ${orderData['orderId']}",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+      ],
+    ),
+    actions: [
+      TextButton(
+        onPressed: () {
+          Get.back();
+          Get.back();
+        },
+        child: Text("OK"),
+      ),
+    ],
+  ),
+);
+
     } catch (e) {
       Get.snackbar("Error", e.toString());
+      print(e);
     } finally {
       isPlacingOrder.value = false;
     }

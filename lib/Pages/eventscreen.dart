@@ -60,7 +60,10 @@ class EventsScreen extends StatelessWidget {
               var event = eventsController.eventsList[index];
               return GestureDetector(
                 onTap: () {
-                  Get.to(() => Eventsdetails(eventData: event,));
+                  print(event);
+                  Get.to(() => Eventsdetails(
+                        eventData: event,
+                      ));
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -72,7 +75,6 @@ class EventsScreen extends StatelessWidget {
                       launchUrl(Uri.parse(event["contact"].toString()),
                           mode: LaunchMode.inAppBrowserView);
                     },
-                    
                   ),
                 ),
               );

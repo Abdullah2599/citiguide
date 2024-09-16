@@ -9,7 +9,6 @@ import 'package:CityNavigator/Services/PushNotifications.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'firebase_options.dart';
@@ -23,7 +22,6 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  Stripe.publishableKey = 'pk_test_51PzVpHIsQNwDEKhkz6z46CpIyK7tHW3M825f2lZsOgppLAO4STV35T1eQMND1CMTvcP91uDwSIsXDWq1AViccoV0003JA8W1PH';
 
   // print("Initializing Push Notifications...");
   await PushNotifications.init();

@@ -1,25 +1,43 @@
+import 'package:CityNavigator/Theme/color.dart';
 import 'package:CityNavigator/controllers/OrderController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
 class OrderForm extends StatelessWidget {
   final String eventId;
   final String eventName;
-  final double pricePerTicket;
+  final pricePerTicket;
 
   final _orderController = Get.put(OrderController());
   final _nameController = TextEditingController();
   final _phoneController = TextEditingController();
   final _addressController = TextEditingController();
 
-  OrderForm({required this.eventId, required this.eventName, required this.pricePerTicket});
+  OrderForm({
+    required this.eventId,
+    required this.eventName,
+    required this.pricePerTicket,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Place Order'),
+        automaticallyImplyLeading: false,
+        backgroundColor: ColorTheme.primaryColor,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios_new,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            Get.back();
+          },
+        ),
+        title: Text(
+          'Place Order', // Display event title
+          style: TextStyle(color: Colors.white),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -69,9 +87,19 @@ class OrderForm extends StatelessWidget {
                             address: _addressController.text,
                           );
                         },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: ColorTheme.primaryColor,
+                    foregroundColor: Colors.white,
+                  ),
                   child: _orderController.isPlacingOrder.value
-                      ? CircularProgressIndicator()
-                      : Text('Place Order'),
+                      ? CircularProgressIndicator(
+                          strokeWidth: 1,
+                          color: ColorTheme.primaryColor,
+                        )
+                      : Text(
+                          "Place Order",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                 )),
           ],
         ),

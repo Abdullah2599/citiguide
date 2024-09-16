@@ -1,8 +1,8 @@
+import 'package:CityNavigator/Pages/buynow.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:CityNavigator/Theme/color.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
+import 'package:CityNavigator/Theme/color.dart';
 
 class Eventsdetails extends StatelessWidget {
   final Map<dynamic, dynamic> eventData;
@@ -14,11 +14,12 @@ class Eventsdetails extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        clipBehavior: Clip.hardEdge,
-        foregroundColor: Colors.white,
         backgroundColor: ColorTheme.primaryColor,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new),
+          icon: Icon(
+            Icons.arrow_back_ios_new,
+            color: Colors.white,
+          ),
           onPressed: () {
             Get.back();
           },
@@ -27,28 +28,17 @@ class Eventsdetails extends StatelessWidget {
           eventData['title'] ?? 'Event', // Display event title
           style: TextStyle(color: Colors.white),
         ),
-        // actions: [
-        //   IconButton(
-        //     icon: Icon(Icons.share),
-        //     onPressed: () {
-        //       // Share event details
-        //     },
-        //   )
-        // ],
       ),
-      body: Stack(children: [
-        Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+      body: Stack(
+        children: [
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                child: CachedNetworkImage(
-                  imageUrl: eventData['imageurl'] ?? '', // Display event image
-                  fit: BoxFit.cover,
-                  height: 200,
-                  width: double.infinity,
-                ),
+              CachedNetworkImage(
+                imageUrl: eventData['imageurl'] ?? '', // Display event image
+                fit: BoxFit.cover,
+                height: 200,
+                width: double.infinity,
               ),
               Padding(
                 padding: const EdgeInsets.all(12.0),
@@ -57,9 +47,7 @@ class Eventsdetails extends StatelessWidget {
                   style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
                 ),
               ),
-              SizedBox(
-                height: 15,
-              ),
+              SizedBox(height: 15),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Row(
@@ -69,9 +57,10 @@ class Eventsdetails extends StatelessWidget {
                     Text(
                       eventData['date'] ?? '', // Display event date
                       style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey),
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey,
+                      ),
                     ),
                     Spacer(),
                     Icon(Icons.timer, size: 25, color: Colors.grey),
@@ -79,9 +68,10 @@ class Eventsdetails extends StatelessWidget {
                     Text(
                       eventData['time'] ?? '', // Display event time
                       style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey),
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey,
+                      ),
                     ),
                   ],
                 ),
@@ -96,54 +86,67 @@ class Eventsdetails extends StatelessWidget {
               ),
             ],
           ),
-        ),
-        Positioned(
-          bottom: 0,
-          left: 0,
-          right: 0,
-          child: Container(
-            width: double.infinity,
-            height: 80,
-            decoration: BoxDecoration(
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              width: double.infinity,
+              height: 80,
+              decoration: BoxDecoration(
                 color: ColorTheme.primaryColor,
                 borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30))),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '\$35.00', // You can customize this to show event price or other relevant info
-                    style: TextStyle(
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(30),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '\$${eventData['price'] ?? '0.00'}', // Display event price
+                      style: TextStyle(
                         fontSize: 26,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white),
-                  ),
-                  ElevatedButton(
+                        color: Colors.white,
+                      ),
+                    ),
+                    ElevatedButton(
                       onPressed: () {
-                        // Handle booking logic
+                        Get.to(() => OrderForm(
+                              eventId: eventData['id'] ?? '',
+                              eventName: eventData['title'] ?? '',
+                              pricePerTicket: eventData['price'] ?? 0.0,
+                            ));
                       },
                       child: Text(
                         'Book Now',
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
                       ),
                       style: ElevatedButton.styleFrom(
                         elevation: 5,
                         backgroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30)),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 40, vertical: 15),
-                      ))
-                ],
+                          horizontal: 40,
+                          vertical: 15,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-      ]),
+        ],
+      ),
     );
   }
 }
