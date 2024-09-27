@@ -10,7 +10,7 @@ Widget customDrawerlistTile({
 }) {
   return ListTile(
               onTap: onTap,
-              title: Text(title,style: TextStyle(color: Colors.black)),
+              title: Text(title,style: TextStyle(color: Colors.black45, fontWeight: FontWeight.bold),),
               leading: Icon(icon,color: ColorTheme.primaryColor),
               trailing: SizedBox(
                 height: 25,

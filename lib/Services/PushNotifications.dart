@@ -26,7 +26,7 @@ class PushNotifications {
     // print("Getting device token...");
     String? token = await getDeviceToken();
     if (token != null) {
-      // print("Device token: $token");
+       print("Device token: $token");
       saveUserToken(token);
     } else {
       // print("Failed to get device token.");

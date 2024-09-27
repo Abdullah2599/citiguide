@@ -1,4 +1,5 @@
 import 'package:CityNavigator/Pages/orderdetaikls.dart';
+import 'package:CityNavigator/Theme/color.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:CityNavigator/controllers/OrderHistoryController.dart';
@@ -11,9 +12,16 @@ class Orderhistory extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+         leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new),
+          onPressed: () {
+            Get.back();
+          },
+        ),
         backgroundColor: const Color.fromARGB(255, 7, 206, 182),
         foregroundColor: Colors.white,
-        title: const Text('Order History'),
+        title: const Text('Order History', style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)),
       ),
       body: Obx(() {
         if (orderhistoryController.orderhistory.isEmpty) {
@@ -46,7 +54,7 @@ class Orderhistory extends StatelessWidget {
                     ],
                   ),
                   child: ListTile(
-                    title: Text('Order No.# ${orders['orderId'].substring(0, 6)}...'),
+                    title: Text('Order No.# ${orders['orderId'].substring(0, 6)}...',style: TextStyle(color: ColorTheme.primaryColor,fontWeight: FontWeight.bold),),
                     subtitle: Text(orders['eventName']),
                     leading: CircleAvatar(
                       child: Icon(Icons.airplane_ticket),

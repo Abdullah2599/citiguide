@@ -30,7 +30,7 @@ class Eventsdetails extends StatelessWidget {
         ),
         title: Text(
           eventData['title'] ?? 'Event', // Display event title
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white, fontSize: 22,fontWeight: FontWeight.bold),
         ),
       ),
       body: Stack(
@@ -56,7 +56,7 @@ class Eventsdetails extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Row(
                   children: [
-                    Icon(Icons.calendar_month, size: 25, color: Colors.grey),
+                    Icon(Icons.calendar_month, size: 25, color: ColorTheme.primaryColor),
                     SizedBox(width: 5),
                     Text(
                       eventData['date'] ?? '', // Display event date
@@ -67,7 +67,7 @@ class Eventsdetails extends StatelessWidget {
                       ),
                     ),
                     Spacer(),
-                    Icon(Icons.timer, size: 25, color: Colors.grey),
+                    Icon(Icons.timer, size: 25, color: ColorTheme.primaryColor),
                     SizedBox(width: 5),
                     Text(
                       eventData['time'] ?? '', // Display event time
@@ -119,14 +119,15 @@ class Eventsdetails extends StatelessWidget {
                     ),
                     ElevatedButton(
                       onPressed: () {
+                        eventData['status'] == true ?
                         Get.to(() => OrderForm(
                               eventId: eventId,
                               eventName: eventData['title'] ?? '',
                               pricePerTicket: eventData['price'] ?? 0.0,
-                            ));
+                            )): null;
                       },
                       child: Text(
-                        'Book Now',
+                        eventData['status'] == true ? 'Book Now' : 'Sold Out',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18,

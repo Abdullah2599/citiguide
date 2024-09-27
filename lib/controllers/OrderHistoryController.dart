@@ -57,6 +57,8 @@ class Orderhistorycontroller extends GetxController {
         var data = userDoc.data() as Map<String, dynamic>;
         if (data.containsKey('orders')) {
           orderhistory.value = List.from(data['orders']);
+
+           orderhistory.value = orderhistory.value.reversed.toList();
         }
       }
     } catch (e) {

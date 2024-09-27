@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -19,6 +20,62 @@ class OrderController extends GetxController {
       quantity.value--;
     }
   }
+
+
+
+
+
+
+  Future<void> placeRequest({required String title, required String message}) async {
+    try {
+      isPlacingOrder.value = true;
+
+      // Get current user's email
+      User? user = FirebaseAuth.instance.currentUser;
+      if (user == null) {
+        Get.snackbar(
+          'Error',
+          'User not logged in.',
+          backgroundColor: Color.fromARGB(160, 255, 0, 0),
+          colorText: Colors.white,
+        );
+        return;
+      }
+
+      // Create a request map
+      Map<String, dynamic> requestData = {
+        'email': user.email,
+        'title': title,
+        'message': message,
+        'timestamp': DateTime.now().toIso8601String(),
+      };
+
+      // Reference to the "requests" node in the database
+      DatabaseReference requestsRef = FirebaseDatabase.instance.ref('requests');
+
+      // Push the new request data to the database
+      await requestsRef.push().set(requestData);
+
+      // Show success message
+      Get.back();
+      Get.snackbar(
+        'Success',
+        'Request submitted successfully!',
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+      );
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        'Failed to submit request: ${e.toString()}',
+        backgroundColor: Color.fromARGB(160, 255, 0, 0),
+        colorText: Colors.white,
+      );
+    } finally {
+      isPlacingOrder.value = false;
+    }
+  }
+
 
   Future<void> placeOrder({
     required String eventId,

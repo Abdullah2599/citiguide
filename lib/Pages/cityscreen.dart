@@ -1,4 +1,8 @@
 import 'package:CityNavigator/Pages/notificationsscreen.dart';
+import 'package:CityNavigator/Pages/orderhistory.dart';
+import 'package:CityNavigator/Pages/privacypolicy.dart';
+import 'package:CityNavigator/Pages/requestplace.dart';
+import 'package:CityNavigator/Pages/settingspage.dart';
 import 'package:CityNavigator/components/reusable/customdrawerlisttile.dart';
 import 'package:CityNavigator/controllers/LoginController.dart';
 import 'package:CityNavigator/controllers/ProfileSettingsController.dart';
@@ -304,18 +308,26 @@ class CityScreen extends StatelessWidget {
                 title: "Notifications",
                 icon: Icons.notifications,
                 onTap: () => Get.to(() => NotificationsScreen())),
+             customDrawerlistTile(
+                title: "Order History",
+                icon: Icons.notifications,
+                onTap: () => Get.to(() => Orderhistory())),    
             customDrawerlistTile(
                 title: "Favorites",
                 icon: Icons.favorite,
                 onTap: () => Get.to(() => FavoritesScreen())),
+             customDrawerlistTile(
+                title: "Settings",
+                icon: Icons.settings,
+                onTap: () => Get.to(() => SettingsUI())),
             customDrawerlistTile(
                 title: "Request Places",
                 icon: Icons.wallet_outlined,
-                onTap: () => Get.to(() => ())),
+                onTap: () => Get.to(() => Requestplace())),
             customDrawerlistTile(
                 title: "Privacy Policy",
                 icon: Icons.policy,
-                onTap: () => Get.toNamed("/privacy-policy")),
+                onTap: () => Get.to(() => Privacypolicy())),
             customDrawerlistTile(
                 title: "Logout",
                 icon: Icons.logout,

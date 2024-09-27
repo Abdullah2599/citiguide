@@ -34,7 +34,7 @@ class EventsScreen extends StatelessWidget {
         ),
         title: Text(
           'Events in $city',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
         ),
       ),
       body: Obx(() {

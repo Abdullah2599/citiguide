@@ -5,6 +5,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getwidget/components/loader/gf_loader.dart';
+import 'package:getwidget/getwidget.dart';
 import 'package:intl/intl.dart';
 
 class OrderDetailsView extends StatelessWidget {
@@ -25,15 +27,28 @@ class OrderDetailsView extends StatelessWidget {
     return Scaffold(
       backgroundColor: ColorTheme.lightColor,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+         leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new),
+          onPressed: () {
+            Get.back();
+          },
+        ),
         backgroundColor: const Color.fromARGB(255, 7, 206, 182),
-        title: const Text('Order Summary'),
-        centerTitle: true,
+        title: const Text('Order Summary',style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),),
+        foregroundColor: Colors.white,
       ),
       body: Obx(() {
         var event = orderhistorycontroller.eventDetails;
         print(event);
         if (event.isEmpty) {
-          return const Center(child: CircularProgressIndicator());
+          return Center(
+                child: GFLoader(
+                    size: GFSize.LARGE,
+                    type: GFLoaderType.square,
+                    loaderColorOne: Color.fromARGB(255, 0, 250, 217),
+                    loaderColorTwo: Color.fromARGB(255, 123, 255, 237),
+                    loaderColorThree: Color.fromARGB(255, 201, 255, 248)));
         }
 
         return SingleChildScrollView(
@@ -43,7 +58,7 @@ class OrderDetailsView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Order Info and Status
-              _buildOrderInfoRow('Order Date', formattedDate),
+              _buildOrderInfoRow('Order Date:', formattedDate),
               const SizedBox(height: 10),
               _buildOrderInfoRow('Order No.', orders['orderId']),
               
@@ -89,7 +104,7 @@ class OrderDetailsView extends StatelessWidget {
               // Address Info
               const SizedBox(height: 10),
               Text('Shipping Address',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,color: ColorTheme.primaryColor)),
               const SizedBox(height: 10),
               Text(orders['address'], style: const TextStyle(fontSize: 18)),
             ],
@@ -106,8 +121,9 @@ class OrderDetailsView extends StatelessWidget {
         Text(title,
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20,color: ColorTheme.primaryColor)),
         Expanded(
-          child: Text(value,
-              textAlign: TextAlign.right, style: const TextStyle(fontSize: 18)),
+          //copyable text
+          child: SelectableText (value,
+              textAlign: TextAlign.right, style: const TextStyle(fontSize: 18, color: Colors.black,fontWeight: FontWeight.bold)),
         ),
       ],
     );
@@ -128,7 +144,8 @@ class OrderDetailsView extends StatelessWidget {
             width: 60,
             height: 80,
             fit: BoxFit.cover,
-            placeholder: (context, url) => const CircularProgressIndicator(),
+        
+            placeholder: (context, url) => SizedBox(height: 30 , width: 30, child:  CircularProgressIndicator(color: ColorTheme.primaryColor,strokeWidth: 0.5,)),
             errorWidget: (context, url, error) => const Icon(Icons.error),
           ),
         ),
@@ -183,7 +200,7 @@ class OrderDetailsView extends StatelessWidget {
         statusText,
         style: TextStyle(
           fontSize: 15,
-          color: status == 'cancelled' ? Colors.white : Colors.black,
+          color: Colors.white ,
           fontWeight: FontWeight.bold,
         ),
          textAlign: TextAlign.center,
