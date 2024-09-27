@@ -1,8 +1,8 @@
-import 'package:get/get.dart';
+import 'package:get/get.dart'; 
 import 'package:firebase_database/firebase_database.dart';
 
 class EventsController extends GetxController {
-  RxList<dynamic> eventsList = <dynamic>[].obs;
+  RxList<Map<String, dynamic>> eventsList = <Map<String, dynamic>>[].obs; // Update to hold key-value pairs
   RxBool isLoading = true.obs;
 
   final String city;
@@ -27,12 +27,13 @@ class EventsController extends GetxController {
 
     for (var element in event.snapshot.children) {
       Map<dynamic, dynamic> eventData = element.value as Map<dynamic, dynamic>;
-      eventsList.add(eventData);
+      // Add a map with both the key (event ID) and value (event data)
+      eventsList.add({
+        'id': element.key, // The document ID
+        'data': eventData, // The actual event data
+      });
     }
 
     isLoading.value = false;
   }
-
-
-  
 }

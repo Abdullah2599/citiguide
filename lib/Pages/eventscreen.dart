@@ -15,9 +15,11 @@ class EventsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     final EventsController eventsController =
         Get.put(EventsController(city: city));
-
+    print(eventsController.eventsList.length);
+    print(eventsController.eventsList);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -54,32 +56,34 @@ class EventsScreen extends StatelessWidget {
             ),
           );
         } else {
-          return ListView.builder(
+       return ListView.builder(
             itemCount: eventsController.eventsList.length,
             itemBuilder: (context, index) {
-              var event = eventsController.eventsList[index];
+              var eventEntry = eventsController.eventsList[index];
+
+              var eventId = eventEntry['id']; // Access the parent document ID
+              var eventData = eventEntry['data']; // Access the actual event data
+
               return GestureDetector(
                 onTap: () {
-                  print(event);
                   Get.to(() => Eventsdetails(
-                        eventData: event,
+                        eventData: eventData, // Pass the event data
+                        eventId: eventId,     // Pass the parent document ID
                       ));
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: customEvents(
-                    imageurl: event['imageurl'],
-                    title: event['title'],
-                    description: event['description'],
+                    imageurl: eventData['imageurl'] ?? '', // Use null-aware operator
+                    title: eventData['title'] ?? 'Untitled', // Provide a default
+                    description: eventData['description'] ?? 'No description available', // Provide a default
                     onDTap: () {
-                      launchUrl(Uri.parse(event["contact"].toString()),
+                      launchUrl(Uri.parse(eventData["contact"]?.toString() ?? ''),
                           mode: LaunchMode.inAppBrowserView);
                     },
                   ),
                 ),
-              );
-            },
-          );
+              );});
         }
       }),
     );

@@ -6,11 +6,15 @@ import 'package:CityNavigator/Theme/color.dart';
 
 class Eventsdetails extends StatelessWidget {
   final Map<dynamic, dynamic> eventData;
+  final String eventId;
 
-  Eventsdetails({required this.eventData});
+  Eventsdetails({required this.eventData, required this.eventId});
 
   @override
   Widget build(BuildContext context) {
+    print(eventData);
+    print(eventId);
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -116,7 +120,7 @@ class Eventsdetails extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {
                         Get.to(() => OrderForm(
-                              eventId: eventData['id'] ?? '',
+                              eventId: eventId,
                               eventName: eventData['title'] ?? '',
                               pricePerTicket: eventData['price'] ?? 0.0,
                             ));

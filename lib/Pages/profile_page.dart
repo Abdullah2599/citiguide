@@ -1,3 +1,4 @@
+import 'package:CityNavigator/Pages/orderhistory.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:CityNavigator/Pages/Favorites.dart';
 import 'package:CityNavigator/Pages/cityscreen.dart';
@@ -389,6 +390,27 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                                   ),
                                   child: const Text(
                                     'Delete Account',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+                                 ElevatedButton(
+                                  onPressed: (){
+                                    Get.to(() =>Orderhistory());
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    elevation: 5,
+                                    backgroundColor:
+                                        Color.fromARGB(255, 64, 185, 27),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5)),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 48, vertical: 15),
+                                  ),
+                                  child: const Text(
+                                    '  Order History  ',
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold),

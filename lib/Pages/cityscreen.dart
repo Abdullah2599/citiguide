@@ -248,43 +248,45 @@ class CityScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: 15,
-                      ),
-                      CircleAvatar(
-                        radius: 30,
-                        backgroundImage: profileSettingsController
-                                .profileImageUrl.value.isNotEmpty
-                            ? CachedNetworkImageProvider(
-                                profileSettingsController.profileImageUrl.value)
-                            : const AssetImage(
-                                    './assets/images/default_avatar.png')
-                                as ImageProvider,
-                        backgroundColor: Colors.grey,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            profileSettingsController.name,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
+                  Obx(
+                    () => Row(
+                      children: [
+                        SizedBox(
+                          width: 15,
+                        ),
+                        CircleAvatar(
+                          radius: 30,
+                          backgroundImage: profileSettingsController
+                                  .profileImageUrl.value.isNotEmpty
+                              ? CachedNetworkImageProvider(
+                                  profileSettingsController.profileImageUrl.value)
+                              : const AssetImage(
+                                      './assets/images/default_avatar.png')
+                                  as ImageProvider,
+                          backgroundColor: Colors.grey,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              profileSettingsController.name,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          Text(
-                            profileSettingsController.email,
-                            style: TextStyle(color: Colors.black),
-                          ),
-                        ],
-                      ),
-                    ],
+                            Text(
+                              profileSettingsController.email,
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                   SizedBox(
                     height: 25,
