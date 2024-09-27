@@ -12,6 +12,7 @@ import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
 
 class HomePage extends StatelessWidget {
+
   HomePage({super.key, this.ciity});
 
   final dynamic ciity;

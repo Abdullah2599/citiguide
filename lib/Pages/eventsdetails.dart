@@ -30,7 +30,8 @@ class Eventsdetails extends StatelessWidget {
         ),
         title: Text(
           eventData['title'] ?? 'Event', // Display event title
-          style: TextStyle(color: Colors.white, fontSize: 22,fontWeight: FontWeight.bold),
+          style: TextStyle(
+              color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
         ),
       ),
       body: Stack(
@@ -56,7 +57,8 @@ class Eventsdetails extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Row(
                   children: [
-                    Icon(Icons.calendar_month, size: 25, color: ColorTheme.primaryColor),
+                    Icon(Icons.calendar_month,
+                        size: 25, color: ColorTheme.primaryColor),
                     SizedBox(width: 5),
                     Text(
                       eventData['date'] ?? '', // Display event date
@@ -119,15 +121,16 @@ class Eventsdetails extends StatelessWidget {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        eventData['status'] == true ?
-                        Get.to(() => OrderForm(
-                              eventId: eventId,
-                              eventName: eventData['title'] ?? '',
-                              pricePerTicket: eventData['price'] ?? 0.0,
-                            )): null;
+                        eventData['status'] == "true"
+                            ? Get.to(() => OrderForm(
+                                  eventId: eventId,
+                                  eventName: eventData['title'] ?? '',
+                                  pricePerTicket: eventData['price'] ?? 0.0,
+                                ))
+                            : null;
                       },
                       child: Text(
-                        eventData['status'] == true ? 'Book Now' : 'Sold Out',
+                        eventData['status'] == "true" ? 'Book Now' : 'Sold Out',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18,

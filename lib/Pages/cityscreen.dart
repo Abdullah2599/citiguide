@@ -5,6 +5,7 @@ import 'package:CityNavigator/Pages/requestplace.dart';
 import 'package:CityNavigator/Pages/settingspage.dart';
 import 'package:CityNavigator/components/reusable/customdrawerlisttile.dart';
 import 'package:CityNavigator/controllers/LoginController.dart';
+import 'package:CityNavigator/controllers/NotificationsController.dart';
 import 'package:CityNavigator/controllers/ProfileSettingsController.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:CityNavigator/Pages/Favorites.dart';
@@ -25,6 +26,8 @@ class CityScreen extends StatelessWidget {
   CityScreen({super.key});
 
   final CityController cityController = Get.put(CityController());
+    final NotificationController notificationController =
+      Get.put(NotificationController());
   final ProfileSettingsController profileSettingsController =
       Get.put(ProfileSettingsController());
 
@@ -39,11 +42,46 @@ class CityScreen extends StatelessWidget {
         title: const Text('Cities',
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
         actions: [
-          IconButton(
-              icon: const Icon(Icons.notifications),
-              onPressed: () {
-                Get.to(() => const NotificationsScreen());
-              }),
+          Obx(() {
+          int unreadCount = notificationController.unreadCount.value;
+          return Stack(
+            children: [
+              IconButton(
+                onPressed: () {
+                  Get.to(() => const NotificationsScreen());
+                },
+                icon: const Icon(
+                  Icons.notifications,
+                  color: Colors.white,
+                ),
+              ),
+              if (unreadCount > 0)
+                Positioned(
+                  right: 11,
+                  top: 11,
+                  child: Container(
+                    padding: const EdgeInsets.all(2),
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    constraints: const BoxConstraints(
+                      minWidth: 14,
+                      minHeight: 14,
+                    ),
+                    child: Text(
+                      '$unreadCount',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 8,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+            ],
+          );
+        }),
         ],
         leading: Builder(
           builder: (context) {

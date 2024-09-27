@@ -64,24 +64,18 @@ class EventsScreen extends StatelessWidget {
               var eventId = eventEntry['id']; // Access the parent document ID
               var eventData = eventEntry['data']; // Access the actual event data
 
-              return GestureDetector(
-                onTap: () {
-                  Get.to(() => Eventsdetails(
-                        eventData: eventData, // Pass the event data
-                        eventId: eventId,     // Pass the parent document ID
-                      ));
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: customEvents(
-                    imageurl: eventData['imageurl'] ?? '', // Use null-aware operator
-                    title: eventData['title'] ?? 'Untitled', // Provide a default
-                    description: eventData['description'] ?? 'No description available', // Provide a default
-                    onDTap: () {
-                      launchUrl(Uri.parse(eventData["contact"]?.toString() ?? ''),
-                          mode: LaunchMode.inAppBrowserView);
-                    },
-                  ),
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: customEvents(
+                  imageurl: eventData['imageurl'] ?? '', // Use null-aware operator
+                  title: eventData['title'] ?? 'Untitled', // Provide a default
+                  description: eventData['description'] ?? 'No description available', // Provide a default
+                  onDTap: () {
+                    Get.to(() => Eventsdetails(
+                      eventData: eventData, // Pass the event data
+                      eventId: eventId,     // Pass the parent document ID
+                    ));
+                  },
                 ),
               );});
         }
