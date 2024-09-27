@@ -38,7 +38,7 @@ class NotificationController extends GetxController {
         .get();
 
     notifications.value =
-        snapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
+        snapshot.docs.map((doc) => doc.data()).toList();
     updateUnreadCount();
   }
 

@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:CityNavigator/Pages/cityscreen.dart';
 import 'package:CityNavigator/Pages/loginpage.dart';
-import 'package:CityNavigator/controllers/LoginController.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -12,7 +11,7 @@ import 'package:image_picker/image_picker.dart';
 class ProfileSettingsController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final FirebaseStorage _storage = FirebaseStorage.instance;
+
 
   final TextEditingController nameController = TextEditingController();
   final RxString profileImageUrl = ''.obs;
@@ -220,6 +219,7 @@ class ProfileSettingsController extends GetxController {
           borderWidth: 50,
           dismissDirection: DismissDirection.horizontal,
         );
+      // ignore: body_might_complete_normally_catch_error
       }).catchError((error) {
         Get.snackbar(
           'Error',

@@ -1,14 +1,10 @@
 import 'package:CityNavigator/Pages/Favorites.dart';
 import 'package:CityNavigator/Pages/eventscreen.dart';
-import 'package:CityNavigator/Pages/loginpage.dart';
 import 'package:CityNavigator/Pages/notificationsscreen.dart';
 import 'package:CityNavigator/Theme/color.dart';
 import 'package:CityNavigator/controllers/LoginController.dart';
 import 'package:CityNavigator/controllers/NotificationsController.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
 
 AppBar app_Bar(String text, bool truf, String screen, city) {

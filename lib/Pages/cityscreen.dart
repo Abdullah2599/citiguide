@@ -7,12 +7,10 @@ import 'package:CityNavigator/components/reusable/customdrawerlisttile.dart';
 import 'package:CityNavigator/controllers/LoginController.dart';
 import 'package:CityNavigator/controllers/ProfileSettingsController.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-
 import 'package:CityNavigator/Pages/Favorites.dart';
 import 'package:CityNavigator/Pages/homepage.dart';
 import 'package:CityNavigator/Pages/profile_page.dart';
 import 'package:CityNavigator/Theme/color.dart';
-import 'package:CityNavigator/components/reusable/appbar.dart';
 import 'package:CityNavigator/components/reusable/bottomnavigationbar.dart';
 import 'package:CityNavigator/components/reusable/citycard.dart';
 import 'package:CityNavigator/controllers/CityController.dart';
