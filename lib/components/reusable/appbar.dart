@@ -11,16 +11,18 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
 
-AppBar app_Bar(String text, bool truf, String screen,city) {
+AppBar app_Bar(String text, bool truf, String screen, city) {
   final NotificationController notificationController =
       Get.put(NotificationController());
   return AppBar(
+    
     automaticallyImplyLeading: truf,
     clipBehavior: Clip.hardEdge,
     foregroundColor: Colors.white,
     title: Text(
       text,
-      style: const TextStyle(color: Colors.white),
+      style: const TextStyle(
+          color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
     ),
     backgroundColor: const Color.fromARGB(255, 7, 206, 182),
     actions: [
@@ -129,7 +131,9 @@ AppBar app_Bar(String text, bool truf, String screen,city) {
         Row(children: [
           TextButton(
             onPressed: () {
-              Get.to(() => EventsScreen(city: city,));
+              Get.to(() => EventsScreen(
+                    city: city,
+                  ));
             },
             child: Text(
               'Events',

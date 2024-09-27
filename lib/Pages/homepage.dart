@@ -31,7 +31,7 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 230, 244, 248),
-      appBar: app_Bar(ciity, true, 'Home',ciity),
+      appBar: app_Bar(ciity, true, 'Home', ciity,),
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
@@ -211,6 +211,7 @@ class HomePage extends StatelessWidget {
                   ));
             }
           }),
+     
     );
   }
 

@@ -48,6 +48,7 @@ class OrderController extends GetxController {
         "quantity": quantity.value,
         "totalPrice": pricePerTicket * quantity.value,
         "phone": phone,
+        "status": "pending",
         "address": address,
       };
 

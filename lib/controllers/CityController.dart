@@ -26,6 +26,8 @@ class CityController extends GetxController {
     super.onClose();
   }
 
+
+
   Future<void> fetchCities() async {
     isLoading.value = true;
     DatabaseReference ref = FirebaseDatabase.instance.ref("cityList");
