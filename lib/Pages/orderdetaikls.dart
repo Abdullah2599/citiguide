@@ -94,7 +94,7 @@ class OrderDetailsView extends StatelessWidget {
               const SizedBox(height: 20),
 
               // Payment Info
-              _buildOrderInfoRow('Total Price', 'Rs. ${orders['totalPrice']}'),
+              _buildOrderInfoRow('Total Price', '\$ ${orders['totalPrice']}'),
               const SizedBox(height: 10),
 
               // _buildOrderInfoRow('Payment Method', _getPaymentMethodDisplay(orders['paymentMethod'])),
@@ -154,7 +154,7 @@ class OrderDetailsView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 5),
-            Text('Price: Rs. ${event['price']}',
+            Text('Price: \$ ${event['price']}',
                 style: const TextStyle(fontSize: 14)),
             const SizedBox(height: 5),
             Text('Quantity: ${order['quantity']}',
