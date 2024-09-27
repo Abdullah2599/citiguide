@@ -232,7 +232,8 @@ class CityScreen extends StatelessWidget {
                           backgroundImage: profileSettingsController
                                   .profileImageUrl.value.isNotEmpty
                               ? CachedNetworkImageProvider(
-                                  profileSettingsController.profileImageUrl.value)
+                                  profileSettingsController
+                                      .profileImageUrl.value)
                               : const AssetImage(
                                       './assets/images/default_avatar.png')
                                   as ImageProvider,
@@ -277,15 +278,15 @@ class CityScreen extends StatelessWidget {
                 title: "Notifications",
                 icon: Icons.notifications,
                 onTap: () => Get.to(() => NotificationsScreen())),
-             customDrawerlistTile(
+            customDrawerlistTile(
                 title: "Order History",
                 icon: Icons.notifications,
-                onTap: () => Get.to(() => Orderhistory())),    
+                onTap: () => Get.to(() => Orderhistory())),
             customDrawerlistTile(
                 title: "Favorites",
                 icon: Icons.favorite,
                 onTap: () => Get.to(() => FavoritesScreen())),
-             customDrawerlistTile(
+            customDrawerlistTile(
                 title: "Settings",
                 icon: Icons.settings,
                 onTap: () => Get.to(() => SettingsUI())),
@@ -334,7 +335,8 @@ class CityScreen extends StatelessWidget {
                           width: 8), // Optional spacing between buttons
                       ElevatedButton(
                         onPressed: () {
-                          LoginController.signOut();
+                          LoginController login = Get.put(LoginController());
+                          login.signOut();
                         },
                         style: ElevatedButton.styleFrom(
                           elevation: 5,

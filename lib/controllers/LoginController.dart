@@ -1,4 +1,5 @@
 import 'package:CityNavigator/Pages/cityscreen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:CityNavigator/Pages/loginpage.dart';
 import 'package:flutter/material.dart';
@@ -124,8 +125,9 @@ class LoginController extends GetxController {
     }
   }
 
-  static void signOut() async {
+  void signOut() async {
     try {
+       await deleteUserToken();
       await FirebaseAuth.instance.signOut();
       Get.offAll(() => const LoginPage());
       Get.snackbar(
@@ -149,6 +151,29 @@ class LoginController extends GetxController {
         borderWidth: 50,
         dismissDirection: DismissDirection.horizontal,
       );
+    }
+  }
+
+  Future<void> deleteUserToken() async {
+    // Get the currently logged-in user
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      // Reference to the Firestore collection
+      final userRef =
+          FirebaseFirestore.instance.collection('users').doc(user.email);
+
+      try {
+        // Update the document to remove the token field
+        await userRef.update({
+          'token': FieldValue.delete(),
+        });
+        print('Token deleted successfully for user: ${user.email}');
+      } catch (e) {
+        print('Error deleting token: $e');
+      }
+    } else {
+      print('No user is currently logged in.');
     }
   }
 

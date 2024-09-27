@@ -11,7 +11,6 @@ AppBar app_Bar(String text, bool truf, String screen, city) {
   final NotificationController notificationController =
       Get.put(NotificationController());
   return AppBar(
-    
     automaticallyImplyLeading: truf,
     clipBehavior: Clip.hardEdge,
     foregroundColor: Colors.white,
@@ -98,7 +97,8 @@ AppBar app_Bar(String text, bool truf, String screen, city) {
                 const SizedBox(width: 8), // Optional spacing between buttons
                 ElevatedButton(
                   onPressed: () {
-                    LoginController.signOut();
+                    LoginController login = Get.put(LoginController());
+                    login.signOut();
                   },
                   style: ElevatedButton.styleFrom(
                     elevation: 5,
