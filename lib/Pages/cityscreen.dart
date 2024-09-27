@@ -30,35 +30,6 @@ class CityScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Function to show exit confirmation dialog
-    // Future<bool> showExitConfirmationDialog() async {
-    //   return await Get.defaultDialog(
-    //     buttonColor: ColorTheme.primaryColor,
-    //     confirmTextColor: Colors.white,
-    //     onConfirm: () {
-    //       Get.back();
-    //       Get.back();
-    //       SystemNavigator.pop();
-    //       // Navigate back twice to exit the app
-    //     },
-    //     onCancel: () => Get.back(),
-    //     title: "Exit",
-    //     content: const Column(
-    //       mainAxisAlignment: MainAxisAlignment.center,
-    //       children: [
-    //         Text("Are you sure you want to exit?"),
-    //       ],
-    //     ),
-    //   );
-    // }
-
-    // // Register callback for back button press
-    // // ignore: deprecated_member_use
-    // ModalRoute.of(context)?.addScopedWillPopCallback(() async {
-    //   bool canPop = await showExitConfirmationDialog();
-    //   return canPop;
-    // });
-
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
