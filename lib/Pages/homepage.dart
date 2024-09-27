@@ -203,7 +203,7 @@ class HomePage extends StatelessWidget {
               Get.to(() => const ProfileSettingsPage(fromPage: 'Homepage'));
             }
             if (index == 0) {
-              Get.to(() => CityScreen());
+              Get.off(() => CityScreen());
             }
             if (index == 2) {
               Get.to(() => const FavoritesScreen(
